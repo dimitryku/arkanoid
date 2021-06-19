@@ -1,4 +1,4 @@
-//Vlados comment
+//Vlados comment 1
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
