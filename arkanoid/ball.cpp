@@ -30,20 +30,20 @@ Ball::Ball(QVector2D startPosition, QVector2D startSpeed, BallState* state,
 
 void Ball::changeState(BallStates newState)
 {
-    currentBallState->ChangeState(newState);
+    currentBallState->changeState(newState);
     //TODO mb sth more later
 }
 
 QVector2D Ball::moveOneStep(float platformX)
 {
-    currentBallState->MoveBall(currentPosition, currentSpeed, platformX);
+    currentBallState->moveBall(currentPosition, currentSpeed, platformX);
     currentPosition += currentSpeed;
     return currentPosition;
 }
 
 void Ball::collideWithBrick(/*Brick &brick*/)
 {
-    //TODO after brick
+    currentBallState->collideWithBrick(/*Brick &brick*/);
 }
 
 void Ball::collideWithPlatform(/*Platform &platform*/)
@@ -60,4 +60,9 @@ QVector2D Ball::followPlatform(/*Platform &platform or QVector2D moveDelta*/)
 void Ball::startMoving()
 {
     //TODO after Platform, depends on
+}
+
+int Ball::getCurrentPower()
+{
+    return currentBallState->getStatePower();
 }

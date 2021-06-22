@@ -20,6 +20,7 @@ public:
     QVector2D followPlatform(/*Platform &platform or QVector2D moveDelta*/);    // returns Vector - end position
     void startMoving(); //start from Platform
     int getCurrentPosition();
+    int getCurrentPower();
 
 private:
     QVector2D currentPosition;

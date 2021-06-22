@@ -7,9 +7,10 @@ class BallState
 {
 public:
     BallState();
-    void MoveBall(QVector2D& currentPosition, QVector2D& currentSpeed, float platformX);
-    void GetStatePower();
-    void ChangeState(BallStates newState);
+    void moveBall(QVector2D& currentPosition, QVector2D& currentSpeed, float platformX);
+    int getStatePower();
+    void changeState(BallStates newState);
+    void collideWithBrick(/*Brick &brick*/);
     BallStates GetCurrentState();
 
 private:

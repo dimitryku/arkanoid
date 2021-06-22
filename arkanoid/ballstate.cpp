@@ -2,16 +2,16 @@
 
 BallState::BallState()
 {
-    //TODO
+    currentState = BallStates::normal;                  //TODO append if necessary
 }
 
-void BallState::MoveBall(QVector2D& currentPosition, QVector2D& currentSpeed, float platformX)
+void BallState::moveBall(QVector2D& currentPosition, QVector2D& currentSpeed, float platformX)
 {
     switch (currentState) {
     case BallStates::magnet:
     {
         int diff = platformX - currentPosition.x();
-        currentPosition.setX(currentPosition.x() + diff /* * multiplyer*/);
+        currentPosition.setX(currentPosition.x() + diff / 20.0);     //TODO adjust num
     }
         //no break!!!
     case BallStates::normal:
@@ -21,15 +21,28 @@ void BallState::MoveBall(QVector2D& currentPosition, QVector2D& currentSpeed, fl
     }
 }
 
-void BallState::GetStatePower()
+int BallState::getStatePower()
 {
-    //TODO
+    switch (currentState) {
+        case BallStates::magnet:
+        case BallStates::normal:
+            return 1;
+        break;
+        case BallStates::uber:
+            return 10;                              //TODO adjust
+        break;
+    }
+    return 1;
 }
 
-void BallState::ChangeState(BallStates newState)
+void BallState::changeState(BallStates newState)
 {
-    currentState = newState;
-    //TODO mb sth more
+    currentState = newState;                        //TODO mb sth more
+}
+
+void BallState::collideWithBrick(/*Brick &brick*/)
+{
+    //TODO after brick
 }
 
 BallStates BallState::GetCurrentState()
