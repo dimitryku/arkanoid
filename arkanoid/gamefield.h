@@ -2,6 +2,7 @@
 #define GAMEFIELD_H
 #include <vector>
 #include <ball/ball.h>
+#include <brick/brick.h>
 
 class GameField
 {
@@ -10,7 +11,7 @@ public:
 
 private:
     std::vector<Ball> balls;
-    //std::vector<Brick> bricks;
+    std::vector<Brick> bricks;
     //Platform platform;
     //std::vector<Bonus> activeBonuses;
     //Score score

@@ -17,7 +17,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     ball/ball.cpp \
+    ball/ballproperty.cpp \
     ball/ballstate.cpp \
+    brick/brick.cpp \
+    brick/brickproperty.cpp \
     gamefield.cpp \
     main.cpp \
     mainwindow.cpp
@@ -25,7 +28,10 @@ SOURCES += \
 HEADERS += \
     ball/ball.h \
     ball/ballStates.h \
+    ball/ballproperty.h \
     ball/ballstate.h \
+    brick/brick.h \
+    brick/brickproperty.h \
     direction.h \
     gamefield.h \
     mainwindow.h
