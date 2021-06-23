@@ -16,15 +16,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    ball.cpp \
-    ballstate.cpp \
+    ball/ball.cpp \
+    ball/ballstate.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
-    ball.h \
-    ballStates.h \
-    ballstate.h \
+    ball/ball.h \
+    ball/ballStates.h \
+    ball/ballstate.h \
     direction.h \
     mainwindow.h
 
