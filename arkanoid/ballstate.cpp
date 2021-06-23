@@ -40,9 +40,22 @@ void BallState::changeState(BallStates newState)
     currentState = newState;                        //TODO mb sth more
 }
 
-void BallState::collideWithBrick(/*Brick &brick*/)
+void BallState::collideWithBrick(Direction direction, QVector2D& curSpeed, bool withWall)
 {
-    //TODO after brick
+    switch (direction) {
+    case Direction::up:
+    case Direction::down:
+        if(withWall || currentState != BallStates::uber)
+            curSpeed.setY(curSpeed.y()*(-1));
+        break;
+    case Direction::left:
+    case Direction::right:
+        if(withWall || currentState != BallStates::uber)
+            curSpeed.setX(curSpeed.x()*(-1));
+        break;
+    default:
+        break;
+    }
 }
 
 BallStates BallState::GetCurrentState()

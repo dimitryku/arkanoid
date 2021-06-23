@@ -25,6 +25,7 @@ HEADERS += \
     ball.h \
     ballStates.h \
     ballstate.h \
+    direction.h \
     mainwindow.h
 
 FORMS += \

@@ -15,7 +15,10 @@ public:
 
     void changeState(BallStates state = BallStates::normal);
     QVector2D moveOneStep(float platformX);                                     // returns Vector - end position
-    void collideWithBrick(/*Brick &brick*/);                                    //recalculate speed
+
+    //use it to return
+    void collideWithBrick(Direction direction);                                 //recalculate speed
+    void collideWithWall(Direction direction);                                  //recalculate speed
     void collideWithPlatform(/*Platform &platform*/);                           //recalculate speed
     QVector2D followPlatform(/*Platform &platform or QVector2D moveDelta*/);    // returns Vector - end position
     void startMoving(); //start from Platform

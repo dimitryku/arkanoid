@@ -41,9 +41,14 @@ QVector2D Ball::moveOneStep(float platformX)
     return currentPosition;
 }
 
-void Ball::collideWithBrick(/*Brick &brick*/)
+void Ball::collideWithBrick(Direction direction)
 {
-    currentBallState->collideWithBrick(/*Brick &brick*/);
+    currentBallState->collideWithBrick(direction, currentSpeed);
+}
+
+void Ball::collideWithWall(Direction direction)
+{
+    currentBallState->collideWithBrick(direction, currentSpeed, true);
 }
 
 void Ball::collideWithPlatform(/*Platform &platform*/)
@@ -54,12 +59,13 @@ void Ball::collideWithPlatform(/*Platform &platform*/)
 QVector2D Ball::followPlatform(/*Platform &platform or QVector2D moveDelta*/)
 {
     //TODO if on platform...
-    //TODO after input decision
+        //TODO after input decision
+    return currentPosition;
 }
 
 void Ball::startMoving()
 {
-    //TODO after Platform, depends on
+    //TODO after Platform
 }
 
 int Ball::getCurrentPower()
