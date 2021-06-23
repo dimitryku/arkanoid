@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     ball/ball.cpp \
     ball/ballstate.cpp \
+    gamefield.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -26,6 +27,7 @@ HEADERS += \
     ball/ballStates.h \
     ball/ballstate.h \
     direction.h \
+    gamefield.h \
     mainwindow.h
 
 FORMS += \

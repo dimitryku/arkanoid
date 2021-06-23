@@ -1,6 +1,6 @@
 #ifndef BALLSTATE_H
 #define BALLSTATE_H
-#include <ballStates.h>
+#include <ball/ballStates.h>
 #include <QVector2D>
 #include <direction.h>
 

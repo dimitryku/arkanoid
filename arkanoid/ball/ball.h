@@ -1,7 +1,7 @@
 #ifndef BALL_H
 #define BALL_H
 #include <QVector2D>
-#include <ballstate.h>
+#include <ball/ballstate.h>
 
 class Ball
 {
