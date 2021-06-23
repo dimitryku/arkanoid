@@ -16,10 +16,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ball/ball.cpp \
+    ball/ballproperty.cpp \
+    ball/ballstate.cpp \
+    brick/brick.cpp \
+    brick/brickproperty.cpp \
+    gamefield.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    ball/ball.h \
+    ball/ballStates.h \
+    ball/ballproperty.h \
+    ball/ballstate.h \
+    brick/brick.h \
+    brick/brickproperty.h \
+    direction.h \
+    gamefield.h \
     mainwindow.h
 
 FORMS += \
