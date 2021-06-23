@@ -11,7 +11,7 @@ void BallState::moveBall(QVector2D& currentPosition, QVector2D& currentSpeed, fl
     case BallStates::magnet:
     {
         int diff = platformX - currentPosition.x();
-        currentPosition.setX(currentPosition.x() + diff / 20.0);     //TODO adjust num
+        currentPosition.setX(currentPosition.x() + diff / 20.0);     //TODO adjust number
     }
         //no break!!!
     case BallStates::normal:
@@ -40,17 +40,17 @@ void BallState::changeState(BallStates newState)
     currentState = newState;                        //TODO mb sth more
 }
 
-void BallState::collideWithBrick(Direction direction, QVector2D& curSpeed, bool withWall)
+void BallState::collide(Direction direction, QVector2D& curSpeed, bool forceBounce)
 {
     switch (direction) {
     case Direction::up:
     case Direction::down:
-        if(withWall || currentState != BallStates::uber)
+        if(forceBounce || currentState != BallStates::uber)
             curSpeed.setY(curSpeed.y()*(-1));
         break;
     case Direction::left:
     case Direction::right:
-        if(withWall || currentState != BallStates::uber)
+        if(forceBounce || currentState != BallStates::uber)
             curSpeed.setX(curSpeed.x()*(-1));
         break;
     default:

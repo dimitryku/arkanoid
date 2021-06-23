@@ -41,14 +41,9 @@ QVector2D Ball::moveOneStep(float platformX)
     return currentPosition;
 }
 
-void Ball::collideWithBrick(Direction direction)
+void Ball::collide(Direction direction, bool forcedBounce)
 {
-    currentBallState->collideWithBrick(direction, currentSpeed);
-}
-
-void Ball::collideWithWall(Direction direction)
-{
-    currentBallState->collideWithBrick(direction, currentSpeed, true);
+    currentBallState->collide(direction, currentSpeed, forcedBounce);
 }
 
 void Ball::collideWithPlatform(/*Platform &platform*/)

@@ -11,7 +11,7 @@ public:
     void moveBall(QVector2D& currentPosition, QVector2D& currentSpeed, float platformX);
     int getStatePower();
     void changeState(BallStates newState);
-    void collideWithBrick(Direction direction, QVector2D& curSpeed, bool withWall = false);
+    void collide(Direction direction, QVector2D& curSpeed, bool forceBounce = false);
     BallStates GetCurrentState();
 
 private:

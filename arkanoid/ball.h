@@ -17,8 +17,7 @@ public:
     QVector2D moveOneStep(float platformX);                                     // returns Vector - end position
 
     //use it to return
-    void collideWithBrick(Direction direction);                                 //recalculate speed
-    void collideWithWall(Direction direction);                                  //recalculate speed
+    void collide(Direction direction, bool forcedBounce = false);               //recalculate speed
     void collideWithPlatform(/*Platform &platform*/);                           //recalculate speed
     QVector2D followPlatform(/*Platform &platform or QVector2D moveDelta*/);    // returns Vector - end position
     void startMoving(); //start from Platform
