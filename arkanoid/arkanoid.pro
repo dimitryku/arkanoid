@@ -24,6 +24,10 @@ SOURCES += \
     brick/brick.cpp \
     brick/brickbuilder.cpp \
     brick/brickproperty.cpp \
+    brick/commonbrick.cpp \
+    brick/goldenbrick.cpp \
+    brick/metallicbrick.cpp \
+    brick/tntbrick.cpp \
     gamefield.cpp \
     main.cpp \
     mainwindow.cpp
@@ -38,6 +42,10 @@ HEADERS += \
     brick/brick.h \
     brick/brickbuilder.h \
     brick/brickproperty.h \
+    brick/commonbrick.h \
+    brick/goldenbrick.h \
+    brick/metallicbrick.h \
+    brick/tntbrick.h \
     direction.h \
     gamefield.h \
     mainwindow.h

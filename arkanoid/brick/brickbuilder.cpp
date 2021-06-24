@@ -37,15 +37,15 @@ Brick* BrickBuilder::makeBrick()
 
     switch (type) {
 
-    case 1: /* Create NormalBrick */ break;
+    case 1: brick = new CommonBrick(QVector2D(coord.x(),coord.y()),1);             break; /* Create NormalBrick */
 
-    case 2: /* Create StrongBrick */ break;
+    case 2: brick = new CommonBrick(QVector2D(coord.x(),coord.y()), rand()%8+3);   break; /* Create StrongBrick (CommonBrick with hp>2)*/
 
-    case 3: /* CreateBonusBrick */ break;
+    case 3: brick = new GoldenBrick(QVector2D(coord.x(),coord.y()));               break; /* CreateBonusBrick */
 
-    case 4: /* Create BoomBrick */ break;
+    case 4: brick = new TNTBrick(QVector2D(coord.x(),coord.y()));                  break; /* Create BoomBrick */
 
-    case 5: /* Create MetallicBrick  */ break;
+    case 5: brick = new MetallicBrick(QVector2D(coord.x(),coord.y()));             break; /* Create MetallicBrick  */
 
     }
 

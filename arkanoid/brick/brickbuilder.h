@@ -5,6 +5,10 @@
 #include <vector>
 #include <random>
 #include <time.h>
+#include <brick/commonbrick.h>
+#include <brick/goldenbrick.h>
+#include <brick/metallicbrick.h>
+#include <brick/tntbrick.h>
 class BrickBuilder
 {
 public:
