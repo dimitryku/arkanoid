@@ -32,8 +32,9 @@ Brick* BrickBuilder::makeBrick()
         type=5;
 
     if(not_metallic && type==5){
-        type==rand()%4+1;
+        type=rand()%4+1;
     }
+
     switch (type) {
 
     case 1: /* Create NormalBrick */ break;
