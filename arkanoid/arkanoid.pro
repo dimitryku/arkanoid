@@ -19,7 +19,10 @@ SOURCES += \
     ball/ball.cpp \
     ball/ballproperty.cpp \
     ball/ballstate.cpp \
+    bonus/bonus.cpp \
+    bonus/bonusbody.cpp \
     brick/brick.cpp \
+    brick/brickbuilder.cpp \
     brick/brickproperty.cpp \
     gamefield.cpp \
     main.cpp \
@@ -30,7 +33,10 @@ HEADERS += \
     ball/ballStates.h \
     ball/ballproperty.h \
     ball/ballstate.h \
+    bonus/bonus.h \
+    bonus/bonusbody.h \
     brick/brick.h \
+    brick/brickbuilder.h \
     brick/brickproperty.h \
     direction.h \
     gamefield.h \
