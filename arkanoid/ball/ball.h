@@ -23,6 +23,7 @@ public:
     void startMoving(); //start from Platform
     int getCurrentPosition();
     int getCurrentPower();
+    //TO DO Исправить полет по горизонтали
 
 private:
     QVector2D currentPosition;

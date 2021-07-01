@@ -19,8 +19,15 @@ SOURCES += \
     ball/ball.cpp \
     ball/ballproperty.cpp \
     ball/ballstate.cpp \
+    bonus/bonus.cpp \
+    bonus/bonusbody.cpp \
     brick/brick.cpp \
+    brick/brickbuilder.cpp \
     brick/brickproperty.cpp \
+    brick/commonbrick.cpp \
+    brick/goldenbrick.cpp \
+    brick/metallicbrick.cpp \
+    brick/tntbrick.cpp \
     gamefield.cpp \
     main.cpp \
     mainwindow.cpp
@@ -30,8 +37,15 @@ HEADERS += \
     ball/ballStates.h \
     ball/ballproperty.h \
     ball/ballstate.h \
+    bonus/bonus.h \
+    bonus/bonusbody.h \
     brick/brick.h \
+    brick/brickbuilder.h \
     brick/brickproperty.h \
+    brick/commonbrick.h \
+    brick/goldenbrick.h \
+    brick/metallicbrick.h \
+    brick/tntbrick.h \
     direction.h \
     gamefield.h \
     mainwindow.h

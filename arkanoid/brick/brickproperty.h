@@ -2,6 +2,7 @@
 #define BRICKPROPERTY_H
 #include <QVector2D>
 
+
 class BrickProperty
 {
 public:
