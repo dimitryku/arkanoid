@@ -1,6 +1,6 @@
 #ifndef COMMONBRICK_H
 #define COMMONBRICK_H
-#include <brick\brick.h>
+#include <brick/brick.h>
 
 class CommonBrick : public Brick
 {
