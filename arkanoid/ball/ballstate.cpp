@@ -25,9 +25,9 @@ void BallState::moveBall(QVector2D& currentPosition, QVector2D& currentSpeed,
     else{ /// ball is laying on platform
         QVector2D newPos = PublicConstants::PlatformStartPoint;
         newPos.setX(platformX);
-        newPos.setY(newPos.y - PublicConstants::PlatformBallOffset);
-        currentPosition.setX(newPos.x);
-        currentPosition.setY(newPos.y);
+        newPos.setY(newPos.y() - PublicConstants::PlatformBallOffset);
+        currentPosition.setX(newPos.x());
+        currentPosition.setY(newPos.y());
     }
 }
 

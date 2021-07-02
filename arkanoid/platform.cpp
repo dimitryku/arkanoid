@@ -11,15 +11,17 @@ Platform::Platform()
 void Platform::stepLeft()
 {
     position -= stepSpeed;
-    if(position.x < PublicConstants::PlatformMoveBounds.x)
-        position.x = PublicConstants::PlatformMoveBounds.x;
+    float xmin = PublicConstants::PlatformMoveBounds.x();
+    if(position.x() < xmin)
+        position.setX(xmin);
 }
 
 void Platform::stepRight()
 {
     position += stepSpeed;
-    if(position.x > PublicConstants::PlatformMoveBounds.y)
-        position.x = PublicConstants::PlatformMoveBounds.y;
+    float xmax = PublicConstants::PlatformMoveBounds.y();
+    if(position.x() > xmax)
+        position.setX(xmax);
 }
 
 QVector2D Platform::getPosition()
@@ -30,8 +32,8 @@ QVector2D Platform::getPosition()
 
 QRectF Platform::boundingRect() const
 {
-    return QRectF(position.x - size.x/2, position.y - size.y/2,
-                  size.x, size.y);
+    return QRectF(position.x() - size.x()/2, position.y() - size.y()/2,
+                  size.x(), size.y());
 }
 
 void Platform::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
