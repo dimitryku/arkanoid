@@ -26,6 +26,7 @@ Ball::Ball(QVector2D startPosition, QVector2D startSpeed, BallState* state,
     isOnPlatform = onPlatform;
 
     //TODO update if needs
+    // test
 }
 
 void Ball::changeState(BallStates newState)
