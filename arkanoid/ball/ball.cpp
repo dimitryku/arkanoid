@@ -6,8 +6,8 @@ Ball::Ball()
     //TODO maybe
 }
 
-Ball::Ball(QVector2D startPosition, QVector2D startSpeed, BallState* state,
-           bool onPlatform)
+Ball::Ball(QVector2D startPosition, QVector2D startSpeed,
+           bool onPlatform, BallState* state)
 {
     currentPosition = startPosition;
 
@@ -26,6 +26,8 @@ Ball::Ball(QVector2D startPosition, QVector2D startSpeed, BallState* state,
     isOnPlatform = onPlatform;
 
     //TODO update if needs
+    // test
+    // test 2
 }
 
 void Ball::changeState(BallStates newState)
@@ -36,7 +38,7 @@ void Ball::changeState(BallStates newState)
 
 QVector2D Ball::moveOneStep(float platformX)
 {
-    currentBallState->moveBall(currentPosition, currentSpeed, platformX);
+    currentBallState->moveBall(currentPosition, currentSpeed, isOnPlatform, platformX);
     return currentPosition;
 }
 
@@ -45,14 +47,15 @@ void Ball::collide(Direction direction, bool forcedBounce)
     currentBallState->collide(direction, currentSpeed, forcedBounce);
 }
 
-void Ball::collideWithPlatform(/*Platform &platform*/)
+void Ball::collideWithPlatform(Platform &platform)
 {
-    //TODO after platform
-    //надо чтобы зависело от точки попадания
+    this->collide(Direction::down, false);
+    /// TODO change angle if hit close to edge of platform
 }
 
 QVector2D Ball::followPlatform(/*Platform &platform or QVector2D moveDelta*/)
 {
+    /// TODO remove maybe?
     //TODO if on platform...
         //TODO after input decision
     return currentPosition;
