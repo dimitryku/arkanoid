@@ -5,6 +5,8 @@
 
 class GoldenBrick : public Brick
 {
+    Q_OBJECT
+
 public:
     GoldenBrick(QVector2D pos);
 };

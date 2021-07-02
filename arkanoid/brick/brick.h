@@ -5,12 +5,14 @@
 #include <random>
 #include <QObject>
 //abstract?
-class Brick
+class Brick : public QObject
 {
 
+    Q_OBJECT
 
 public:
     Brick();
+    Brick(const Brick& brick);
     int getHP();
     QVector2D getPosition();
 //    bool hasBonus();
@@ -18,7 +20,10 @@ public:
     void setPosition(QVector2D position);
 //    void setBonus_flag(bool hasB);
     void hit(int hp);
+    BrickProperty* getProperty();
 
+signals:
+    void destroyed(Brick* brick);
     //TO DO destroy
 
 private:

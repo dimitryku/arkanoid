@@ -4,6 +4,7 @@
 
 class CommonBrick : public Brick
 {
+    Q_OBJECT
 public:
     CommonBrick(QVector2D pos, int hp);
 };

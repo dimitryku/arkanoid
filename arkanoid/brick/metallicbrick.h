@@ -4,6 +4,8 @@
 
 class MetallicBrick : public Brick
 {
+    Q_OBJECT
+
 public:
     MetallicBrick(QVector2D position);
 };

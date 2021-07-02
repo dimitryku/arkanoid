@@ -5,6 +5,8 @@
 
 class TNTBrick : public Brick
 {
+    Q_OBJECT
+
 public:
     TNTBrick(QVector2D position);
 };
