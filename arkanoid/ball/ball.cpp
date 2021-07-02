@@ -27,6 +27,7 @@ Ball::Ball(QVector2D startPosition, QVector2D startSpeed, BallState* state,
 
     //TODO update if needs
     // test
+    // test 2
 }
 
 void Ball::changeState(BallStates newState)
