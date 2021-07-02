@@ -2,7 +2,7 @@
 
 CommonBrick::CommonBrick(QVector2D pos, int hp)
 {
-    int chance_bon=rand()%3+1;
+
     setPosition(pos);
     setHP(hp);
 

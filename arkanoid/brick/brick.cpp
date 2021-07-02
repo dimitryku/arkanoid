@@ -3,6 +3,15 @@
 Brick::Brick()
 {
     //TODO
+    setHP(1);
+    setPosition(QVector2D(0,0));
+}
+
+Brick::Brick(const Brick &brick)
+{
+    this->property=brick.property;
+    this->HealPoints=brick.HealPoints;
+    this->position=brick.position;
 }
 
 int Brick::getHP()
@@ -41,7 +50,11 @@ void Brick::setPosition(QVector2D position)
 void Brick::hit(int hp)
 {
     HealPoints-=hp;
-//    if(HealPoints==0)
-//        destroy();
+        if(HealPoints==0)
+             emit(destroyed(this));
 
+}
+
+BrickProperty* Brick::getProperty(){
+    return property;
 }
