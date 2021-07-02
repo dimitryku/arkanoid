@@ -1,23 +1,33 @@
 #include "ballstate.h"
+#include "publicconstants.h"
 
 BallState::BallState()
 {
     currentState = BallStates::normal;                  //TODO append if necessary
 }
 
-void BallState::moveBall(QVector2D& currentPosition, QVector2D& currentSpeed, float platformX)
+void BallState::moveBall(QVector2D& currentPosition, QVector2D& currentSpeed,
+                         bool moveWithPlatform=false, float platformX=0)
 {
-    switch (currentState) {
-    case BallStates::magnet:
-    {
-        int diff = platformX - currentPosition.x();
-        currentPosition.setX(currentPosition.x() + diff / 20.0);     //TODO adjust number
-    }
-        //no break!!!
-    case BallStates::normal:
-    case BallStates::uber:
-        currentPosition += currentSpeed * multiplyer;
-        break;
+    if(!moveWithPlatform)
+        switch (currentState) {
+        case BallStates::magnet:
+        {
+            int diff = platformX - currentPosition.x();
+            currentPosition.setX(currentPosition.x() + diff / 20.0);     //TODO adjust number
+        }
+            //no break!!!
+        case BallStates::normal:
+        case BallStates::uber:
+            currentPosition += currentSpeed * multiplyer;
+            break;
+        }
+    else{ /// ball is laying on platform
+        QVector2D newPos = PublicConstants::PlatformStartPoint;
+        newPos.setX(platformX);
+        newPos.setY(newPos.y - PublicConstants::PlatformBallOffset);
+        currentPosition.setX(newPos.x);
+        currentPosition.setY(newPos.y);
     }
 }
 

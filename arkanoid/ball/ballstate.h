@@ -8,7 +8,7 @@ class BallState
 {
 public:
     BallState();
-    void moveBall(QVector2D& currentPosition, QVector2D& currentSpeed, float platformX);
+    void moveBall(QVector2D& currentPosition, QVector2D& currentSpeed, bool moveWithPlatform, float platformX);
     int getStatePower();
     void changeState(BallStates newState);
     void collide(Direction direction, QVector2D& curSpeed, bool forceBounce = false);

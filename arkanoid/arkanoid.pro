@@ -30,7 +30,8 @@ SOURCES += \
     brick/tntbrick.cpp \
     gamefield.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    platform.cpp
 
 HEADERS += \
     ball/ball.h \
@@ -48,7 +49,9 @@ HEADERS += \
     brick/tntbrick.h \
     direction.h \
     gamefield.h \
-    mainwindow.h
+    mainwindow.h \
+    platform.h \
+    publicconstants.h
 
 FORMS += \
     mainwindow.ui
