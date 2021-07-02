@@ -3,11 +3,15 @@
 #include <vector>
 #include <ball/ball.h>
 #include <brick/brick.h>
+#include "mainwindow.h"
+#include "QGraphicsView"
+#include "QGraphicsScene"
 
-class GameField
+class GameField : public QGraphicsView
 {
 public:
     GameField();
+    QGraphicsScene* scene;
 
 private:
     std::vector<Ball> balls;

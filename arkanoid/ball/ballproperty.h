@@ -6,6 +6,7 @@ class BallProperty
 {
 public:
     BallProperty();
+
     //TODO all
 };
 

@@ -2,8 +2,10 @@
 #define BALL_H
 #include <QVector2D>
 #include <ball/ballstate.h>
+#include <QGraphicsItem>
+#include <QPainter>
 
-class Ball
+class Ball : public QGraphicsItem
 {
     //TODO qt part of code (property ++)
 
@@ -23,7 +25,7 @@ public:
     void startMoving(); //start from Platform
     int getCurrentPosition();
     int getCurrentPower();
-    //TO DO Исправить полет по горизонтали
+    //TODO Исправить полет по горизонтали
 
 private:
     QVector2D currentPosition;
@@ -31,6 +33,10 @@ private:
     QVector2D currentSpeed;
     BallState* currentBallState;
 
+    // QGraphicsItem interface
+public:
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 };
 
 #endif // BALL_H

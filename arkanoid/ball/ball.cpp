@@ -37,7 +37,6 @@ void Ball::changeState(BallStates newState)
 QVector2D Ball::moveOneStep(float platformX)
 {
     currentBallState->moveBall(currentPosition, currentSpeed, platformX);
-    currentPosition += currentSpeed;
     return currentPosition;
 }
 
@@ -49,6 +48,7 @@ void Ball::collide(Direction direction, bool forcedBounce)
 void Ball::collideWithPlatform(/*Platform &platform*/)
 {
     //TODO after platform
+    //надо чтобы зависело от точки попадания
 }
 
 QVector2D Ball::followPlatform(/*Platform &platform or QVector2D moveDelta*/)
@@ -66,4 +66,15 @@ void Ball::startMoving()
 int Ball::getCurrentPower()
 {
     return currentBallState->getStatePower();
+}
+
+QRectF Ball::boundingRect() const
+{
+    return QRectF(currentPosition.x()-5, currentPosition.y()-5, 10, 10);
+}
+
+void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->setBrush(QBrush(Qt::lightGray));
+    painter->drawEllipse(this->boundingRect());
 }
