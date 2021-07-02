@@ -14,7 +14,7 @@ public:
     Ball();
     //TODO check startSpeed
     Ball(QVector2D startPosition, QVector2D startSpeed = QVector2D(0, 0),
-         BallState* state = nullptr, bool onPlatform = false); //mb change onPlatform
+         bool onPlatform = false, BallState* state = nullptr); //mb change onPlatform
 
     void changeState(BallStates state = BallStates::normal);
     QVector2D moveOneStep(float platformX);                                     // returns Vector - end position

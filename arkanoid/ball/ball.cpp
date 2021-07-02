@@ -6,8 +6,8 @@ Ball::Ball()
     //TODO maybe
 }
 
-Ball::Ball(QVector2D startPosition, QVector2D startSpeed, BallState* state,
-           bool onPlatform)
+Ball::Ball(QVector2D startPosition, QVector2D startSpeed,
+           bool onPlatform, BallState* state)
 {
     currentPosition = startPosition;
 

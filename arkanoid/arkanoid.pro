@@ -31,7 +31,8 @@ SOURCES += \
     gamefield.cpp \
     main.cpp \
     mainwindow.cpp \
-    platform.cpp
+    platform.cpp \
+    publicconstants.cpp
 
 HEADERS += \
     ball/ball.h \

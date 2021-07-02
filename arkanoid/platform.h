@@ -5,7 +5,7 @@
 #include <QPainter>
 
 
-class Platform : QGraphicsItem
+class Platform : public QGraphicsItem
 {
 public:
     Platform();

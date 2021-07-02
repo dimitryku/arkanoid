@@ -39,5 +39,6 @@ QRectF Platform::boundingRect() const
 void Platform::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(QBrush(Qt::darkBlue));
-    painter->drawRect(this->boundingRect());
+    painter->drawRoundedRect(this->boundingRect(), 10, 10);
+    //painter->drawRect(this->boundingRect());
 }
