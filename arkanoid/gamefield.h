@@ -16,7 +16,7 @@ public:
 private:
     std::vector<Ball> balls;
     std::vector<Brick> bricks;
-    //Platform platform;
+    Platform* platform;
     //std::vector<Bonus> activeBonuses;
     //Score score
     //std::vector<BonusBody> fallingBonuses
