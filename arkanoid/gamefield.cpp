@@ -1,15 +1,28 @@
 #include "gamefield.h"
 
+
 GameField::GameField()
 {
-    //TODO
-    Ball* ball = new Ball(QVector2D(25,25), QVector2D(0,0), true);
-    Ball* ball1 = new Ball(QVector2D(100,100), QVector2D(100,100));
-    platform = new Platform();
     scene = new QGraphicsScene();
+    //scene->setSceneRect(0, 0, 1000, 900); // ограничивает сцену
+    //TODO scene size and rules
+    //TODO background
+
+    platform = new Platform();
+    srand(time(NULL));
+    //TODO привести скорость к какой-то одной, рандомизировать направление.
+    balls.push_back(new Ball(QVector2D(25,25), QVector2D(rand() % 20 - 10, rand() % 10), true));
+    balls[0]->moveOneStep(platform->getPosition().x()); //move to platform
+
+    BrickBuilder builder(4, 4);
+    bricks = builder.makeBricks();
+
     scene->addItem(platform);
-    scene->addItem(ball);
-    ball->moveOneStep(platform->getPosition().x());
-    scene->addItem(ball1);
+    scene->addItem(balls[0]);
+    for(int i = 0; i < bricks.size(); i++)
+        scene->addItem(bricks[i]);
+
+    //TODO the rest
+
     this->setScene(scene);
 }

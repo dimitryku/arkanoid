@@ -6,6 +6,7 @@
 #include "mainwindow.h"
 #include "QGraphicsView"
 #include "QGraphicsScene"
+#include <brick/brickbuilder.h>
 
 class GameField : public QGraphicsView
 {
@@ -14,8 +15,8 @@ public:
     QGraphicsScene* scene;
 
 private:
-    std::vector<Ball> balls;
-    std::vector<Brick> bricks;
+    std::vector<Ball*> balls;
+    std::vector<Brick*> bricks;
     Platform* platform;
     //std::vector<Bonus> activeBonuses;
     //Score score

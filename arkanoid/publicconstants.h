@@ -13,6 +13,7 @@ public:
     // x - left, y - right bounds of platform center by x coordinate
     static const QVector2D PlatformMoveBounds;
     static const QVector2D BallSize;
+    static const QVector2D BrickSize;
     static const float PlatformBallOffset;
 };
 

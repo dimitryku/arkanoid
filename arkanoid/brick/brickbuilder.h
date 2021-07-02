@@ -14,7 +14,7 @@ class BrickBuilder
 public:
     BrickBuilder(int row, int col);
     Brick* makeBrick();
-    std::vector<Brick> makeBricks(int quantity);
+    std::vector<Brick*> makeBricks(int quantity = -1);
     void reset();
 
 private:
