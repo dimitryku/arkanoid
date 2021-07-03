@@ -8,16 +8,21 @@
 #include "QGraphicsScene"
 #include "QTimer"
 #include <brick/brickbuilder.h>
-
+#include <bonus/bonus.h>
+#include "QString"
 class GameField : public QGraphicsView
 {
+    Q_OBJECT
+
 public:
     GameField();
     QGraphicsScene* scene;
-
+public slots:
+   void generateBonus(Brick* brick);
 private:
     std::vector<Ball*> balls;
     std::vector<Brick*> bricks;
+    std::vector<Bonus*> bonuses;
     Platform* platform;
     QTimer* MainGameTimer;
     void Tick();

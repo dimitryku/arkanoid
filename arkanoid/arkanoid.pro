@@ -41,6 +41,7 @@ HEADERS += \
     ball/ballstate.h \
     bonus/bonus.h \
     bonus/bonusbody.h \
+    bonus/bonuses.h \
     brick/brick.h \
     brick/brickbuilder.h \
     brick/brickproperty.h \

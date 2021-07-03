@@ -50,7 +50,7 @@ void Brick::setPosition(QVector2D position)
 void Brick::hit(int hp)
 {
     HealPoints -= hp;
-        if(HealPoints == 0)
+        if(HealPoints <= 0)
              emit(destroyed(this));
 
 }
