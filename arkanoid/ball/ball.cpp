@@ -91,7 +91,8 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 }
 
 
-QPainterPath Ball::shape() const
+QPainterPath Ball::shape()
 {
+    itemShape.moveTo(currentPosition.x(), currentPosition.y());
     return itemShape;
 }

@@ -51,7 +51,7 @@ void GameField::generateBonus(Brick *brick)
 
     Bonus* bonus=NULL;
     if(type_brick.compare("CommonBrick")){
-        if(rand()%100+1<=45){
+        if(rand() % 100 + 1 <= 45){
              bonus=new Bonus(50);
              std::cout<<bonus->getTypeBonus()<<std::endl;
         }
@@ -77,7 +77,7 @@ void GameField::generateBonus(Brick *brick)
 void GameField::Tick()
 {
     ///УДАЛИТЬ
-     bricks[rand()%bricks.size()]->hit(1);
+     //bricks[rand()%bricks.size()]->hit(1);
     ///УДАЛИТЬ
 
 
@@ -111,7 +111,7 @@ void GameField::Tick()
                 balls[i]->moveOneStep(platform->getPosition().x());
             }
 
-            if(newPos.y() + PublicConstants::BallSize.y() / 2 <= 0)
+            if(newPos.y() - PublicConstants::BallSize.y() / 2 < 0)
             {
                 balls[i]->collide(Direction::up, true);
                 balls[i]->moveOneStep(platform->getPosition().x());
@@ -145,7 +145,7 @@ void GameField::UpdatePlatform()
 //Checking and performing collision of ball with the other objects
 void GameField::ballCollision(Ball *ball)
 {
-    QList<QGraphicsItem*> collided = scene->items(ball->boundingRect(), Qt::IntersectsItemShape);
+    QList<QGraphicsItem*> collided = scene->items(ball->shape(), Qt::IntersectsItemShape);
     for(int j = 0; j < collided.size(); j++)
     {
         std::string type = typeid(*collided[j]).name();
@@ -164,6 +164,7 @@ void GameField::ballCollision(Ball *ball)
 
         if (type.find("Platform") != std::string::npos)
         {
+            std::cout << "platform" << std::endl;
             ball->collide(Direction::up, true);
             ball->moveOneStep(platform->getPosition().x());
         }
