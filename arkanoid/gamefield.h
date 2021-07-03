@@ -10,6 +10,7 @@
 #include <brick/brickbuilder.h>
 #include <bonus/bonus.h>
 #include "QString"
+#include "QKeyEvent"
 #include <math.h>
 
 
@@ -29,11 +30,28 @@ private:
     Platform* platform;
     QTimer* MainGameTimer;
     void Tick();
+
+    enum PlatformAction{
+        None,
+        MoveRight,
+        MoveLeft,
+        Shoot
+    };
+    PlatformAction CurrentPlatformAction;
+
     //std::vector<Bonus> activeBonuses;
     //Score score
     //std::vector<BonusBody> fallingBonuses
 
     void ballCollision(Ball* ball);
+
+    // QWidget interface
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
+    // QWidget interface
+protected:
+    void keyReleaseEvent(QKeyEvent *event);
 };
 
 #endif // GAMEFIELD_H

@@ -80,7 +80,19 @@ void GameField::Tick()
     // do a barrel roll
     // this->rotate(1);
 
-    // do platform?
+     switch (CurrentPlatformAction) {
+     case PlatformAction::MoveRight:
+         platform->stepRight();
+         break;
+     case PlatformAction::MoveLeft:
+         platform->stepLeft();
+         break;
+     case PlatformAction::Shoot:
+         /// TODO
+         break;
+     default:
+         break;
+     }
 
     //ball move and bounce
     for(size_t i = 0; i < balls.size(); i++)
@@ -90,10 +102,13 @@ void GameField::Tick()
         {
             //TODO delete ball
             //temp:
-            balls[i]->collide(Direction::down, true);
-            balls[i]->moveOneStep(platform->getPosition().x());
-            balls.push_back(new Ball(QVector2D(balls[i]->getPosition().x(),balls[i]->getPosition().y()), QVector2D(rand()%10 - 5, rand()%10 - 5), false));
-            scene->addItem(balls[balls.size() - 1]);
+            if(balls.size() < 10)
+            {
+                balls[i]->collide(Direction::down, true);
+                balls[i]->moveOneStep(platform->getPosition().x());
+                balls.push_back(new Ball(QVector2D(balls[i]->getPosition().x(),balls[i]->getPosition().y()), QVector2D(rand()%10 - 5, rand()%10 - 5), false));
+                scene->addItem(balls[balls.size() - 1]);
+            }
         }
         else
         {
@@ -147,3 +162,35 @@ void GameField::ballCollision(Ball *ball)
 }
 
 
+
+
+void GameField::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key()) {
+    case Qt::Key_Right:
+        CurrentPlatformAction = PlatformAction::MoveRight;
+        break;
+    case Qt::Key_Left:
+        CurrentPlatformAction = PlatformAction::MoveLeft;
+        break;
+    case Qt::Key_Space:
+        CurrentPlatformAction = PlatformAction::Shoot;
+        break;
+    default:
+        break;
+    }
+}
+
+
+void GameField::keyReleaseEvent(QKeyEvent *event)
+{
+    switch (event->key()) {
+    case Qt::Key_Right:
+    case Qt::Key_Left:
+    case Qt::Key_Space:
+        CurrentPlatformAction = PlatformAction::None;
+        break;
+    default:
+        break;
+    }
+}
