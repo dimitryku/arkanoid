@@ -15,7 +15,7 @@ GameField::GameField()
     balls[0]->moveOneStep(platform->getPosition().x()); //move to platform
 
     BrickBuilder builder(4, 4);
-    bricks = builder.makeBricks(-1);
+    bricks = builder.makeBricks();
 
     scene->addItem(platform);
     scene->addItem(balls[0]);
