@@ -6,14 +6,17 @@ GameField::GameField()
 {
     scene = new QGraphicsScene();
     scene->setSceneRect(PublicConstants::SceneRect); // ограничивает сцену
-    //TODO scene size and rules
+    this->setFixedHeight(PublicConstants::SceneRect.height());
+    this->setFixedWidth(PublicConstants::SceneRect.width());
+    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //TODO background
 
     platform = new Platform();
     srand(time(NULL));
     //TODO привести скорость к какой-то одной, рандомизировать направление.
     //temp:
-    balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), false));
+    balls.push_back(new Ball(QVector2D(500, 500), QVector2D(3, 3), false));
     //balls.push_back(new Ball(QVector2D(3,3), QVector2D(3, 3), true)); // make ball
     //balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
 
@@ -37,6 +40,7 @@ GameField::GameField()
 void GameField::Tick()
 {
     // do a barrel roll
+    // this->rotate(1);
 
     // do platform?
 
@@ -49,9 +53,9 @@ void GameField::Tick()
             //TODO delete ball
             //temp:
             balls[i]->collide(Direction::down, true);
-            //balls[i]->moveOneStep(platform->getPosition().x());
-            //balls.push_back(new Ball(QVector2D(rand()%500 + 15,rand()%500 + 15), QVector2D(rand()%10, rand()%10), false));
-            //scene->addItem(balls[balls.size() - 1]);
+            balls[i]->moveOneStep(platform->getPosition().x());
+            balls.push_back(new Ball(QVector2D(balls[i]->getPosition().x(),balls[i]->getPosition().y()), QVector2D(rand()%10 - 5, rand()%10 - 5), false));
+            scene->addItem(balls[balls.size() - 1]);
         }
         else
         {
@@ -71,7 +75,7 @@ void GameField::Tick()
         ballCollision(balls[i]);
     }
 
-    // do sth
+    ///TODO bonuces
 
     scene->invalidate(PublicConstants::SceneRect);
 }
@@ -79,22 +83,27 @@ void GameField::Tick()
 //Checking and performing collision of ball with the other objects
 void GameField::ballCollision(Ball *ball)
 {
-    QList<QGraphicsItem*> collided = scene->collidingItems(ball);
-    std::cout << "sz = " << collided.size() << std::endl;
+    QList<QGraphicsItem*> collided = scene->items(ball->boundingRect(), Qt::IntersectsItemShape);
     for(int j = 0; j < collided.size(); j++)
     {
         std::string type = typeid(*collided[j]).name();
-        std::cout << type << std::endl;
         if (type.find("Brick") != std::string::npos)
         {
-            ((TNTBrick*)collided[j])->hit(ball->getPower());
+            ((Brick*)collided[j])->hit(ball->getPower());
             QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
-            dist.normalize();
-            if(abs(dist.x()) < abs(dist.y()))
+            float angle = abs(asin(dist.x() / dist.length()));
+            if(angle < 45)
                 ball->collide(Direction::up);
             else
                 ball->collide(Direction::left);
-            continue;
+            ball->moveOneStep(platform->getPosition().x());
+            break;
+        }
+
+        if (type.find("Platform") != std::string::npos)
+        {
+            ball->collide(Direction::up);
+            ball->moveOneStep(platform->getPosition().x());
         }
     }
 }
