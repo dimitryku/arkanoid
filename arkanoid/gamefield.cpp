@@ -23,8 +23,10 @@ GameField::GameField()
     BrickBuilder builder(10);
     bricks = builder.makeBricks();
 
-    for(size_t i = 0; i < bricks.size(); i++)
+    for(size_t i = 0; i < bricks.size(); i++){
+            connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(generateBonus(Brick*)));
             scene->addItem(bricks[i]);
+    }
     for(size_t i = 0; i < balls.size(); i++)
         scene->addItem(balls[i]);
     scene->addItem(platform);
@@ -37,8 +39,44 @@ GameField::GameField()
     MainGameTimer->start(PublicConstants::DefaultTimerTick);
 }
 
+void GameField::generateBonus(Brick *brick)
+{
+    std::cout<<brick->metaObject()->className()<<std::endl;
+
+    QString type_brick=brick->metaObject()->className();
+
+    Bonus* bonus=NULL;
+    if(type_brick.compare("CommonBrick")){
+        if(rand()%100+1<=45){
+             bonus=new Bonus(50);
+             std::cout<<bonus->getTypeBonus()<<std::endl;
+        }
+
+
+    } else if(type_brick.compare("GoldenBrick")){
+             bonus=new Bonus(100);
+             std::cout<<bonus->getTypeBonus()<<std::endl;
+
+
+    } else if(type_brick.compare("TNTBrick")){
+           //TODO call hit(50) nearby(boomsize)bricks
+            std::cout<<"BOOM!"<<std::endl;
+    }
+
+
+    if(bonus!=NULL)
+        bonuses.push_back(bonus);
+
+    std::cout<<bonuses.size()<<std::endl;
+}
+
 void GameField::Tick()
 {
+    ///УДАЛИТЬ
+     bricks[rand()%bricks.size()]->hit(1);
+    ///УДАЛИТЬ
+
+
     // do a barrel roll
     // this->rotate(1);
 
