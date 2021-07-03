@@ -25,6 +25,8 @@ Ball::Ball(QVector2D startPosition, QVector2D startSpeed,
 
     isOnPlatform = onPlatform;
 
+    itemShape.addEllipse(boundingRect());
+
     //TODO update if needs
     // test
     // test 2
@@ -63,6 +65,7 @@ QVector2D Ball::followPlatform(/*Platform &platform or QVector2D moveDelta*/)
 
 void Ball::startMoving()
 {
+    isOnPlatform = false;
     //TODO after Platform
 }
 
@@ -80,4 +83,10 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 {
     painter->setBrush(QBrush(Qt::lightGray));
     painter->drawEllipse(this->boundingRect());
+}
+
+
+QPainterPath Ball::shape() const
+{
+    return itemShape;
 }

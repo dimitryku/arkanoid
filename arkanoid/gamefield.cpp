@@ -19,9 +19,9 @@ GameField::GameField()
     BrickBuilder builder(4);
     bricks = builder.makeBricks();
 
-    for(int i = 0; i < bricks.size(); i++)
+    for(size_t i = 0; i < bricks.size(); i++)
             scene->addItem(bricks[i]);
-    for(int i = 0; i < balls.size(); i++)
+    for(size_t i = 0; i < balls.size(); i++)
         scene->addItem(balls[i]);
     scene->addItem(platform);
     //TODO the rest
@@ -40,7 +40,7 @@ void GameField::Tick()
     // do platform?
 
     //ball bounsing
-    for(int i = 0; i < balls.size(); i++)
+    for(size_t i = 0; i < balls.size(); i++)
     {
         QVector2D newPos = balls[i]->moveOneStep(platform->getPosition().x());
         if(newPos.y() + PublicConstants::BallSize.y() / 2 >= PublicConstants::SceneRect.height())
@@ -70,8 +70,11 @@ void GameField::Tick()
 
         //check collision
         QList<QGraphicsItem*> collided = scene->collidingItems(balls[i]);
+        for(int j = 0; j < collided.size(); j++)
+        {
+            //TODO
+        }
     }
-
 
     // do sth
 

@@ -6,6 +6,7 @@ Platform::Platform()
     this->position = PublicConstants::PlatformStartPoint;
     this->size = PublicConstants::PlatformSize;
     this->stepSpeed = PublicConstants::PlatformDefaultSpeed;
+    this->itemShape.addRoundedRect(this->boundingRect(), 10, 10);
 }
 
 void Platform::stepLeft()
@@ -39,7 +40,6 @@ QVector2D Platform::getPosition()
     return this->position;
 }
 
-
 QRectF Platform::boundingRect() const
 {
     return QRectF(position.x() - size.x()/2, position.y() - size.y()/2,
@@ -50,5 +50,10 @@ void Platform::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 {
     painter->setBrush(QBrush(Qt::darkBlue));
     painter->drawRoundedRect(this->boundingRect(), 10, 10);
-    //painter->drawRect(this->boundingRect());
+}
+
+
+QPainterPath Platform::shape() const
+{
+    return itemShape;
 }
