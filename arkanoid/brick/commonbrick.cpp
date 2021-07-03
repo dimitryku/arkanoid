@@ -5,6 +5,7 @@ CommonBrick::CommonBrick(QVector2D pos, int hp)
 
     setPosition(pos);
     setHP(hp);
+    this->itemShape.addRect(boundingRect());
 
 //    if(chance_bon==1)
 //        //setBonus_flag(true);

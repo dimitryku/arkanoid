@@ -37,11 +37,13 @@ private:
     BrickProperty* property;
 //    bool bonus_flag;
 
-
+protected:
+    QPainterPath itemShape;
     // QGraphicsItem interface
 public:
     virtual QRectF boundingRect() const;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QPainterPath shape() const;
 };
 
 #endif // BRICK_H

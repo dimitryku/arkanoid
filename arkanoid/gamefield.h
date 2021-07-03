@@ -8,6 +8,7 @@
 #include "QGraphicsScene"
 #include "QTimer"
 #include <brick/brickbuilder.h>
+#include <math.h>
 
 class GameField : public QGraphicsView
 {
