@@ -13,7 +13,7 @@ GameField::GameField()
     srand(time(NULL));
     //TODO привести скорость к какой-то одной, рандомизировать направление.
     //temp:
-    balls.push_back(new Ball(QVector2D(3,3), QVector2D(3, 3), false));
+    balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), false));
     //balls.push_back(new Ball(QVector2D(3,3), QVector2D(3, 3), true)); // make ball
     //balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
 
@@ -85,45 +85,9 @@ void GameField::ballCollision(Ball *ball)
     {
         std::string type = typeid(*collided[j]).name();
         std::cout << type << std::endl;
-        if (type.find("TNTBrick") != std::string::npos)
+        if (type.find("Brick") != std::string::npos)
         {
             ((TNTBrick*)collided[j])->hit(ball->getPower());
-            QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
-            dist.normalize();
-            if(abs(dist.x()) < abs(dist.y()))
-                ball->collide(Direction::up);
-            else
-                ball->collide(Direction::left);
-            continue;
-        }
-
-        if (type.find("CommonBrick") != std::string::npos)
-        {
-            ((CommonBrick*)collided[j])->hit(ball->getPower());
-            QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
-            dist.normalize();
-            if(abs(dist.x()) < abs(dist.y()))
-                ball->collide(Direction::up);
-            else
-                ball->collide(Direction::left);
-            continue;
-        }
-
-        if (type.find("GoldenBrick") != std::string::npos)
-        {
-            ((GoldenBrick*)collided[j])->hit(ball->getPower());
-            QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
-            dist.normalize();
-            if(abs(dist.x()) < abs(dist.y()))
-                ball->collide(Direction::up);
-            else
-                ball->collide(Direction::left);
-            continue;
-        }
-
-        if (type.find("MetallicBrick") != std::string::npos)
-        {
-            ((MetallicBrick*)collided[j])->hit(ball->getPower());
             QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
             dist.normalize();
             if(abs(dist.x()) < abs(dist.y()))
