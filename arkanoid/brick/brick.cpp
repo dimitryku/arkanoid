@@ -62,7 +62,12 @@ BrickProperty* Brick::getProperty(){
 
 QRectF Brick::boundingRect() const
 {
-    return QRect(position.x() - PublicConstants::BrickSize.x()/2, position.y() - PublicConstants::BrickSize.y()/2,
+//    return QRect(position.x() * PublicConstants::BrickSize.x(),
+//                 position.y() * PublicConstants::BrickSize.y(),
+//                 PublicConstants::BrickSize.x(), PublicConstants::BrickSize.y());
+
+    return QRect(position.x() * PublicConstants::BrickSize.x() - PublicConstants::BrickSize.x()/2,
+                 position.y() * PublicConstants::BrickSize.y() - PublicConstants::BrickSize.y()/2,
                  PublicConstants::BrickSize.x(), PublicConstants::BrickSize.y());
 }
 

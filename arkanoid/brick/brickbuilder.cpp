@@ -13,6 +13,7 @@ BrickBuilder::BrickBuilder(int row, int col)
 
 Brick* BrickBuilder::makeBrick()
 {
+     reset();
     int random = rand() % 100 + 1;
     Brick* brick = NULL;
     int type;
@@ -70,6 +71,7 @@ std::vector<Brick*> BrickBuilder::makeBricks(int quantity)
 
         if(temp_br != NULL)
             bricks.push_back(temp_br);
+
     }
 
     return bricks;
