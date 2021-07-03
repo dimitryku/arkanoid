@@ -16,15 +16,14 @@ GameField::GameField()
     //balls.push_back(new Ball(QVector2D(3,3), QVector2D(3, 3), true)); // make ball
     //balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
 
-    //BrickBuilder builder(4, 4);
-    //bricks = builder.makeBricks();
-    //scene->addItem(platform);
+    BrickBuilder builder(4);
+    bricks = builder.makeBricks();
 
+    for(int i = 0; i < bricks.size(); i++)
+            scene->addItem(bricks[i]);
     for(int i = 0; i < balls.size(); i++)
         scene->addItem(balls[i]);
-    for(int i = 0; i < bricks.size(); i++)
-        scene->addItem(bricks[i]);
-
+    scene->addItem(platform);
     //TODO the rest
 
     this->setScene(scene);
