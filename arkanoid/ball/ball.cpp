@@ -69,7 +69,12 @@ void Ball::startMoving()
     //TODO after Platform
 }
 
-int Ball::getCurrentPower()
+QVector2D Ball::getPosition()
+{
+    return currentPosition;
+}
+
+int Ball::getPower()
 {
     return currentBallState->getStatePower();
 }

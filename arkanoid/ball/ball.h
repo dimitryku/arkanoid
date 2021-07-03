@@ -22,8 +22,8 @@ public:
     void collideWithPlatform(Platform &platform);                               //recalculate speed
     QVector2D followPlatform(/*Platform &platform or QVector2D moveDelta*/);    // returns Vector - end position
     void startMoving(); //start from Platform
-    int getCurrentPosition();
-    int getCurrentPower();
+    QVector2D getPosition();
+    int getPower();
     //TODO Исправить полет по горизонтали
 
 private:
