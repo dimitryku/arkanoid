@@ -14,7 +14,7 @@ GameField::GameField()
     balls.push_back(new Ball(QVector2D(25,25), QVector2D(rand() % 20 - 10, rand() % 10), true));
     balls[0]->moveOneStep(platform->getPosition().x()); //move to platform
 
-    BrickBuilder builder(4, 4);
+    BrickBuilder builder(4);
     bricks = builder.makeBricks();
 
     scene->addItem(platform);

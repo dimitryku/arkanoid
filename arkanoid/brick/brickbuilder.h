@@ -9,10 +9,11 @@
 #include <brick/goldenbrick.h>
 #include <brick/metallicbrick.h>
 #include <brick/tntbrick.h>
+#include <publicconstants.h>
 class BrickBuilder
 {
 public:
-    BrickBuilder(int row, int col);
+    BrickBuilder(int row, int col=0);
     Brick* makeBrick();
     std::vector<Brick*> makeBricks(int quantity = -1);
     void reset();

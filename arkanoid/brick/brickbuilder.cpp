@@ -3,8 +3,11 @@
 BrickBuilder::BrickBuilder(int row, int col)
 {
     srand(time(0));
-    num_lastColum = row;
-    num_lastRow = col;
+    if(col<=0)
+        num_lastColum =  PublicConstants::SceneRect.width()/PublicConstants::BrickSize.x();
+    else
+        num_lastColum = col;
+    num_lastRow = row;
     coord.setX(-1);
     coord.setY(0);
 
