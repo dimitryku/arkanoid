@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     //view = new GameView(this, game);
+    ui->verticalLayout->setGeometry(QRect(0,0,1000,900));
     ui->verticalLayout->addWidget(new GameField());
 }
 
