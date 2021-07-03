@@ -67,10 +67,12 @@ void GameField::Tick()
                 balls[i]->moveOneStep(platform->getPosition().x());
             }
         }
+
+        //check collision
+        QList<QGraphicsItem*> collided = scene->collidingItems(balls[i]);
     }
 
 
-    // check collision
     // do sth
 
     scene->invalidate(PublicConstants::SceneRect);
