@@ -1,4 +1,4 @@
-#ifndef BRICKBUILDER_H
+﻿#ifndef BRICKBUILDER_H
 #define BRICKBUILDER_H
 #include <brick/brick.h>
 #include <QVector2D>
@@ -20,10 +20,11 @@ public:
 
 private:
     //Brick brick;
+    QVector2D offset;
     bool not_metallic=false;
     QVector2D coord;
     int num_lastRow;
-    int num_lastColum;
+    int num_lastColumn;
 };
 
 #endif // BRICKBUILDER_H

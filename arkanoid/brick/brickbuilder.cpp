@@ -4,24 +4,27 @@ BrickBuilder::BrickBuilder(int row, int col)
 {
     srand(time(0));
     if(col<=0)
-        num_lastColum =  PublicConstants::SceneRect.width()/PublicConstants::BrickSize.x();
+    {
+        num_lastColumn =  PublicConstants::SceneRect.width()/PublicConstants::BrickSize.x();
+    }
     else
-        num_lastColum = col;
+        num_lastColumn = col;
     num_lastRow = row;
     coord.setX(-1);
     coord.setY(0);
-
-
+    offset = QVector2D(PublicConstants::BrickSize.x()/2 + (PublicConstants::SceneRect.width()
+                                                        - PublicConstants::BrickSize.x() * num_lastColumn)/2,
+                       PublicConstants::BrickSize.y()/2 + PublicConstants::SceneRect.height()/2);
 }
 
 Brick* BrickBuilder::makeBrick()
 {
-     reset();
+    reset();
     int random = rand() % 100 + 1;
     Brick* brick = NULL;
     int type;
 
-    if(coord.x() == num_lastColum && coord.y() == num_lastRow)
+    if(coord.x() == num_lastColumn && coord.y() == num_lastRow)
         return brick;
 
     if(random <= 40)
@@ -41,15 +44,25 @@ Brick* BrickBuilder::makeBrick()
 
     switch (type) {
 
-    case 1: brick = new CommonBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()), 1);                 break; /* Create NormalBrick */
+    case 1: brick = new CommonBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x() + offset.x(),
+                                              coord.y()* PublicConstants::BrickSize.y() + offset.y()), 1);
+        break; /* Create NormalBrick */
 
-    case 2: brick = new CommonBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()), rand() % 8 + 3);    break; /* Create StrongBrick (CommonBrick with hp>2)*/
+    case 2: brick = new CommonBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x() + offset.x(),
+                                              coord.y()* PublicConstants::BrickSize.y() + offset.y()), rand() % 8 + 3);
+        break; /* Create StrongBrick (CommonBrick with hp>2)*/
 
-    case 3: brick = new GoldenBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()));                    break; /* CreateBonusBrick */
+    case 3: brick = new GoldenBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x() + offset.x(),
+                                              coord.y()* PublicConstants::BrickSize.y() + offset.y()));
+        break; /* CreateBonusBrick */
 
-    case 4: brick = new TNTBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()));                       break; /* Create BoomBrick */
+    case 4: brick = new TNTBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x() + offset.x(),
+                                           coord.y()* PublicConstants::BrickSize.y() + offset.y()));
+        break; /* Create BoomBrick */
 
-    case 5: brick = new MetallicBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()));                  break; /* Create MetallicBrick  */
+    case 5: brick = new MetallicBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x() + offset.x(),
+                                                coord.y()* PublicConstants::BrickSize.y() + offset.y()));
+        break; /* Create MetallicBrick  */
 
     }
 
@@ -66,7 +79,7 @@ Brick* BrickBuilder::makeBrick()
 //empty brackets == max
 std::vector<Brick*> BrickBuilder::makeBricks(int quantity)
 {
-    quantity = quantity == -1 ?  num_lastColum * num_lastRow : quantity;
+    quantity = quantity == -1 ?  num_lastColumn * num_lastRow : quantity;
     std::vector<Brick*> bricks;
 
     for(int i = 0; i < quantity; i++){
@@ -83,7 +96,7 @@ std::vector<Brick*> BrickBuilder::makeBricks(int quantity)
 void BrickBuilder::reset()
 {
     coord.setX(coord.x() + 1);
-    if(coord.x() == num_lastColum){
+    if(coord.x() == num_lastColumn){
         coord.setX(0);
         coord.setY(coord.y() + 1);
         not_metallic=false;
