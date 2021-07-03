@@ -11,6 +11,8 @@ public:
     Platform();
     void stepLeft();
     void stepRight();
+    void setSize(QVector2D newSize);
+    QVector2D getSize();
     QVector2D getPosition();
 private:
     QVector2D position;
