@@ -24,6 +24,8 @@ private:
     //std::vector<Bonus> activeBonuses;
     //Score score
     //std::vector<BonusBody> fallingBonuses
+
+    void ballCollision(Ball* ball);
 };
 
 #endif // GAMEFIELD_H

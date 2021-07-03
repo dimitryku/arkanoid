@@ -18,12 +18,14 @@ private:
     QVector2D position;
     QVector2D size;
     QVector2D stepSpeed;
+    QPainterPath itemShape;
 
 
     // QGraphicsItem interface
 public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QPainterPath shape() const;
 };
 
 #endif // PLATFORM_H

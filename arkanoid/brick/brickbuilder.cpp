@@ -13,8 +13,9 @@ BrickBuilder::BrickBuilder(int row, int col)
     coord.setX(-1);
     coord.setY(0);
     offset = QVector2D(PublicConstants::BrickSize.x()/2 + (PublicConstants::SceneRect.width()
-                                                        - PublicConstants::BrickSize.x() * num_lastColumn)/2,
-                       PublicConstants::BrickSize.y()/2 + PublicConstants::SceneRect.height()/2);
+                                        - PublicConstants::BrickSize.x() * num_lastColumn)/2,
+                      (PublicConstants::SceneRect.height() - num_lastRow * PublicConstants::BrickSize.x())/3
+                                        + PublicConstants::BrickSize.y()/2);
 }
 
 Brick* BrickBuilder::makeBrick()

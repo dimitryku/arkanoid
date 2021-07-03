@@ -13,6 +13,7 @@ class Brick : public QObject, public QGraphicsItem
 {
 
     Q_OBJECT
+    //shape returns correctly by itself, because it is brick
 
 public:
     Brick();

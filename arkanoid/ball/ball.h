@@ -8,8 +8,6 @@
 
 class Ball : public QGraphicsItem
 {
-    //TODO qt part of code (property ++)
-
 public:
     Ball();
     //TODO check startSpeed
@@ -21,11 +19,11 @@ public:
 
     //use it to return
     void collide(Direction direction, bool forcedBounce = false);               //recalculate speed
-    void collideWithPlatform(Platform &platform);                           //recalculate speed
+    void collideWithPlatform(Platform &platform);                               //recalculate speed
     QVector2D followPlatform(/*Platform &platform or QVector2D moveDelta*/);    // returns Vector - end position
     void startMoving(); //start from Platform
-    int getCurrentPosition();
-    int getCurrentPower();
+    QVector2D getPosition();
+    int getPower();
     //TODO Исправить полет по горизонтали
 
 private:
@@ -33,11 +31,13 @@ private:
     bool isOnPlatform;
     QVector2D currentSpeed;
     BallState* currentBallState;
+    QPainterPath itemShape;
 
     // QGraphicsItem interface
 public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QPainterPath shape() const;
 };
 
 #endif // BALL_H
