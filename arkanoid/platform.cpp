@@ -24,6 +24,16 @@ void Platform::stepRight()
         position.setX(xmax);
 }
 
+void Platform::setSize(QVector2D newSize)
+{
+    this->size = newSize;
+}
+
+QVector2D Platform::getSize()
+{
+    return this->size;
+}
+
 QVector2D Platform::getPosition()
 {
     return this->position;
