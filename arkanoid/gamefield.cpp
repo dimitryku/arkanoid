@@ -11,6 +11,9 @@ GameField::GameField()
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //TODO background
+    //QPixmap* map1 = new QPixmap("images/kit.png");
+    //scene->setBackgroundBrush(QBrush(*map1));
+    //scene->setBackgroundBrush(QBrush(QPixmap(":/res/kit.png")));
 
     platform = new Platform();
     srand(time(NULL));
@@ -47,19 +50,29 @@ void GameField::generateBonus(Brick *brick)
 
     Bonus* bonus=NULL;
     if(type_brick.compare("CommonBrick")){
-        if(rand()%100+1<=45){
-             bonus=new Bonus(50);
+        if(rand() % 100 + 1 <= 45){
+             bonus = new Bonus(50);
              std::cout<<bonus->getTypeBonus()<<std::endl;
         }
 
-
     } else if(type_brick.compare("GoldenBrick")){
-             bonus=new Bonus(100);
-             std::cout<<bonus->getTypeBonus()<<std::endl;
-
+            bonus=new Bonus(100);
+            std::cout<<bonus->getTypeBonus()<<std::endl;
 
     } else if(type_brick.compare("TNTBrick")){
            //TODO call hit(50) nearby(boomsize)bricks
+            qreal x, y, w, h;
+            brick->boundingRect().getRect(&x, &y, &w, &h);
+            QRect boomRect = QRect(x - w, y - h, w * 3, h * 3);
+            QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
+            for(int i = 0; i < boomItems.size(); i++)
+            {
+                QString type = typeid(boomItems[i]).name();
+                if (type.contains("Brick"))
+                {
+                    ((Brick*)boomItems[i])->hit(50);
+                }
+            }
             std::cout<<"BOOM!"<<std::endl;
     }
 
@@ -124,21 +137,21 @@ void GameField::ballCollision(Ball *ball)
     QList<QGraphicsItem*> collided = scene->items(ball->boundingRect(), Qt::IntersectsItemShape);
     for(int j = 0; j < collided.size(); j++)
     {
-        std::string type = typeid(*collided[j]).name();
-        if (type.find("Brick") != std::string::npos)
+        QString type = typeid(*collided[j]).name();
+        if (type.contains("Brick"))
         {
             ((Brick*)collided[j])->hit(ball->getPower());
             QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
             float angle = abs(asin(dist.x() / dist.length()));
             if(angle < 45)
-                ball->collide(Direction::up);
+                ball->collide(Direction::up, (type.contains("MetallicBrick")));
             else
-                ball->collide(Direction::left);
+                ball->collide(Direction::left, (type.contains("MetallicBrick")));
             ball->moveOneStep(platform->getPosition().x());
             break;
         }
 
-        if (type.find("Platform") != std::string::npos)
+        if (type.contains("Platform"))
         {
             ball->collide(Direction::up);
             ball->moveOneStep(platform->getPosition().x());
