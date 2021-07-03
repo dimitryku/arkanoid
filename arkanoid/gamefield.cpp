@@ -25,4 +25,13 @@ GameField::GameField()
     //TODO the rest
 
     this->setScene(scene);
+
+    MainGameTimer = new QTimer(this);
+    connect(MainGameTimer, &QTimer::timeout, this, QOverload<>::of(&GameField::Tick));
+    MainGameTimer->start(PublicConstants::DefaultTimerTick);
+}
+
+void GameField::Tick()
+{
+    // do a barrel roll
 }

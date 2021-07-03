@@ -18,6 +18,7 @@ public:
     static const QVector2D BrickSize;
     static const QRectF SceneRect;
     static const float PlatformBallOffset;
+    static const int DefaultTimerTick;
 };
 
 #endif // PUBLICCONSTANTS_H

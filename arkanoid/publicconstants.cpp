@@ -10,3 +10,4 @@ const QVector2D PublicConstants::BallSize = QVector2D(10.0f, 10.0f);
 const QVector2D PublicConstants::BrickSize = QVector2D(40.0f, 15.0f);
 const float PublicConstants::PlatformBallOffset = PlatformSize.y()/2 + BallSize.y()/2;
 const QRectF PublicConstants::SceneRect = QRectF(0, 0, 900, 1000);
+const int PublicConstants::DefaultTimerTick = 10;
