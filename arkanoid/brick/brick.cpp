@@ -12,6 +12,7 @@ Brick::Brick(const Brick &brick)
     this->property = brick.property;
     this->HealPoints = brick.HealPoints;
     this->position = brick.position;
+    this->itemShape.addRect(boundingRect());
 }
 
 int Brick::getHP()
@@ -75,4 +76,10 @@ void Brick::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 {
     painter->setBrush(QBrush(Qt::red));
     painter->drawRect(this->boundingRect());
+}
+
+
+QPainterPath Brick::shape() const
+{
+    return itemShape;
 }

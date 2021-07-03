@@ -10,6 +10,9 @@
 #include <brick/brickbuilder.h>
 #include <bonus/bonus.h>
 #include "QString"
+#include <math.h>
+
+
 class GameField : public QGraphicsView
 {
     Q_OBJECT
