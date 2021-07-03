@@ -37,6 +37,10 @@ GameField::GameField()
     MainGameTimer = new QTimer(this);
     connect(MainGameTimer, &QTimer::timeout, this, QOverload<>::of(&GameField::Tick));
     MainGameTimer->start(PublicConstants::DefaultTimerTick);
+
+    PlatformUpdateTimer = new QTimer(this);
+    connect(PlatformUpdateTimer, &QTimer::timeout, this, QOverload<>::of(&GameField::UpdatePlatform));
+    PlatformUpdateTimer->start(PublicConstants::DefaultTimerTick);
 }
 
 void GameField::generateBonus(Brick *brick)
@@ -80,19 +84,7 @@ void GameField::Tick()
     // do a barrel roll
     // this->rotate(1);
 
-     switch (CurrentPlatformAction) {
-     case PlatformAction::MoveRight:
-         platform->stepRight();
-         break;
-     case PlatformAction::MoveLeft:
-         platform->stepLeft();
-         break;
-     case PlatformAction::Shoot:
-         /// TODO
-         break;
-     default:
-         break;
-     }
+
 
     //ball move and bounce
     for(size_t i = 0; i < balls.size(); i++)
@@ -133,6 +125,23 @@ void GameField::Tick()
     scene->invalidate(PublicConstants::SceneRect);
 }
 
+void GameField::UpdatePlatform()
+{
+    switch (CurrentPlatformAction) {
+    case PlatformAction::MoveRight:
+        platform->stepRight();
+        break;
+    case PlatformAction::MoveLeft:
+        platform->stepLeft();
+        break;
+    case PlatformAction::Shoot:
+        /// TODO
+        break;
+    default:
+        break;
+    }
+}
+
 //Checking and performing collision of ball with the other objects
 void GameField::ballCollision(Ball *ball)
 {
@@ -155,7 +164,7 @@ void GameField::ballCollision(Ball *ball)
 
         if (type.find("Platform") != std::string::npos)
         {
-            ball->collide(Direction::up);
+            ball->collide(Direction::up, true);
             ball->moveOneStep(platform->getPosition().x());
         }
     }

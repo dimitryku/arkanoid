@@ -29,7 +29,9 @@ private:
     std::vector<Bonus*> bonuses;
     Platform* platform;
     QTimer* MainGameTimer;
+    QTimer* PlatformUpdateTimer;
     void Tick();
+    void UpdatePlatform();
 
     enum PlatformAction{
         None,
