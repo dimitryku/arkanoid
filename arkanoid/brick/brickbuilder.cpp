@@ -41,15 +41,15 @@ Brick* BrickBuilder::makeBrick()
 
     switch (type) {
 
-    case 1: brick = new CommonBrick(QVector2D(coord.x(),coord.y()), 1);                 break; /* Create NormalBrick */
+    case 1: brick = new CommonBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()), 1);                 break; /* Create NormalBrick */
 
-    case 2: brick = new CommonBrick(QVector2D(coord.x(),coord.y()), rand() % 8 + 3);    break; /* Create StrongBrick (CommonBrick with hp>2)*/
+    case 2: brick = new CommonBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()), rand() % 8 + 3);    break; /* Create StrongBrick (CommonBrick with hp>2)*/
 
-    case 3: brick = new GoldenBrick(QVector2D(coord.x(),coord.y()));                    break; /* CreateBonusBrick */
+    case 3: brick = new GoldenBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()));                    break; /* CreateBonusBrick */
 
-    case 4: brick = new TNTBrick(QVector2D(coord.x(),coord.y()));                       break; /* Create BoomBrick */
+    case 4: brick = new TNTBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()));                       break; /* Create BoomBrick */
 
-    case 5: brick = new MetallicBrick(QVector2D(coord.x(),coord.y()));                  break; /* Create MetallicBrick  */
+    case 5: brick = new MetallicBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x(),coord.y()* PublicConstants::BrickSize.y()));                  break; /* Create MetallicBrick  */
 
     }
 
