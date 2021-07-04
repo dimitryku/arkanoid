@@ -17,7 +17,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     ball/ball.cpp \
-    ball/ballproperty.cpp \
     ball/ballstate.cpp \
     bonus/bonus.cpp \
     bonus/bonusbody.cpp \
@@ -37,7 +36,6 @@ SOURCES += \
 HEADERS += \
     ball/ball.h \
     ball/ballStates.h \
-    ball/ballproperty.h \
     ball/ballstate.h \
     bonus/bonus.h \
     bonus/bonusbody.h \

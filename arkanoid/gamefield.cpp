@@ -11,17 +11,16 @@ GameField::GameField()
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //TODO background
-    //QPixmap* map1 = new QPixmap("images/kit.png");
-    //scene->setBackgroundBrush(QBrush(*map1));
-    //scene->setBackgroundBrush(QBrush(QPixmap(":/res/kit.png")));
+    QPixmap* map1 = new QPixmap(":/space");
+    scene->setBackgroundBrush(QBrush(*map1));
 
     platform = new Platform();
     srand(time(NULL));
     //TODO привести скорость к какой-то одной, рандомизировать направление.
     //temp:
-    balls.push_back(new Ball(QVector2D(500, 500), QVector2D(3, 3), false));
-    //balls.push_back(new Ball(QVector2D(3,3), QVector2D(3, 3), true)); // make ball
-    //balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
+    //balls.push_back(new Ball(QVector2D(500, 500), QVector2D(4, 3), false));
+    balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), true)); // make ball
+    balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
 
     BrickBuilder builder(10);
     bricks = builder.makeBricks();
@@ -144,7 +143,11 @@ void GameField::UpdatePlatform()
         platform->stepLeft();
         break;
     case PlatformAction::Shoot:
-        /// TODO
+        /// TODO change temp
+        if(balls.size() > 0)
+        {
+            balls[0]->startMoving();
+        }
         break;
     default:
         break;
