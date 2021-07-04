@@ -49,7 +49,7 @@ void Ball::collide(Direction direction, bool forcedBounce)
     currentBallState->collide(direction, currentSpeed, forcedBounce);
 }
 
-void Ball::collideWithPlatform(Platform &platform)
+void Ball::collideWithPlatform(Platform* platform)
 {
     this->collide(Direction::down, false);
     /// TODO change angle if hit close to edge of platform
@@ -79,6 +79,11 @@ int Ball::getPower()
     return currentBallState->getStatePower();
 }
 
+void Ball::drop()
+{
+    currentPosition.setY(currentPosition.y() + 50);
+}
+
 QRectF Ball::boundingRect() const
 {
     return QRectF(currentPosition.x()-5, currentPosition.y()-5, 10, 10);
@@ -91,7 +96,8 @@ void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
 }
 
 
-QPainterPath Ball::shape() const
+QPainterPath Ball::shape()
 {
+    itemShape.moveTo(currentPosition.x(), currentPosition.y());
     return itemShape;
 }
