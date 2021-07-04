@@ -58,3 +58,8 @@ QPainterPath Platform::shape()
     itemShape.moveTo(position.x(), position.y());
     return itemShape;
 }
+
+void Platform::changeSize(int multiplier)
+{
+    this->size*=multiplier;
+}

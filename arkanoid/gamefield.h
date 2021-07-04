@@ -12,7 +12,7 @@
 #include "QString"
 #include "QKeyEvent"
 #include <math.h>
-
+#include <bonus/bonuses.h>
 
 class GameField : public QGraphicsView
 {

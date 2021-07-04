@@ -9,7 +9,7 @@ enum Bonuses{
     uber_ball,
     slow_ball,
     fast_ball,
-    iverse,
+    inverse,
     shorten_platform
 };
 #endif // BONUSES_H
