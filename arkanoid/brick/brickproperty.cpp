@@ -17,7 +17,6 @@ BrickProperty::BrickProperty()
 
 QPixmap *BrickProperty::getPixMap(int num)
 {
-    std::cout << num << "  " << pixmap.size() << std::endl;
     if(num < 0)
         num = 0;
     return &pixmap[num];

@@ -68,6 +68,7 @@ void GameField::brickDestoryed(Brick *brick)
         CurrentScore += 3;
             qreal x, y, w, h;
             brick->boundingRect().getRect(&x, &y, &w, &h);
+
             QRect boomRect = QRect(x - w, y - h, w * 3, h * 3);
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
@@ -87,6 +88,7 @@ void GameField::brickDestoryed(Brick *brick)
 
     if(bonus!=NULL){
         body = new BonusBody(brick->getPosition(), bonus);
+        scene->addItem(body);
         bonusbodies.push_back(body);
     }
     //std::cout<<bonuses.size()<<std::endl;
@@ -95,6 +97,17 @@ void GameField::brickDestoryed(Brick *brick)
 
 void GameField::Tick()
 {
+    ///Temporery here
+    for(auto* x : bonusbodies)
+    {
+        x->Move();
+
+        scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
+    }
+    ///Temporery here
+
+
+
     // do a barrel roll
     // this->rotate(1);
 
@@ -109,11 +122,14 @@ void GameField::Tick()
     for(size_t i = 0; i < balls.size(); i++)
     {
         QVector2D newPos = balls[i]->moveOneStep(platform->getPosition().x());
-        if(newPos.y() >= PublicConstants::SceneRect.height())
+        if(newPos.y() >= PublicConstants::SceneRect.height() - 10)
         {
-                balls[i]->drop();
-                scene->removeItem(balls[i]);
-                balls.erase(balls.begin() + i);
+
+            balls[i]->collide(Direction::up, true);
+            balls[i]->moveOneStep(platform->getPosition().x());
+                //balls[i]->drop();
+                //scene->removeItem(balls[i]);
+                //balls.erase(balls.begin() + i);
         }
         else
         {
@@ -142,13 +158,10 @@ void GameField::Tick()
 
     /// TODO invalidate bonus bodies
     //for(auto x: bon)
-
-    //scene->invalidate(PublicConstants::SceneRect);
 }
 
 void GameField::UpdatePlatform()
 {
-
     switch (CurrentPlatformAction) {
     case PlatformAction::MoveRight:
         platform->stepRight();
@@ -207,13 +220,6 @@ void GameField::ballCollision(Ball *ball)
                 ball->moveOneStep(platform->getPosition().x());
                 break;
             }
-
-//            if (type.find("Platform") != std::string::npos)
-//            {
-//                //std::cout << "platform" << std::endl;
-//                ball->collide(Direction::up, true);
-//                ball->moveOneStep(platform->getPosition().x());
-//            }
         }
     }
 }
@@ -256,8 +262,6 @@ void GameField::bonusCollision(BonusBody *bonusbody)
             break;
     }
 }
-
-
 
 void GameField::increaseSizePlatform()
 {
