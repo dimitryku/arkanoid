@@ -105,14 +105,22 @@ void GameField::Tick()
     for(auto* x : bonusbodies)
     {
         x->Move();
-
+        if(x->collidesWithItem(platform))
+        {
+            scene->removeItem(x);
+            scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
+            bonuses.push_back(x->getBonus());
+            x->getBonus()->start();
+            bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), x), bonusbodies.end());
+            continue;
+        }
         scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
     }
     ///Temporary here
 
 
     // do a barrel roll
-    // this->rotate(1);
+    //this->rotate(1);
 
     if(balls.size() < 1){
         MainGameTimer->stop();
@@ -125,14 +133,14 @@ void GameField::Tick()
     for(size_t i = 0; i < balls.size(); i++)
     {
         QVector2D newPos = balls[i]->moveOneStep(platform->getPosition().x());
-        if(newPos.y() >= PublicConstants::SceneRect.height())
+        if(newPos.y() >= PublicConstants::SceneRect.height() - 10)
         {
 
-            //balls[i]->collide(Direction::up, true);
-            //balls[i]->moveOneStep(platform->getPosition().x());
-            balls[i]->drop();
-            scene->removeItem(balls[i]);
-            balls.erase(balls.begin() + i);
+            balls[i]->collide(Direction::up, true);
+            balls[i]->moveOneStep(platform->getPosition().x());
+            //balls[i]->drop();
+            //scene->removeItem(balls[i]);
+            //balls.erase(balls.begin() + i);
         }
         else
         {
@@ -320,13 +328,13 @@ void GameField::setUberBall(){
 }
 
 void GameField::setMagnetBall(){
-    for(size_t i=0; i<balls.size(); i++){
+    for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeState(BallStates::magnet);
     }
 }
 
 void GameField::setCommonBall(){
-    for(size_t i=0; i<balls.size(); i++){
+    for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeState(BallStates::normal);
     }
 }

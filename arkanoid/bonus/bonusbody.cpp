@@ -1,4 +1,5 @@
 #include "bonusbody.h"
+#include <iostream>
 
 
 BonusBody::BonusBody(QVector2D pos, Bonus* insideBonus)
@@ -22,6 +23,11 @@ QPainterPath BonusBody::shape()
 {
     itemShape.moveTo(position.x(), position.y());
     return itemShape;
+}
+
+QVector2D BonusBody::getPosition()
+{
+    return position;
 }
 
 

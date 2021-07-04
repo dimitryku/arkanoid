@@ -20,6 +20,7 @@ public:
     void Move();
     Bonus* getBonus();
     QPainterPath shape();
+    QVector2D getPosition();
 
     // QGraphicsItem interface
 public:
