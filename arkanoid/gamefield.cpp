@@ -66,7 +66,10 @@ void GameField::generateBonus(Brick *brick)
            //TODO call hit(50) nearby(boomsize)bricks
             //std::cout<<"BOOM!"<<std::endl;
     }
-
+    scene->removeItem(brick);
+    bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
+    delete brick;
+    std::cout << bricks.size() << std::endl;
 
     if(bonus!=NULL)
         bonuses.push_back(bonus);
