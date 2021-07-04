@@ -69,6 +69,10 @@ void GameField::brickDestoryed(Brick *brick)
             qreal x, y, w, h;
             brick->boundingRect().getRect(&x, &y, &w, &h);
             QRect boomRect = QRect(x - w, y - h, w * 3, h * 3);
+            scene->removeItem(brick);
+            scene->invalidate(brick->boundingRect());
+            bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
+            delete brick;
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
             {
@@ -79,13 +83,14 @@ void GameField::brickDestoryed(Brick *brick)
                         ((Brick*)boomItems[i])->hit(50);
                 }
             }
+            return; // because there are no bonuses and it's already deleted
     }
     scene->removeItem(brick);
     scene->invalidate(brick->boundingRect());
     bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
     delete brick;
 
-    if(bonus!=NULL){
+    if(bonus != NULL){
         body = new BonusBody(brick->getPosition(), bonus);
         scene->addItem(body);
         bonusbodies.push_back(body);
@@ -120,14 +125,14 @@ void GameField::Tick()
     for(size_t i = 0; i < balls.size(); i++)
     {
         QVector2D newPos = balls[i]->moveOneStep(platform->getPosition().x());
-        if(newPos.y() >= PublicConstants::SceneRect.height() - 10)
+        if(newPos.y() >= PublicConstants::SceneRect.height())
         {
 
-            balls[i]->collide(Direction::up, true);
-            balls[i]->moveOneStep(platform->getPosition().x());
-                //balls[i]->drop();
-                //scene->removeItem(balls[i]);
-                //balls.erase(balls.begin() + i);
+            //balls[i]->collide(Direction::up, true);
+            //balls[i]->moveOneStep(platform->getPosition().x());
+            balls[i]->drop();
+            scene->removeItem(balls[i]);
+            balls.erase(balls.begin() + i);
         }
         else
         {
