@@ -45,7 +45,7 @@ GameField::GameField()
 
 void GameField::generateBonus(Brick *brick)
 {
-    std::cout<<brick->metaObject()->className()<<std::endl;
+    //std::cout<<brick->metaObject()->className()<<std::endl;
 
     QString type_brick=brick->metaObject()->className();
 
@@ -53,25 +53,25 @@ void GameField::generateBonus(Brick *brick)
     if(type_brick.compare("CommonBrick")){
         if(rand() % 100 + 1 <= 45){
              bonus=new Bonus(50);
-             std::cout<<bonus->getTypeBonus()<<std::endl;
+             //std::cout<<bonus->getTypeBonus()<<std::endl;
         }
 
 
     } else if(type_brick.compare("GoldenBrick")){
              bonus=new Bonus(100);
-             std::cout<<bonus->getTypeBonus()<<std::endl;
+             //std::cout<<bonus->getTypeBonus()<<std::endl;
 
 
     } else if(type_brick.compare("TNTBrick")){
            //TODO call hit(50) nearby(boomsize)bricks
-            std::cout<<"BOOM!"<<std::endl;
+            //std::cout<<"BOOM!"<<std::endl;
     }
 
 
     if(bonus!=NULL)
         bonuses.push_back(bonus);
 
-    std::cout<<bonuses.size()<<std::endl;
+    //std::cout<<bonuses.size()<<std::endl;
 }
 
 void GameField::Tick()
@@ -79,7 +79,6 @@ void GameField::Tick()
     ///УДАЛИТЬ
      //bricks[rand()%bricks.size()]->hit(1);
     ///УДАЛИТЬ
-
 
     // do a barrel roll
     // this->rotate(1);
@@ -90,17 +89,11 @@ void GameField::Tick()
     for(size_t i = 0; i < balls.size(); i++)
     {
         QVector2D newPos = balls[i]->moveOneStep(platform->getPosition().x());
-        if(newPos.y() + PublicConstants::BallSize.y() / 2 >= PublicConstants::SceneRect.height())
+        if(newPos.y() >= PublicConstants::SceneRect.height())
         {
-            //TODO delete ball
-            //temp:
-            if(balls.size() < 10)
-            {
-                balls[i]->collide(Direction::down, true);
-                balls[i]->moveOneStep(platform->getPosition().x());
-                balls.push_back(new Ball(QVector2D(balls[i]->getPosition().x(),balls[i]->getPosition().y()), QVector2D(rand()%10 - 5, rand()%10 - 5), false));
-                scene->addItem(balls[balls.size() - 1]);
-            }
+                balls[i]->drop();
+                scene->removeItem(balls[i]);
+                balls.erase(balls.begin() + i);
         }
         else
         {
@@ -145,28 +138,45 @@ void GameField::UpdatePlatform()
 //Checking and performing collision of ball with the other objects
 void GameField::ballCollision(Ball *ball)
 {
-    QList<QGraphicsItem*> collided = scene->items(ball->shape(), Qt::IntersectsItemShape);
-    for(int j = 0; j < collided.size(); j++)
+    if(ball->getPosition().y() > PublicConstants::SceneRect.height() - 25)
     {
-        std::string type = typeid(*collided[j]).name();
-        if (type.find("Brick") != std::string::npos)
+        if(ball->collidesWithItem(platform))
         {
-            ((Brick*)collided[j])->hit(ball->getPower());
-            QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
-            float angle = abs(asin(dist.x() / dist.length()));
-            if(angle < 45)
-                ball->collide(Direction::up);
-            else
-                ball->collide(Direction::left);
+            ball->collideWithPlatform(platform);
             ball->moveOneStep(platform->getPosition().x());
-            break;
+            //balls.push_back(new Ball(QVector2D(ball->getPosition().x(),ball->getPosition().y()), QVector2D(rand()%10 - 5, rand()%10 - 5), false));
+            //scene->addItem(balls[balls.size() - 1]);
         }
-
-        if (type.find("Platform") != std::string::npos)
+        else
+            if(ball->getPosition().y() > platform->getPosition().y())
+                ball->drop();
+    }
+    else
+    {
+        //QList<QGraphicsItem*> collided = scene->items(ball->shape(), Qt::IntersectsItemShape);
+        QList<QGraphicsItem*> collided = scene->collidingItems(ball);
+        for(int j = 0; j < collided.size(); j++)
         {
-            std::cout << "platform" << std::endl;
-            ball->collide(Direction::up, true);
-            ball->moveOneStep(platform->getPosition().x());
+            QString type = typeid(*collided[j]).name();
+            if (type.contains("Brick"))
+            {
+                ((Brick*)collided[j])->hit(ball->getPower());
+                QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
+                float angle = abs(asin(dist.x() / dist.length()));
+                if(angle < 45)
+                    ball->collide(Direction::up);
+                else
+                    ball->collide(Direction::left);
+                ball->moveOneStep(platform->getPosition().x());
+                break;
+            }
+
+//            if (type.find("Platform") != std::string::npos)
+//            {
+//                //std::cout << "platform" << std::endl;
+//                ball->collide(Direction::up, true);
+//                ball->moveOneStep(platform->getPosition().x());
+//            }
         }
     }
 }
