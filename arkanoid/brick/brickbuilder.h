@@ -19,6 +19,7 @@ public:
     void reset();
 
 private:
+    BrickProperty* prop;
     //Brick brick;
     QVector2D offset;
     bool not_metallic=false;
