@@ -53,23 +53,19 @@ int GameField::GetScore()
 void GameField::brickDestoryed(Brick *brick)
 {
     QString type_brick=brick->metaObject()->className();
-
     Bonus* bonus=NULL;
     BonusBody* body=NULL;
-    if(type_brick.compare("CommonBrick")){
+    if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
         if(rand() % 100 + 1 <= 45){
              bonus = new Bonus(50);
-             std::cout<<bonus->getTypeBonus()<<std::endl;
         }
 
-    } else if(type_brick.compare("GoldenBrick")){
+    } else if(type_brick.contains("GoldenBrick")){
         CurrentScore += 5;
             bonus = new Bonus(100);
-
-    } else if(type_brick.compare("TNTBrick")){
+    } else if(type_brick.contains("TNTBrick")){
         CurrentScore += 3;
-           //TODO call hit(50) nearby(boomsize)bricks
             qreal x, y, w, h;
             brick->boundingRect().getRect(&x, &y, &w, &h);
             QRect boomRect = QRect(x - w, y - h, w * 3, h * 3);
@@ -135,8 +131,9 @@ void GameField::Tick()
                 balls[i]->collide(Direction::up, true);
                 balls[i]->moveOneStep(platform->getPosition().x());
             }
+            ballCollision(balls[i]);
         }
-        ballCollision(balls[i]);
+
     }
 
     ///TODO bonuces
