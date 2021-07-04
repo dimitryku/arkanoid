@@ -261,6 +261,11 @@ void GameField::bonusCollision(BonusBody *bonusbody)
             connect(bonusbody->getBonus(), SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
             break;
     }
+     connect(bonusbody->getBonus(),SIGNAL(stop(Bonus*)), this, SLOT(this->finishedBonus(Bonus*)));
+     bonuses.push_back(bonusbody->getBonus());
+     bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), bonusbody), bonusbodies.end());
+     disconnect(bonusbody);
+     delete bonusbody;
 }
 
 void GameField::increaseSizePlatform()
@@ -321,6 +326,12 @@ void GameField::setCommonBall(){
     for(size_t i=0; i<balls.size(); i++){
         balls[i]->changeState(BallStates::normal);
     }
+}
+
+void GameField::finishedBonus(Bonus* bonus){
+      disconnect(bonus);
+      bonuses.erase(std::remove(bonuses.begin(), bonuses.end(), bonus), bonuses.end());
+      delete bonus;
 }
 
 void GameField::keyPressEvent(QKeyEvent *event)
