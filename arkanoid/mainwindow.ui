@@ -71,12 +71,18 @@
    </property>
    <widget class="QMenu" name="menuNew_Game">
     <property name="title">
-     <string>New Game</string>
+     <string>Game</string>
     </property>
+    <addaction name="actionNew_game"/>
    </widget>
    <addaction name="menuNew_Game"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionNew_game">
+   <property name="text">
+    <string>New game</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

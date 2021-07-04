@@ -24,6 +24,10 @@ public:
     int GetScore();
 public slots:
    void generateBonus(Brick* brick);
+
+signals:
+   void GameEnded(); /// TODO emit
+
 private:
     std::vector<Ball*> balls;
     std::vector<Brick*> bricks;

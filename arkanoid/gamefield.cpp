@@ -108,7 +108,12 @@ void GameField::Tick()
     // do a barrel roll
     // this->rotate(1);
 
+    if(balls.size() < 1){
+        MainGameTimer->stop();
+        PlatformUpdateTimer->stop();
 
+        emit(GameEnded());
+    }
 
     //ball move and bounce
     for(size_t i = 0; i < balls.size(); i++)
