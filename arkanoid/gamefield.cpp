@@ -4,6 +4,7 @@
 
 GameField::GameField()
 {
+    CurrentScore = 0;
     scene = new QGraphicsScene();
     scene->setSceneRect(PublicConstants::SceneRect); // ограничивает сцену
     this->setFixedHeight(PublicConstants::SceneRect.height());
@@ -45,6 +46,11 @@ GameField::GameField()
     PlatformUpdateTimer->start(PublicConstants::DefaultTimerTick);
 }
 
+int GameField::GetScore()
+{
+    return CurrentScore;
+}
+
 void GameField::generateBonus(Brick *brick)
 {
     //std::cout<<brick->metaObject()->className()<<std::endl;
@@ -53,16 +59,19 @@ void GameField::generateBonus(Brick *brick)
 
     Bonus* bonus=NULL;
     if(type_brick.compare("CommonBrick")){
+        CurrentScore += 1;
         if(rand() % 100 + 1 <= 45){
              bonus = new Bonus(50);
              std::cout<<bonus->getTypeBonus()<<std::endl;
         }
 
     } else if(type_brick.compare("GoldenBrick")){
+        CurrentScore += 5;
             bonus = new Bonus(100);
             //std::cout<<bonus->getTypeBonus()<<std::endl;
 
     } else if(type_brick.compare("TNTBrick")){
+        CurrentScore += 3;
            //TODO call hit(50) nearby(boomsize)bricks
             qreal x, y, w, h;
             brick->boundingRect().getRect(&x, &y, &w, &h);
@@ -79,9 +88,10 @@ void GameField::generateBonus(Brick *brick)
             //std::cout<<"BOOM!"<<std::endl;
     }
     scene->removeItem(brick);
+    scene->invalidate(brick->boundingRect());
     bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
     delete brick;
-    std::cout << bricks.size() << std::endl;
+    //std::cout << bricks.size() << std::endl;
 
     if(bonus!=NULL)
         bonuses.push_back(bonus);
@@ -98,7 +108,12 @@ void GameField::Tick()
     // do a barrel roll
     // this->rotate(1);
 
+    if(balls.size() < 1){
+        MainGameTimer->stop();
+        PlatformUpdateTimer->stop();
 
+        emit(GameEnded());
+    }
 
     //ball move and bounce
     for(size_t i = 0; i < balls.size(); i++)
@@ -130,11 +145,19 @@ void GameField::Tick()
 
     ///TODO bonuces
 
-    scene->invalidate(PublicConstants::SceneRect);
+    for(auto* x: balls)
+        scene->invalidate(x->boundingRect()
+                          .marginsAdded(QMargins(30,30,30,30)));
+
+    /// TODO invalidate bonus bodies
+    //for(auto x: bon)
+
+    //scene->invalidate(PublicConstants::SceneRect);
 }
 
 void GameField::UpdatePlatform()
 {
+
     switch (CurrentPlatformAction) {
     case PlatformAction::MoveRight:
         platform->stepRight();
@@ -152,6 +175,9 @@ void GameField::UpdatePlatform()
     default:
         break;
     }
+
+    scene->invalidate(QRectF(0, PublicConstants::SceneRect.height()-30,
+                             PublicConstants::SceneRect.width(), PublicConstants::SceneRect.height()));
 }
 
 //Checking and performing collision of ball with the other objects
@@ -180,6 +206,7 @@ void GameField::ballCollision(Ball *ball)
             if (type.contains("Brick"))
             {
                 ((Brick*)collided[j])->hit(ball->getPower());
+                //scene->invalidate(((Brick*)collided[j])->boundingRect());
                 QVector2D dist = ball->getPosition() - ((Brick*)collided[j])->getPosition();
                 float angle = abs(asin(dist.x() / dist.length()));
                 if(angle < 45)
