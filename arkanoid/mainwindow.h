@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <gamefield.h>
+#include <QTimer>
+
+class GameField;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,5 +23,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    GameField* MainGameField;
+
+    QTimer* ScoreTimer;
+    void UpdateScore();
 };
 #endif // MAINWINDOW_H

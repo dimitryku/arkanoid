@@ -4,6 +4,7 @@
 
 GameField::GameField()
 {
+    CurrentScore = 0;
     scene = new QGraphicsScene();
     scene->setSceneRect(PublicConstants::SceneRect); // ограничивает сцену
     this->setFixedHeight(PublicConstants::SceneRect.height());
@@ -45,6 +46,11 @@ GameField::GameField()
     PlatformUpdateTimer->start(PublicConstants::DefaultTimerTick);
 }
 
+int GameField::GetScore()
+{
+    return CurrentScore;
+}
+
 void GameField::generateBonus(Brick *brick)
 {
     //std::cout<<brick->metaObject()->className()<<std::endl;
@@ -53,16 +59,19 @@ void GameField::generateBonus(Brick *brick)
 
     Bonus* bonus=NULL;
     if(type_brick.compare("CommonBrick")){
+        CurrentScore += 1;
         if(rand() % 100 + 1 <= 45){
              bonus = new Bonus(50);
              std::cout<<bonus->getTypeBonus()<<std::endl;
         }
 
     } else if(type_brick.compare("GoldenBrick")){
+        CurrentScore += 5;
             bonus = new Bonus(100);
             //std::cout<<bonus->getTypeBonus()<<std::endl;
 
     } else if(type_brick.compare("TNTBrick")){
+        CurrentScore += 3;
            //TODO call hit(50) nearby(boomsize)bricks
             qreal x, y, w, h;
             brick->boundingRect().getRect(&x, &y, &w, &h);

@@ -21,6 +21,7 @@ class GameField : public QGraphicsView
 public:
     GameField();
     QGraphicsScene* scene;
+    int GetScore();
 public slots:
    void generateBonus(Brick* brick);
 private:
@@ -32,6 +33,8 @@ private:
     QTimer* PlatformUpdateTimer;
     void Tick();
     void UpdatePlatform();
+
+    int CurrentScore;
 
     enum PlatformAction{
         None,

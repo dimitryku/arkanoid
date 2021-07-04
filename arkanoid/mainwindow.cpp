@@ -6,11 +6,21 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->verticalLayout->addWidget(new GameField());
+    this->MainGameField = new GameField();
+    ui->verticalLayout->addWidget(MainGameField);
+
+    ScoreTimer = new QTimer(this);
+    connect(ScoreTimer, &QTimer::timeout, this, QOverload<>::of(&MainWindow::UpdateScore));
+    ScoreTimer->start(PublicConstants::DefaultTimerTick);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::UpdateScore()
+{
+    this->statusBar()->showMessage(QString("Score: %1").arg(MainGameField->GetScore()));
 }
 
