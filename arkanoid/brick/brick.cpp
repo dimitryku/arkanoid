@@ -1,4 +1,5 @@
 #include "brick/brick.h"
+#include <iostream>
 
 Brick::Brick()
 {
@@ -13,6 +14,7 @@ Brick::Brick(const Brick &brick)
     this->HealPoints = brick.HealPoints;
     this->position = brick.position;
     this->itemShape.addRect(boundingRect());
+    typeNum = -1;
 }
 
 int Brick::getHP()
@@ -60,6 +62,11 @@ BrickProperty* Brick::getProperty(){
     return property;
 }
 
+void Brick::setProp(BrickProperty* property)
+{
+    this->property = property;
+}
+
 
 QRectF Brick::boundingRect() const
 {
@@ -74,7 +81,7 @@ QRectF Brick::boundingRect() const
 
 void Brick::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(QBrush(Qt::red));
+    painter->setBrush(QBrush(*(property->getPixMap(typeNum))));
     painter->drawRect(this->boundingRect());
 }
 

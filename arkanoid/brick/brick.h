@@ -26,6 +26,7 @@ public:
 //    void setBonus_flag(bool hasB);
     void hit(int hp);
     BrickProperty* getProperty();
+    void setProp(BrickProperty* property);
 
 signals:
     void destroyed(Brick* brick);
@@ -39,6 +40,8 @@ private:
 
 protected:
     QPainterPath itemShape;
+    int typeNum;
+
     // QGraphicsItem interface
 public:
     virtual QRectF boundingRect() const;

@@ -2,6 +2,7 @@
 
 BrickBuilder::BrickBuilder(int row, int col)
 {
+    prop = new BrickProperty();
     srand(time(0));
     if(col<=0)
     {
@@ -71,6 +72,8 @@ Brick* BrickBuilder::makeBrick()
         not_metallic = true;
     } else
         not_metallic = false;
+
+    brick->setProp(prop);
 
     return brick;
 

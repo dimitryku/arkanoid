@@ -11,15 +11,14 @@ GameField::GameField()
     this->setFixedWidth(PublicConstants::SceneRect.width());
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //TODO background
+
     QPixmap* map1 = new QPixmap(":/space");
     scene->setBackgroundBrush(QBrush(*map1));
 
     platform = new Platform();
     srand(time(NULL));
+
     //TODO привести скорость к какой-то одной, рандомизировать направление.
-    //temp:
-    //balls.push_back(new Ball(QVector2D(500, 500), QVector2D(4, 3), false));
     balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), true)); // make ball
     balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
 
@@ -53,8 +52,6 @@ int GameField::GetScore()
 
 void GameField::brickDestoryed(Brick *brick)
 {
-    //std::cout<<brick->metaObject()->className()<<std::endl;
-
     QString type_brick=brick->metaObject()->className();
 
     Bonus* bonus=NULL;
@@ -69,7 +66,6 @@ void GameField::brickDestoryed(Brick *brick)
     } else if(type_brick.compare("GoldenBrick")){
         CurrentScore += 5;
             bonus = new Bonus(100);
-            //std::cout<<bonus->getTypeBonus()<<std::endl;
 
     } else if(type_brick.compare("TNTBrick")){
         CurrentScore += 3;
@@ -86,29 +82,25 @@ void GameField::brickDestoryed(Brick *brick)
                     ((Brick*)boomItems[i])->hit(50);
                 }
             }
-            //std::cout<<"BOOM!"<<std::endl;
+            std::cout<<"BOOM!"<<std::endl;
     }
     scene->removeItem(brick);
     scene->invalidate(brick->boundingRect());
     bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
     delete brick;
-    //std::cout << bricks.size() << std::endl;
 
     if(bonus!=NULL){
-        body= new BonusBody(brick->getPosition(), bonus);
+        body = new BonusBody(brick->getPosition(), bonus);
         bonusbodies.push_back(body);
     }
     //std::cout<<bonuses.size()<<std::endl;
+
 }
 
 
 
 void GameField::Tick()
 {
-    ///УДАЛИТЬ
-     //bricks[rand()%bricks.size()]->hit(1);
-    ///УДАЛИТЬ
-
     // do a barrel roll
     // this->rotate(1);
 
