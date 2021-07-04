@@ -68,18 +68,17 @@ void GameField::brickDestoryed(Brick *brick)
         CurrentScore += 3;
             qreal x, y, w, h;
             brick->boundingRect().getRect(&x, &y, &w, &h);
-
             QRect boomRect = QRect(x - w, y - h, w * 3, h * 3);
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
             {
-                QString type = typeid(boomItems[i]).name();
+                QString type = typeid(*boomItems[i]).name();
                 if (type.contains("Brick"))
                 {
-                    ((Brick*)boomItems[i])->hit(50);
+                    if(((Brick*)boomItems[i])->getPosition() != brick->getPosition())
+                        ((Brick*)boomItems[i])->hit(50);
                 }
             }
-            std::cout<<"BOOM!"<<std::endl;
     }
     scene->removeItem(brick);
     scene->invalidate(brick->boundingRect());
@@ -97,15 +96,14 @@ void GameField::brickDestoryed(Brick *brick)
 
 void GameField::Tick()
 {
-    ///Temporery here
+    ///Temporary here
     for(auto* x : bonusbodies)
     {
         x->Move();
 
         scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
     }
-    ///Temporery here
-
+    ///Temporary here
 
 
     // do a barrel roll
@@ -264,7 +262,7 @@ void GameField::bonusCollision(BonusBody *bonusbody)
      connect(bonusbody->getBonus(),SIGNAL(stop(Bonus*)), this, SLOT(this->finishedBonus(Bonus*)));
      bonuses.push_back(bonusbody->getBonus());
      bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), bonusbody), bonusbodies.end());
-     disconnect(bonusbody);
+     //disconnect(bonusbody);
      delete bonusbody;
 }
 
