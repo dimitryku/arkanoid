@@ -294,7 +294,7 @@ void GameField::changeInverse()
 
 void GameField::addLife(){
 
-    //TODO увеличить количество жизней
+    life++;
 
 }
 
