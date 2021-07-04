@@ -16,6 +16,8 @@ public:
     static const QVector2D PlatformMoveBounds;
     static const QVector2D BallSize;
     static const QVector2D BrickSize;
+    static const QVector2D BonusBodySize;
+    static const QVector2D BonusBodySpeed;
     static const QRectF SceneRect;
     static const float PlatformBallOffset;
     static const int DefaultTimerTick;
