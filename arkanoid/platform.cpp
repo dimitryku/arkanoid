@@ -53,7 +53,8 @@ void Platform::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 }
 
 
-QPainterPath Platform::shape() const
+QPainterPath Platform::shape()
 {
+    itemShape.moveTo(position.x(), position.y());
     return itemShape;
 }
