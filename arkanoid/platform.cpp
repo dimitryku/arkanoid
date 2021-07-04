@@ -48,12 +48,13 @@ QRectF Platform::boundingRect() const
 
 void Platform::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(QBrush(Qt::darkBlue));
+    painter->setBrush(QBrush(Qt::lightGray));
     painter->drawRoundedRect(this->boundingRect(), 10, 10);
 }
 
 
-QPainterPath Platform::shape() const
+QPainterPath Platform::shape()
 {
+    itemShape.moveTo(position.x(), position.y());
     return itemShape;
 }

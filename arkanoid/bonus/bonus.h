@@ -7,6 +7,8 @@ class Bonus
 {
 public:
     Bonus(int positive_chance);
+    Bonus(Bonus& obj);
+    Bonus();
     Bonuses getTypeBonus();
 private:
     Bonuses type_bonus;
