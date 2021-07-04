@@ -93,8 +93,6 @@ void GameField::brickDestoryed(Brick *brick)
 
 }
 
-
-
 void GameField::Tick()
 {
     // do a barrel roll
@@ -223,41 +221,39 @@ void GameField::ballCollision(Ball *ball)
 void GameField::bonusCollision(BonusBody *bonusbody)
 {
     switch (bonusbody->getBonus()->getTypeBonus()) {
-    case Bonuses::extend_platform:
-    case Bonuses::shorten_platform:{
-         connect(bonusbody->getBonus(),SIGNAL(increaseSizePlatform), this, SLOT(this->increaseSizePlatform));
-         connect(bonusbody->getBonus(),SIGNAL(decreaseSizePlatform), this, SLOT(this->decreaseSizePlatform));
-         break;
-    }
+        case Bonuses::extend_platform:
+        case Bonuses::shorten_platform:
+             connect(bonusbody->getBonus(), SIGNAL(increaseSizePlatform), this, SLOT(this->increaseSizePlatform));
+             connect(bonusbody->getBonus(), SIGNAL(decreaseSizePlatform), this, SLOT(this->decreaseSizePlatform));
+             break;
 
-    case Bonuses::fast_ball:
-    case Bonuses::slow_ball:{
-        connect(bonusbody->getBonus(),SIGNAL(increaseSpeedBall), this, SLOT(this->increaseSpeedBall));
-        connect(bonusbody->getBonus(),SIGNAL(increaseSpeedBall), this, SLOT(this->decreaseSpeedBall));
-        break;
-    }
+        case Bonuses::fast_ball:
+        case Bonuses::slow_ball:
+            connect(bonusbody->getBonus(), SIGNAL(increaseSpeedBall), this, SLOT(this->increaseSpeedBall));
+            connect(bonusbody->getBonus(), SIGNAL(increaseSpeedBall), this, SLOT(this->decreaseSpeedBall));
+            break;
 
-    case Bonuses::inverse:
-        connect(bonusbody->getBonus(),SIGNAL(changeInverse), this, SLOT(this->changeInverse));
-        break;
+        case Bonuses::inverse:
+            connect(bonusbody->getBonus(), SIGNAL(changeInverse), this, SLOT(this->changeInverse));
+            break;
 
-    case Bonuses::add_life:
-        connect(bonusbody->getBonus(),SIGNAL(addLife), this, SLOT(this->addLife));
-        break;
+        case Bonuses::add_life:
+            connect(bonusbody->getBonus(), SIGNAL(addLife), this, SLOT(this->addLife));
+            break;
 
-    case Bonuses::plus_ball:
-        connect(bonusbody->getBonus(),SIGNAL(addNewBall), this, SLOT(this->addBall));
-        break;
+        case Bonuses::plus_ball:
+            connect(bonusbody->getBonus(), SIGNAL(addNewBall), this, SLOT(this->addBall));
+            break;
 
-    case Bonuses::uber_ball:{
-        connect(bonusbody->getBonus(),SIGNAL(setUberBall), this, SLOT(this->setUberBall));
-        connect(bonusbody->getBonus(),SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
-    }
+        case Bonuses::uber_ball:
+            connect(bonusbody->getBonus(), SIGNAL(setUberBall), this, SLOT(this->setUberBall));
+            connect(bonusbody->getBonus(), SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
+            break;
 
-    case Bonuses::magnet_ball:{
-        connect(bonusbody->getBonus(),SIGNAL(setMagnet), this, SLOT(this->setMagnetBall;));
-        connect(bonusbody->getBonus(),SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
-    }
+        case Bonuses::magnet_ball:
+            connect(bonusbody->getBonus(), SIGNAL(setMagnet), this, SLOT(this->setMagnetBall;));
+            connect(bonusbody->getBonus(), SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
+            break;
     }
 }
 
@@ -275,14 +271,14 @@ void GameField::decreaseSizePlatform()
 
 void GameField::increaseSpeedBall()
 {
-    for(int i=0; i<balls.size(); i++){
+    for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeSpeed(PublicConstants::speedBallMultiplyier_inc);
     }
 }
 
 void GameField::decreaseSpeedBall()
 {
-    for(int i=0; i<balls.size(); i++){
+    for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeSpeed(PublicConstants::speedBallMultiplyier_dec);
     }
 }
@@ -294,7 +290,7 @@ void GameField::changeInverse()
 
 void GameField::addLife(){
 
-    life++;
+    lives++;
 
 }
 
@@ -305,20 +301,20 @@ void  GameField::addBall(){
 
 void GameField::setUberBall(){
 
-    for(int i=0; i<balls.size(); i++){
+    for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeState(BallStates::uber);
     }
 
 }
 
 void GameField::setMagnetBall(){
-    for(int i=0; i<balls.size(); i++){
+    for(size_t i=0; i<balls.size(); i++){
         balls[i]->changeState(BallStates::magnet);
     }
 }
 
 void GameField::setCommonBall(){
-    for(int i=0; i<balls.size(); i++){
+    for(size_t i=0; i<balls.size(); i++){
         balls[i]->changeState(BallStates::normal);
     }
 }
