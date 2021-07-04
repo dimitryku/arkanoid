@@ -25,6 +25,7 @@ public:
     QVector2D getPosition();
     int getPower();
     void drop();
+    void changeSpeed(int multiplier);
     //TODO Исправить полет по горизонтали
 
 private:

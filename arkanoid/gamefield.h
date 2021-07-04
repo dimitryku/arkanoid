@@ -12,7 +12,8 @@
 #include "QString"
 #include "QKeyEvent"
 #include <math.h>
-
+#include <bonus/bonuses.h>
+#include <bonus/bonusbody.h>
 
 class GameField : public QGraphicsView
 {
@@ -22,8 +23,19 @@ public:
     GameField();
     QGraphicsScene* scene;
     int GetScore();
+    
 public slots:
-   void generateBonus(Brick* brick);
+   void brickDestoryed(Brick* brick);
+   void increaseSizePlatform();
+   void decreaseSizePlatform();
+   void increaseSpeedBall();
+   void decreaseSpeedBall();
+   void changeInverse();
+   void addLife();
+   void addBall();
+   void setUberBall();
+   void setMagnetBall();
+   void setCommonBall();
 
 signals:
    void GameEnded(); /// TODO emit
@@ -32,6 +44,8 @@ private:
     std::vector<Ball*> balls;
     std::vector<Brick*> bricks;
     std::vector<Bonus*> bonuses;
+    std::vector<BonusBody*> bonusbodies;
+    int life=1;
     Platform* platform;
     QTimer* MainGameTimer;
     QTimer* PlatformUpdateTimer;
@@ -53,6 +67,8 @@ private:
     //std::vector<BonusBody> fallingBonuses
 
     void ballCollision(Ball* ball);
+
+    void bonusCollision(BonusBody* bonus);
 
     // QWidget interface
 protected:

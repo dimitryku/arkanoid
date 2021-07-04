@@ -14,3 +14,7 @@ const float PublicConstants::PlatformBallOffset = PlatformSize.y()/2 + BallSize.
 const int PublicConstants::DefaultTimerTick = 10;
 const QVector2D PublicConstants::BonusBodySize = QVector2D(20, 20);
 const QVector2D PublicConstants::BonusBodySpeed = QVector2D(0, 20);
+const float PublicConstants::sizePlatformMultiplier_dec = 0.5;
+const float PublicConstants::sizePlatformMultiplier_inc = 2;
+const float PublicConstants::speedBallMultiplyier_dec = 0.5;
+const float PublicConstants::speedBallMultiplyier_inc = 2;

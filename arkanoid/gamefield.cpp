@@ -26,7 +26,7 @@ GameField::GameField()
     bricks = builder.makeBricks();
 
     for(size_t i = 0; i < bricks.size(); i++){
-            connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(generateBonus(Brick*)));
+            connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
             scene->addItem(bricks[i]);
     }
     for(size_t i = 0; i < balls.size(); i++)
@@ -50,25 +50,22 @@ int GameField::GetScore()
     return CurrentScore;
 }
 
-void GameField::generateBonus(Brick *brick)
+void GameField::brickDestoryed(Brick *brick)
 {
     QString type_brick=brick->metaObject()->className();
-
     Bonus* bonus=NULL;
-    if(type_brick.compare("CommonBrick")){
+    BonusBody* body=NULL;
+    if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
         if(rand() % 100 + 1 <= 45){
              bonus = new Bonus(50);
-             std::cout<<bonus->getTypeBonus()<<std::endl;
         }
 
-    } else if(type_brick.compare("GoldenBrick")){
+    } else if(type_brick.contains("GoldenBrick")){
         CurrentScore += 5;
             bonus = new Bonus(100);
-
-    } else if(type_brick.compare("TNTBrick")){
+    } else if(type_brick.contains("TNTBrick")){
         CurrentScore += 3;
-           //TODO call hit(50) nearby(boomsize)bricks
             qreal x, y, w, h;
             brick->boundingRect().getRect(&x, &y, &w, &h);
             QRect boomRect = QRect(x - w, y - h, w * 3, h * 3);
@@ -88,9 +85,15 @@ void GameField::generateBonus(Brick *brick)
     bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
     delete brick;
 
-    if(bonus!=NULL)
-        bonuses.push_back(bonus);
+    if(bonus!=NULL){
+        body = new BonusBody(brick->getPosition(), bonus);
+        bonusbodies.push_back(body);
+    }
+    //std::cout<<bonuses.size()<<std::endl;
+
 }
+
+
 
 void GameField::Tick()
 {
@@ -128,8 +131,9 @@ void GameField::Tick()
                 balls[i]->collide(Direction::up, true);
                 balls[i]->moveOneStep(platform->getPosition().x());
             }
+            ballCollision(balls[i]);
         }
-        ballCollision(balls[i]);
+
     }
 
     ///TODO bonuces
@@ -216,8 +220,108 @@ void GameField::ballCollision(Ball *ball)
     }
 }
 
+void GameField::bonusCollision(BonusBody *bonusbody)
+{
+    switch (bonusbody->getBonus()->getTypeBonus()) {
+    case Bonuses::extend_platform:
+    case Bonuses::shorten_platform:{
+         connect(bonusbody->getBonus(),SIGNAL(increaseSizePlatform), this, SLOT(this->increaseSizePlatform));
+         connect(bonusbody->getBonus(),SIGNAL(decreaseSizePlatform), this, SLOT(this->decreaseSizePlatform));
+         break;
+    }
+
+    case Bonuses::fast_ball:
+    case Bonuses::slow_ball:{
+        connect(bonusbody->getBonus(),SIGNAL(increaseSpeedBall), this, SLOT(this->increaseSpeedBall));
+        connect(bonusbody->getBonus(),SIGNAL(increaseSpeedBall), this, SLOT(this->decreaseSpeedBall));
+        break;
+    }
+
+    case Bonuses::inverse:
+        connect(bonusbody->getBonus(),SIGNAL(changeInverse), this, SLOT(this->changeInverse));
+        break;
+
+    case Bonuses::add_life:
+        connect(bonusbody->getBonus(),SIGNAL(addLife), this, SLOT(this->addLife));
+        break;
+
+    case Bonuses::plus_ball:
+        connect(bonusbody->getBonus(),SIGNAL(addNewBall), this, SLOT(this->addBall));
+        break;
+
+    case Bonuses::uber_ball:{
+        connect(bonusbody->getBonus(),SIGNAL(setUberBall), this, SLOT(this->setUberBall));
+        connect(bonusbody->getBonus(),SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
+    }
+
+    case Bonuses::magnet_ball:{
+        connect(bonusbody->getBonus(),SIGNAL(setMagnet), this, SLOT(this->setMagnetBall;));
+        connect(bonusbody->getBonus(),SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
+    }
+    }
+}
 
 
+
+void GameField::increaseSizePlatform()
+{
+    platform->changeSize(PublicConstants::sizePlatformMultiplier_inc);
+}
+
+void GameField::decreaseSizePlatform()
+{
+    platform->changeSize(PublicConstants::sizePlatformMultiplier_dec);
+}
+
+void GameField::increaseSpeedBall()
+{
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeSpeed(PublicConstants::speedBallMultiplyier_inc);
+    }
+}
+
+void GameField::decreaseSpeedBall()
+{
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeSpeed(PublicConstants::speedBallMultiplyier_dec);
+    }
+}
+
+void GameField::changeInverse()
+{
+    platform->changeInverse();
+}
+
+void GameField::addLife(){
+
+    life++;
+
+}
+
+void  GameField::addBall(){
+
+     //TODO раздвоение шарика
+}
+
+void GameField::setUberBall(){
+
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeState(BallStates::uber);
+    }
+
+}
+
+void GameField::setMagnetBall(){
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeState(BallStates::magnet);
+    }
+}
+
+void GameField::setCommonBall(){
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeState(BallStates::normal);
+    }
+}
 
 void GameField::keyPressEvent(QKeyEvent *event)
 {

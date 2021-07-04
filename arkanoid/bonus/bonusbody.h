@@ -12,13 +12,13 @@
 class BonusBody : public QGraphicsItem
 {
 private:
-    Bonus bonusInside;
+    Bonus* bonusInside;
     QVector2D position;
     QPainterPath itemShape;
 public:
-    BonusBody(QVector2D pos, Bonus insideBonus);
+    BonusBody(QVector2D pos, Bonus* insideBonus);
     void Move();
-    Bonus getBonus();
+    Bonus* getBonus();
     QPainterPath shape();
 
     // QGraphicsItem interface

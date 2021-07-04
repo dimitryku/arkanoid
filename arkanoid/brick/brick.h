@@ -29,8 +29,8 @@ public:
     void setProp(BrickProperty* property);
 
 signals:
-    void destroyed(Brick* brick); //Если надо получить имя класса, попробовать brick->metaObject()->className();  Если будет выводить тоже самое, то ввести имя кирпича как поле класса
-    //TODO destroy
+    void destroyed(Brick* brick);
+
 
 private:
     QVector2D position;

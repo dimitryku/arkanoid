@@ -21,6 +21,10 @@ public:
     static const QRectF SceneRect;
     static const float PlatformBallOffset;
     static const int DefaultTimerTick;
+    static const float speedBallMultiplyier_inc;
+    static const float sizePlatformMultiplier_inc;
+    static const float speedBallMultiplyier_dec;
+    static const float sizePlatformMultiplier_dec;
 };
 
 #endif // PUBLICCONSTANTS_H
