@@ -91,7 +91,7 @@ QRectF Ball::boundingRect() const
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(QBrush(Qt::lightGray));
+    painter->setBrush(QBrush(Qt::white));
     painter->drawEllipse(this->boundingRect());
 }
 

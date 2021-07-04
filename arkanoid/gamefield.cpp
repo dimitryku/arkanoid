@@ -11,14 +11,16 @@ GameField::GameField()
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //TODO background
+    QPixmap* map1 = new QPixmap(":/space");
+    scene->setBackgroundBrush(QBrush(*map1));
 
     platform = new Platform();
     srand(time(NULL));
     //TODO привести скорость к какой-то одной, рандомизировать направление.
     //temp:
-    balls.push_back(new Ball(QVector2D(500, 500), QVector2D(3, 3), false));
-    //balls.push_back(new Ball(QVector2D(3,3), QVector2D(3, 3), true)); // make ball
-    //balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
+    //balls.push_back(new Ball(QVector2D(500, 500), QVector2D(4, 3), false));
+    balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), true)); // make ball
+    balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
 
     BrickBuilder builder(10);
     bricks = builder.makeBricks();
@@ -52,18 +54,28 @@ void GameField::generateBonus(Brick *brick)
     Bonus* bonus=NULL;
     if(type_brick.compare("CommonBrick")){
         if(rand() % 100 + 1 <= 45){
-             bonus=new Bonus(50);
-             //std::cout<<bonus->getTypeBonus()<<std::endl;
+             bonus = new Bonus(50);
+             std::cout<<bonus->getTypeBonus()<<std::endl;
         }
 
-
     } else if(type_brick.compare("GoldenBrick")){
-             bonus=new Bonus(100);
-             //std::cout<<bonus->getTypeBonus()<<std::endl;
-
+            bonus = new Bonus(100);
+            //std::cout<<bonus->getTypeBonus()<<std::endl;
 
     } else if(type_brick.compare("TNTBrick")){
            //TODO call hit(50) nearby(boomsize)bricks
+            qreal x, y, w, h;
+            brick->boundingRect().getRect(&x, &y, &w, &h);
+            QRect boomRect = QRect(x - w, y - h, w * 3, h * 3);
+            QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
+            for(int i = 0; i < boomItems.size(); i++)
+            {
+                QString type = typeid(boomItems[i]).name();
+                if (type.contains("Brick"))
+                {
+                    ((Brick*)boomItems[i])->hit(50);
+                }
+            }
             //std::cout<<"BOOM!"<<std::endl;
     }
     scene->removeItem(brick);
@@ -131,7 +143,11 @@ void GameField::UpdatePlatform()
         platform->stepLeft();
         break;
     case PlatformAction::Shoot:
-        /// TODO
+        /// TODO change temp
+        if(balls.size() > 0)
+        {
+            balls[0]->startMoving();
+        }
         break;
     default:
         break;
