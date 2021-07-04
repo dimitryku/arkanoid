@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 #include <gamefield.h>
+#include <QTimer>
+#include <QMessageBox>
+#include <QInputDialog>
+
+class GameField;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,7 +23,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_actionNew_game_triggered();
+
 private:
     Ui::MainWindow *ui;
+    GameField* MainGameField;
+
+    QTimer* ScoreTimer;
+    void UpdateScore();
+    void onGameEnded();
 };
 #endif // MAINWINDOW_H

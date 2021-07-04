@@ -22,6 +22,8 @@ class GameField : public QGraphicsView
 public:
     GameField();
     QGraphicsScene* scene;
+    int GetScore();
+    
 public slots:
    void brickDestoryed(Brick* brick);
    void increaseSizePlatform();
@@ -35,6 +37,9 @@ public slots:
    void setMagnetBall();
    void setCommonBall();
 
+signals:
+   void GameEnded(); /// TODO emit
+
 private:
     std::vector<Ball*> balls;
     std::vector<Brick*> bricks;
@@ -45,6 +50,8 @@ private:
     QTimer* PlatformUpdateTimer;
     void Tick();
     void UpdatePlatform();
+
+    int CurrentScore;
 
     enum PlatformAction{
         None,
