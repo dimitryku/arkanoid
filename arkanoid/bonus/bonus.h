@@ -29,7 +29,7 @@ signals:
     void changeStickness();     //Сигнал на прилипание к ракетке
     void setMagnet();           //Сигнал на магнитный шар
     void addLife();             //Сигнал на новую жизнь
-
+    void stop(Bonus* bonus);
 
 private slots:
       void tick();

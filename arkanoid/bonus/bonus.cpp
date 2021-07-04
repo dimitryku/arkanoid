@@ -94,4 +94,5 @@ void Bonus::tick()
     case fast_ball:         emit(this->decreaseSpeedBall());                  break;
     }
     timer->stop();
+    emit(stop(this));
 }

@@ -36,6 +36,7 @@ public slots:
    void setUberBall();
    void setMagnetBall();
    void setCommonBall();
+   void finishedBonus(Bonus* bonus);
 
 signals:
    void GameEnded(); /// TODO emit
