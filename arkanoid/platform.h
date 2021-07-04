@@ -20,13 +20,14 @@ private:
     QVector2D stepSpeed;
     QPainterPath itemShape;
 
-
     // QGraphicsItem interface
 public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QPainterPath shape();
     void changeSize(int multiplier);
+    void changeInverse();
+
 };
 
 #endif // PLATFORM_H

@@ -24,7 +24,7 @@ public:
     static const float speedBallMultiplyier_inc;
     static const float sizePlatformMultiplier_inc;
     static const float speedBallMultiplyier_dec;
-    static const float sizePlatformMultiplier_dec
+    static const float sizePlatformMultiplier_dec;
 };
 
 #endif // PUBLICCONSTANTS_H

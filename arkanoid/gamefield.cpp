@@ -26,7 +26,7 @@ GameField::GameField()
     bricks = builder.makeBricks();
 
     for(size_t i = 0; i < bricks.size(); i++){
-            connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(generateBonus(Brick*)));
+            connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
             scene->addItem(bricks[i]);
     }
     for(size_t i = 0; i < balls.size(); i++)
@@ -45,13 +45,14 @@ GameField::GameField()
     PlatformUpdateTimer->start(PublicConstants::DefaultTimerTick);
 }
 
-void GameField::generateBonus(Brick *brick)
+void GameField::brickDestoryed(Brick *brick)
 {
     //std::cout<<brick->metaObject()->className()<<std::endl;
 
     QString type_brick=brick->metaObject()->className();
 
     Bonus* bonus=NULL;
+    BonusBody* body=NULL;
     if(type_brick.compare("CommonBrick")){
         if(rand() % 100 + 1 <= 45){
              bonus = new Bonus(50);
@@ -83,11 +84,14 @@ void GameField::generateBonus(Brick *brick)
     delete brick;
     std::cout << bricks.size() << std::endl;
 
-    if(bonus!=NULL)
-        bonuses.push_back(bonus);
-
+    if(bonus!=NULL){
+        body= new BonusBody(brick->getPosition(), bonus);
+        bonusbodies.push_back(body);
+    }
     //std::cout<<bonuses.size()<<std::endl;
 }
+
+
 
 void GameField::Tick()
 {
@@ -200,8 +204,108 @@ void GameField::ballCollision(Ball *ball)
     }
 }
 
+void GameField::bonusCollision(BonusBody *bonusbody)
+{
+    switch (bonusbody->getBonus()->getTypeBonus()) {
+    case Bonuses::extend_platform:
+    case Bonuses::shorten_platform:{
+         connect(bonusbody->getBonus(),SIGNAL(increaseSizePlatform), this, SLOT(this->increaseSizePlatform));
+         connect(bonusbody->getBonus(),SIGNAL(decreaseSizePlatform), this, SLOT(this->decreaseSizePlatform));
+         break;
+    }
+
+    case Bonuses::fast_ball:
+    case Bonuses::slow_ball:{
+        connect(bonusbody->getBonus(),SIGNAL(increaseSpeedBall), this, SLOT(this->increaseSpeedBall));
+        connect(bonusbody->getBonus(),SIGNAL(increaseSpeedBall), this, SLOT(this->decreaseSpeedBall));
+        break;
+    }
+
+    case Bonuses::inverse:
+        connect(bonusbody->getBonus(),SIGNAL(changeInverse), this, SLOT(this->changeInverse));
+        break;
+
+    case Bonuses::add_life:
+        connect(bonusbody->getBonus(),SIGNAL(addLife), this, SLOT(this->addLife));
+        break;
+
+    case Bonuses::plus_ball:
+        connect(bonusbody->getBonus(),SIGNAL(addNewBall), this, SLOT(this->addBall));
+        break;
+
+    case Bonuses::uber_ball:{
+        connect(bonusbody->getBonus(),SIGNAL(setUberBall), this, SLOT(this->setUberBall));
+        connect(bonusbody->getBonus(),SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
+    }
+
+    case Bonuses::magnet_ball:{
+        connect(bonusbody->getBonus(),SIGNAL(setMagnet), this, SLOT(this->setMagnetBall;));
+        connect(bonusbody->getBonus(),SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
+    }
+    }
+}
 
 
+
+void GameField::increaseSizePlatform()
+{
+    platform->changeSize(PublicConstants::sizePlatformMultiplier_inc);
+}
+
+void GameField::decreaseSizePlatform()
+{
+    platform->changeSize(PublicConstants::sizePlatformMultiplier_dec);
+}
+
+void GameField::increaseSpeedBall()
+{
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeSpeed(PublicConstants::speedBallMultiplyier_inc);
+    }
+}
+
+void GameField::decreaseSpeedBall()
+{
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeSpeed(PublicConstants::speedBallMultiplyier_dec);
+    }
+}
+
+void GameField::changeInverse()
+{
+    platform->changeInverse();
+}
+
+void GameField::addLife(){
+
+    //TODO увеличить количество жизней
+
+}
+
+void  GameField::addBall(){
+
+     //TODO раздвоение шарика
+}
+
+void GameField::setUberBall(){
+
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeState(BallStates::uber);
+    }
+
+}
+
+void GameField::setMagnetBall(){
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeState(BallStates::magnet);
+    }
+}
+
+void GameField::setCommonBall(){
+    for(int i=0; i<balls.size(); i++){
+        balls[i]->changeState(BallStates::normal);
+    }
+}
 
 void GameField::keyPressEvent(QKeyEvent *event)
 {
@@ -233,3 +337,5 @@ void GameField::keyReleaseEvent(QKeyEvent *event)
         break;
     }
 }
+
+

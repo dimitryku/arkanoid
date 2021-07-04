@@ -40,6 +40,8 @@ QVector2D Platform::getPosition()
     return this->position;
 }
 
+
+
 QRectF Platform::boundingRect() const
 {
     return QRectF(position.x() - size.x()/2, position.y() - size.y()/2,
@@ -63,3 +65,10 @@ void Platform::changeSize(int multiplier)
 {
     this->size*=multiplier;
 }
+
+void Platform::changeInverse()
+{
+    stepSpeed*=(-1);
+}
+
+

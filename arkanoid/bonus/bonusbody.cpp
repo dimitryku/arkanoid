@@ -1,7 +1,7 @@
 #include "bonusbody.h"
 
 
-BonusBody::BonusBody(QVector2D pos, Bonus insideBonus)
+BonusBody::BonusBody(QVector2D pos, Bonus* insideBonus)
 {
     this->position = pos;
     this->bonusInside = insideBonus;
@@ -13,7 +13,7 @@ void BonusBody::Move()
     this->position += PublicConstants::BonusBodySpeed;
 }
 
-Bonus BonusBody::getBonus()
+Bonus* BonusBody::getBonus()
 {
     return this->bonusInside;
 }

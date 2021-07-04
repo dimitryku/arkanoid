@@ -61,16 +61,16 @@ Bonuses Bonus::start()
     timer=new QTimer(this);
     connect(timer, SIGNAL(&QTimer::timeout), this, SLOT(tick));
     switch(type_bonus){
-    case extend_platform:   emit(this->increseSizePlatform());         break;
-    case plus_ball:         emit(this->addNewBall());                  break;
-    case add_life:          emit(this->addLife());                     break;
-    case stick_platform:    emit(this->changeStickness());             break;
-    case magnet_ball:       emit(this->setMagnet());                   break;
-    case uber_ball:         emit(this->setUberBall());                 break;
-    case slow_ball:         emit(this->decreseSpeedBall());            break;
-    case fast_ball:         emit(this->increseSpeedBall());            break;
-    case inverse:           emit(this->changeInverse());               break;
-    case shorten_platform:  emit(this->decreseSizePlatform());         break;
+    case extend_platform:   emit(this->increaseSizePlatform());         break;
+    case plus_ball:         emit(this->addNewBall());                   break;
+    case add_life:          emit(this->addLife());                      break;
+    case stick_platform:    emit(this->changeStickness());              break;
+    case magnet_ball:       emit(this->setMagnet());                    break;
+    case uber_ball:         emit(this->setUberBall());                  break;
+    case slow_ball:         emit(this->decreaseSpeedBall());            break;
+    case fast_ball:         emit(this->increaseSpeedBall());            break;
+    case inverse:           emit(this->changeInverse());                break;
+    case shorten_platform:  emit(this->decreaseSizePlatform());         break;
     }
     timer->start(lifetime);
     return type_bonus;
@@ -84,14 +84,14 @@ void Bonus::operator =(const Bonus &obj)
 void Bonus::tick()
 {
     switch (type_bonus) {
-    case extend_platform:   emit(this->decreseSizePlatform());               break;
-    case stick_platform:    emit(this->changeStickness());                   break;
-    case magnet_ball:       emit(this->setCommonBall());                     break;
-    case uber_ball:         emit(this->setCommonBall());                     break;
-    case inverse:           emit(this->changeInverse());                     break;
-    case shorten_platform:  emit(this->increseSizePlatform());               break;
-    case slow_ball:         emit(this->increseSpeedBall());                  break;
-    case fast_ball:         emit(this->decreseSpeedBall());                  break;
+    case extend_platform:   emit(this->decreaseSizePlatform());               break;
+    case stick_platform:    emit(this->changeStickness());                    break;
+    case magnet_ball:       emit(this->setCommonBall());                      break;
+    case uber_ball:         emit(this->setCommonBall());                      break;
+    case inverse:           emit(this->changeInverse());                      break;
+    case shorten_platform:  emit(this->increaseSizePlatform());               break;
+    case slow_ball:         emit(this->increaseSpeedBall());                  break;
+    case fast_ball:         emit(this->decreaseSpeedBall());                  break;
     }
     timer->stop();
 }

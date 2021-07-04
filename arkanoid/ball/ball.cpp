@@ -84,6 +84,11 @@ void Ball::drop()
     currentPosition.setY(currentPosition.y() + 50);
 }
 
+void Ball::changeSpeed(int multiplier)
+{
+    currentSpeed*=multiplier;
+}
+
 QRectF Ball::boundingRect() const
 {
     return QRectF(currentPosition.x()-5, currentPosition.y()-5, 10, 10);
