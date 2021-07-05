@@ -38,6 +38,7 @@ void MainWindow::on_actionNew_game_triggered()
 
     this->MainGameField = new GameField();
     ui->verticalLayout->addWidget(MainGameField);
+    QTimer::singleShot(0, MainGameField, SLOT(setFocus()));
     connect(MainGameField, &GameField::GameEnded, this, QOverload<>::of(&MainWindow::onGameEnded));
     ScoreTimer->start(PublicConstants::DefaultTimerTick);
 }
