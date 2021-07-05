@@ -72,10 +72,10 @@ void Platform::changeSize(float multiplier, bool finished)
 {
     float mult=size.x()*multiplier;
     if(finished){
-        if(mult<size.x()&&counts_increase_decrease.x()>=0){
+        if(mult<size.x()&&counts_increase_decrease.x()>0){
             counts_increase_decrease.setX(counts_increase_decrease.x()-1);
             return ;
-         } else if(mult>size.x()&&counts_increase_decrease.y()==0){
+         } else if(mult>size.x()&&counts_increase_decrease.y()>0){
             counts_increase_decrease.setY(counts_increase_decrease.y()-1);
             return ;
          }
