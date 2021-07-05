@@ -66,13 +66,13 @@ void GameField::brickDestoryed(Brick *brick)
     BonusBody* body=NULL;
     if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
-        if(rand() % 100 + 1 <= 35){
-             bonus = new Bonus(50);
+        if(rand() % 100 + 1 <= 145){
+             bonus = new Bonus(50, brick->getPosition());
         }
 
     } else if(type_brick.contains("GoldenBrick")){
         CurrentScore += 5;
-            bonus = new Bonus(100);
+            bonus = new Bonus(100, brick->getPosition());
     } else if(type_brick.contains("TNTBrick")){
         CurrentScore += 3;
             qreal x, y, w, h;
@@ -85,7 +85,7 @@ void GameField::brickDestoryed(Brick *brick)
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
             {
-                if(boomItems[i] != NULL)
+                if(boomItems[i] != nullptr)
                 {
                     QString type = typeid(*boomItems[i]).name();
                     if (type.contains("Brick"))
@@ -97,10 +97,7 @@ void GameField::brickDestoryed(Brick *brick)
             }
             return; // because there are no bonuses and it's already deleted
     }
-    scene->removeItem(brick);
-    scene->invalidate(brick->boundingRect());
-    bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
-    delete brick;
+
 
     if(bonus != NULL){
         body = new BonusBody(brick->getPosition(), bonus, bonusProp);
@@ -108,12 +105,17 @@ void GameField::brickDestoryed(Brick *brick)
         bonusbodies.push_back(body);
     }
 
+    scene->removeItem(brick);
+    scene->invalidate(brick->boundingRect());
+    bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
+    delete brick;
+
     if(bricks.size()==amountMetallicBricks)
     {
         for(int i = bricks.size() - 1; i >= 0; i--)
         {
             scene->removeItem(bricks[i]);
-            scene->invalidate(brick->boundingRect());
+            scene->invalidate(bricks[i]->boundingRect());
             bricks.erase(std::remove(bricks.begin(), bricks.end(), bricks[i]), bricks.end());
             delete bricks[i];
         }
@@ -140,8 +142,7 @@ void GameField::Tick()
         x->Move();
         if(x->collidesWithItem(platform))
         {
-            scene->removeItem(x);
-            scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
+
             bonusCollision(x);
             continue;
         }
@@ -324,12 +325,12 @@ void GameField::bonusCollision(BonusBody *bonusbody)
     }
      connect(bonusbody->getBonus(),SIGNAL(stop(Bonus*)), this, SLOT(finishedBonus(Bonus*)));
      bonuses.push_back(bonusbody->getBonus());
+     scene->removeItem(bonusbody);
+     //.
+     scene->invalidate(bonusbody->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
      bonusbody->getBonus()->start();
-
      bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), bonusbody), bonusbodies.end());
-     //disconnect(bonusbody);
 
-     //delete bonusbody;
 }
 
 void GameField::increaseSizePlatform(bool finished)
