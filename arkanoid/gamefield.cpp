@@ -103,6 +103,28 @@ void GameField::brickDestoryed(Brick *brick)
         scene->addItem(body);
         bonusbodies.push_back(body);
     }
+
+    if(bricks.size()==amountMetallicBricks)
+    {
+        for(int i=bricks.size(); i>=0;i--)
+        {
+            scene->removeItem(bricks[i]);
+            scene->invalidate(brick->boundingRect());
+            bricks.erase(std::remove(bricks.begin(), bricks.end(), bricks[i]), bricks.end());
+            delete bricks[i];
+        }
+        bricks.clear();
+        BrickBuilder builder(10);
+        bricks = builder.makeBricks();
+
+        for(size_t i = 0; i < bricks.size(); i++){
+                QString type_brick=brick->metaObject()->className();
+                if(type_brick.contains(MetallicBrick))
+                    amountMetallicBricks++;
+                connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
+                scene->addItem(bricks[i]);
+        }
+    }
     //std::cout<<bonuses.size()<<std::endl;
 
 }
