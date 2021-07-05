@@ -24,7 +24,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::UpdateScore()
 {
-    this->statusBar()->showMessage(QString("Score: %1").arg(MainGameField->GetScore()));
+    this->statusBar()->showMessage(QString("Score: %1   Lives: %2")
+                                   .arg(MainGameField->getScore()).arg(MainGameField->getLives()));
 }
 
 
@@ -38,6 +39,7 @@ void MainWindow::on_actionNew_game_triggered()
 
     this->MainGameField = new GameField();
     ui->verticalLayout->addWidget(MainGameField);
+    QTimer::singleShot(0, MainGameField, SLOT(setFocus()));
     connect(MainGameField, &GameField::GameEnded, this, QOverload<>::of(&MainWindow::onGameEnded));
     ScoreTimer->start(PublicConstants::DefaultTimerTick);
 }
@@ -45,7 +47,7 @@ void MainWindow::on_actionNew_game_triggered()
 void MainWindow::onGameEnded()
 {
     QMessageBox msgBox(this);
-    msgBox.setText(QString("Game over! Your score is %1").arg(MainGameField->GetScore()));
+    msgBox.setText(QString("Game over! Your score is %1").arg(MainGameField->getScore()));
     msgBox.exec();
 
     bool ok;

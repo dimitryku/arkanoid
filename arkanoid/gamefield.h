@@ -22,7 +22,8 @@ class GameField : public QGraphicsView
 public:
     GameField();
     QGraphicsScene* scene;
-    int GetScore();
+    int getScore();
+    int getLives();
     
 public slots:
    void brickDestoryed(Brick* brick);
@@ -46,7 +47,7 @@ private:
     std::vector<Brick*> bricks;
     std::vector<Bonus*> bonuses;
     std::vector<BonusBody*> bonusbodies;
-    int lives=1;
+    int lives=2;
     Platform* platform;
     QTimer* MainGameTimer;
     QTimer* PlatformUpdateTimer;
