@@ -20,6 +20,7 @@ private:
     QVector2D stepSpeed;
     QPainterPath itemShape;
     QVector2D bounds;
+    QVector2D counts_increase_decrease=QVector2D(0,0);
     // QGraphicsItem interface
 public:
     QRectF boundingRect() const;

@@ -26,6 +26,9 @@ GameField::GameField()
     bricks = builder.makeBricks();
 
     for(size_t i = 0; i < bricks.size(); i++){
+            QString type_brick=bricks[i]->metaObject()->className();
+            if(type_brick.contains("MetallicBrick"))
+                amountMetallicBricks++;
             connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
             scene->addItem(bricks[i]);
     }
@@ -103,6 +106,28 @@ void GameField::brickDestoryed(Brick *brick)
         body = new BonusBody(brick->getPosition(), bonus, bonusProp);
         scene->addItem(body);
         bonusbodies.push_back(body);
+    }
+
+    if(bricks.size()==amountMetallicBricks)
+    {
+        for(int i=bricks.size(); i>=0;i--)
+        {
+            scene->removeItem(bricks[i]);
+            scene->invalidate(brick->boundingRect());
+            bricks.erase(std::remove(bricks.begin(), bricks.end(), bricks[i]), bricks.end());
+            delete bricks[i];
+        }
+        bricks.clear();
+        BrickBuilder builder(10);
+        bricks = builder.makeBricks();
+
+        for(size_t i = 0; i < bricks.size(); i++){
+                QString type_brick=bricks[i]->metaObject()->className();
+                if(type_brick.contains("MetallicBrick"))
+                    amountMetallicBricks++;
+                connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
+                scene->addItem(bricks[i]);
+        }
     }
     //std::cout<<bonuses.size()<<std::endl;
 
@@ -259,42 +284,45 @@ void GameField::bonusCollision(BonusBody *bonusbody)
 
 
     switch (bonusbody->getBonus()->getTypeBonus()) {
-        case Bonuses::extend_platform:
         case Bonuses::shorten_platform:
+             CurrentScore+=25;
+        case Bonuses::extend_platform:
+             CurrentScore+=25;
              connect(bonusbody->getBonus(), SIGNAL(increaseSizePlatform(bool)), this, SLOT(increaseSizePlatform(bool)));
              connect(bonusbody->getBonus(), SIGNAL(decreaseSizePlatform(bool)), this, SLOT(decreaseSizePlatform(bool)));
              break;
 
         case Bonuses::fast_ball:
+            CurrentScore+=25;
         case Bonuses::slow_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(increaseSpeedBall()), this, SLOT(increaseSpeedBall()));
             connect(bonusbody->getBonus(), SIGNAL(decreaseSpeedBall()), this, SLOT(decreaseSpeedBall()));
             break;
 
         case Bonuses::inverse:
-
+            CurrentScore+=50;
             connect(bonusbody->getBonus(), SIGNAL(changeInverse()), this, SLOT(changeInverse()));
             break;
 
         case Bonuses::add_life:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(addLife()), this, SLOT(addLife()));
             break;
 
         case Bonuses::plus_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(addNewBall()), this, SLOT(addBall()));
             break;
 
         case Bonuses::uber_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(setUberBall()), this, SLOT(setUberBall()));
             connect(bonusbody->getBonus(), SIGNAL(setCommonBall()), this, SLOT(setCommonBall()));
             break;
 
         case Bonuses::magnet_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(setMagnet()), this, SLOT(setMagnetBall()));
             connect(bonusbody->getBonus(), SIGNAL(setCommonBall()), this, SLOT(setCommonBall()));
             break;
