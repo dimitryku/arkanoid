@@ -57,7 +57,7 @@ void GameField::brickDestoryed(Brick *brick)
     BonusBody* body=NULL;
     if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
-        if(rand() % 100 + 1 <= 450){
+        if(rand() % 100 + 1 <= 45){
              bonus = new Bonus(50);
         }
 

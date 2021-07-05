@@ -13,16 +13,22 @@ void Platform::stepLeft()
 {
     position -= stepSpeed;
     float xmin = PublicConstants::PlatformMoveBounds.x();
+    float xmax = PublicConstants::PlatformMoveBounds.y();
     if(position.x() < xmin)
         position.setX(xmin);
+    if(position.x() > xmax)
+        position.setX(xmax);
 }
 
 void Platform::stepRight()
 {
     position += stepSpeed;
     float xmax = PublicConstants::PlatformMoveBounds.y();
+    float xmin = PublicConstants::PlatformMoveBounds.x();
     if(position.x() > xmax)
         position.setX(xmax);
+    if(position.x() < xmin)
+            position.setX(xmin);
 }
 
 void Platform::setSize(QVector2D newSize)
@@ -63,7 +69,11 @@ QPainterPath Platform::shape()
 
 void Platform::changeSize(float multiplier)
 {
-    this->size*=multiplier;
+
+        PublicConstants::PlatformSize.setX(PublicConstants::PlatformSize.x()*multiplier);
+        size=PublicConstants::PlatformSize;
+        PublicConstants::PlatformMoveBounds=QVector2D(size.x() / 2, PublicConstants::SceneRect.width() - size.x() / 2);
+
 }
 
 void Platform::changeInverse()
