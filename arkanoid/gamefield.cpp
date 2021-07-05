@@ -26,8 +26,8 @@ GameField::GameField()
     bricks = builder.makeBricks();
 
     for(size_t i = 0; i < bricks.size(); i++){
-            QString type_brick=brick->metaObject()->className();
-            if(type_brick.contains(MetallicBrick))
+            QString type_brick=bricks[i]->metaObject()->className();
+            if(type_brick.contains("MetallicBrick"))
                 amountMetallicBricks++;
             connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
             scene->addItem(bricks[i]);
@@ -118,8 +118,8 @@ void GameField::brickDestoryed(Brick *brick)
         bricks = builder.makeBricks();
 
         for(size_t i = 0; i < bricks.size(); i++){
-                QString type_brick=brick->metaObject()->className();
-                if(type_brick.contains(MetallicBrick))
+                QString type_brick=bricks[i]->metaObject()->className();
+                if(type_brick.contains("MetallicBrick"))
                     amountMetallicBricks++;
                 connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
                 scene->addItem(bricks[i]);

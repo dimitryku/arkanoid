@@ -110,5 +110,5 @@ void BrickBuilder::reset()
 
 void BrickBuilder::full_reset()
 {
-    coords=QVector2D(0,0);
+    coord=QVector2D(0,0);
 }
