@@ -8,6 +8,8 @@
 #include <QInputDialog>
 #include <vector>
 #include <algorithm>
+#include <QFile>
+#include <QDataStream>
 
 class GameField;
 
@@ -32,6 +34,8 @@ public:
 private slots:
     void on_actionNew_game_triggered();
 
+    void on_actionLeaderboard_triggered();
+
 private:
     Ui::MainWindow *ui;
     GameField* MainGameField;
@@ -48,6 +52,6 @@ private:
     void StoreScore();
     void AddScore(Score newScore);
     void ShowHighScore();
-    void SortHighscore();
+    void OrganizeHighscore();
 };
 #endif // MAINWINDOW_H
