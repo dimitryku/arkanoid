@@ -65,7 +65,7 @@ void GameField::brickDestoryed(Brick *brick)
     BonusBody* body=NULL;
     if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
-        if(rand() % 100 + 1 <= 35){
+        if(rand() % 100 + 1 <= 145){
              bonus = new Bonus(50);
         }
 
@@ -137,8 +137,7 @@ void GameField::Tick()
         x->Move();
         if(x->collidesWithItem(platform))
         {
-            scene->removeItem(x);
-            scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
+
             bonusCollision(x);
 //            bonuses.push_back(x->getBonus());
 //            x->getBonus()->start();
@@ -327,12 +326,12 @@ void GameField::bonusCollision(BonusBody *bonusbody)
     }
      connect(bonusbody->getBonus(),SIGNAL(stop(Bonus*)), this, SLOT(finishedBonus(Bonus*)));
      bonuses.push_back(bonusbody->getBonus());
+     scene->removeItem(bonusbody);
+     //.
+     scene->invalidate(bonusbody->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
      bonusbody->getBonus()->start();
-
      bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), bonusbody), bonusbodies.end());
-     //disconnect(bonusbody);
 
-     //delete bonusbody;
 }
 
 void GameField::increaseSizePlatform(bool finished)
