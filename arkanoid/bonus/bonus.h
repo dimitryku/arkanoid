@@ -19,8 +19,8 @@ public:
     void  operator =(const Bonus& obj);
 
 signals:
-    void increaseSizePlatform(); //Сигнал на увеличение ракетки
-    void decreaseSizePlatform(); //Сигнал на уменьшение ракетки
+    void increaseSizePlatform(bool finished); //Сигнал на увеличение ракетки
+    void decreaseSizePlatform(bool finished); //Сигнал на уменьшение ракетки
     void increaseSpeedBall();    //Сигнал на увеличение скорости шара
     void decreaseSpeedBall();    //Сигнал на уменьшение скорости шара
     void addNewBall();          //Сигнал на добавление еще шара
@@ -37,8 +37,9 @@ private slots:
 
 private:
     Bonuses type_bonus;
-    int lifetime=15*1000; //30 секунд
+    int lifetime=15*1000; //15 секунд
     QTimer* timer;
+    bool finish_signal=false;
 
 };
 

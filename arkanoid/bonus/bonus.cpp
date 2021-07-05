@@ -62,7 +62,7 @@ Bonuses Bonus::start()
     timer=new QTimer(this);
     connect(timer, &QTimer::timeout, this, QOverload<>::of(&Bonus::tick));
     switch(type_bonus){
-    case extend_platform:   emit(this->increaseSizePlatform());         break;
+    case extend_platform:   emit(this->increaseSizePlatform(finish_signal));         break;
     case plus_ball:         emit(this->addNewBall());                   break;
     case add_life:          emit(this->addLife());                      break;
     case stick_platform:    emit(this->changeStickness());              break;
@@ -71,8 +71,9 @@ Bonuses Bonus::start()
     case slow_ball:         emit(this->decreaseSpeedBall());            break;
     case fast_ball:         emit(this->increaseSpeedBall());            break;
     case inverse:           emit(this->changeInverse());                break;
-    case shorten_platform:  emit(this->decreaseSizePlatform());         break;
+    case shorten_platform:  emit(this->decreaseSizePlatform(finish_signal));         break;
     }
+    finish_signal=true;
     timer->start(lifetime);
     return type_bonus;
 }
@@ -86,12 +87,12 @@ void Bonus::tick()
 {
     std::cout<<"Bonus finished"<<std::endl;
     switch (type_bonus) {
-    case extend_platform:   emit(this->decreaseSizePlatform());               break;
+    case extend_platform:   emit(this->decreaseSizePlatform(finish_signal));               break;
     case stick_platform:    emit(this->changeStickness());                    break;
     case magnet_ball:       emit(this->setCommonBall());                      break;
     case uber_ball:         emit(this->setCommonBall());                      break;
     case inverse:           emit(this->changeInverse());                      break;
-    case shorten_platform:  emit(this->increaseSizePlatform());               break;
+    case shorten_platform:  emit(this->increaseSizePlatform(finish_signal));               break;
     case slow_ball:         emit(this->increaseSpeedBall());                  break;
     case fast_ball:         emit(this->decreaseSpeedBall());                  break;
     }

@@ -26,8 +26,8 @@ public:
     
 public slots:
    void brickDestoryed(Brick* brick);
-   void increaseSizePlatform();
-   void decreaseSizePlatform();
+   void increaseSizePlatform(bool finished);
+   void decreaseSizePlatform(bool finished);
    void increaseSpeedBall();
    void decreaseSpeedBall();
    void changeInverse();

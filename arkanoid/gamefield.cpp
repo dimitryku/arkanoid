@@ -57,7 +57,7 @@ void GameField::brickDestoryed(Brick *brick)
     BonusBody* body=NULL;
     if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
-        if(rand() % 100 + 1 <= 45){
+        if(rand() % 100 + 1 <= 35){
              bonus = new Bonus(50);
         }
 
@@ -243,8 +243,8 @@ void GameField::bonusCollision(BonusBody *bonusbody)
     switch (bonusbody->getBonus()->getTypeBonus()) {
         case Bonuses::extend_platform:
         case Bonuses::shorten_platform:
-             connect(bonusbody->getBonus(), SIGNAL(increaseSizePlatform()), this, SLOT(increaseSizePlatform()));
-             connect(bonusbody->getBonus(), SIGNAL(decreaseSizePlatform()), this, SLOT(decreaseSizePlatform()));
+             connect(bonusbody->getBonus(), SIGNAL(increaseSizePlatform(bool)), this, SLOT(increaseSizePlatform(bool)));
+             connect(bonusbody->getBonus(), SIGNAL(decreaseSizePlatform(bool)), this, SLOT(decreaseSizePlatform(bool)));
              break;
 
         case Bonuses::fast_ball:
@@ -293,15 +293,15 @@ void GameField::bonusCollision(BonusBody *bonusbody)
      //delete bonusbody;
 }
 
-void GameField::increaseSizePlatform()
+void GameField::increaseSizePlatform(bool finished)
 {
 
-    platform->changeSize(PublicConstants::sizePlatformMultiplier_inc);
+    platform->changeSize(PublicConstants::sizePlatformMultiplier_inc, finished);
 }
 
-void GameField::decreaseSizePlatform()
+void GameField::decreaseSizePlatform(bool finished)
 {
-    platform->changeSize(PublicConstants::sizePlatformMultiplier_dec);
+    platform->changeSize(PublicConstants::sizePlatformMultiplier_dec,finished);
 }
 
 void GameField::increaseSpeedBall()
