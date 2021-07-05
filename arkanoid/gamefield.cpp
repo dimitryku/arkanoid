@@ -82,16 +82,16 @@ void GameField::brickDestoryed(Brick *brick)
             scene->invalidate(brick->boundingRect());
             bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
             delete brick;
+            brick = NULL;
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
             {
-                if(boomItems[i] != nullptr)
+                if(boomItems[i] != NULL)
                 {
                     QString type = typeid(*boomItems[i]).name();
                     if (type.contains("Brick"))
                     {
-                        if(((Brick*)boomItems[i])->getPosition() != brick->getPosition())
-                            ((Brick*)boomItems[i])->hit(50);
+                        ((Brick*)boomItems[i])->hit(50);
                     }
                 }
             }
@@ -109,6 +109,7 @@ void GameField::brickDestoryed(Brick *brick)
     scene->invalidate(brick->boundingRect());
     bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
     delete brick;
+    brick = NULL;
 
     if(bricks.size() == amountMetallicBricks)
     {
