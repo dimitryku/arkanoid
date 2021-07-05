@@ -4,6 +4,10 @@
 BrickProperty::BrickProperty()
 {
     QPixmap pix = QPixmap(":/bricks");
+    for(int i = 0; i < 6; i++)
+    {
+        pixmap.push_back(pix.copy(80 * i, 0, 80, 30));
+    }
     pixmap.push_back(pix.copy(0, 0, 80, 30));       // normal
     pixmap.push_back(pix.copy(80, 0, 80, 30));      // golden
     pixmap.push_back(pix.copy(160, 0, 80, 30));     // steel

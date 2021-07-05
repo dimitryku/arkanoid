@@ -85,7 +85,7 @@ void GameField::brickDestoryed(Brick *brick)
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
             {
-                if(boomItems[i] != nullptr)
+                if(boomItems[i] != NULL)
                 {
                     QString type = typeid(*boomItems[i]).name();
                     if (type.contains("Brick"))
@@ -110,7 +110,7 @@ void GameField::brickDestoryed(Brick *brick)
 
     if(bricks.size()==amountMetallicBricks)
     {
-        for(int i=bricks.size(); i>=0;i--)
+        for(int i = bricks.size() - 1; i >= 0; i--)
         {
             scene->removeItem(bricks[i]);
             scene->invalidate(brick->boundingRect());
@@ -135,7 +135,6 @@ void GameField::brickDestoryed(Brick *brick)
 
 void GameField::Tick()
 {
-    ///Temporary here
     for(auto* x : bonusbodies)
     {
         x->Move();
@@ -144,15 +143,10 @@ void GameField::Tick()
             scene->removeItem(x);
             scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
             bonusCollision(x);
-//            bonuses.push_back(x->getBonus());
-//            x->getBonus()->start();
-//            bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), x), bonusbodies.end());
             continue;
         }
         scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
     }
-    ///Temporary here
-
 
     // do a barrel roll
     //this->rotate(1);
@@ -169,19 +163,18 @@ void GameField::Tick()
         else{
             lives--;
             balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), true)); // make ball
-            balls[balls.size()-1]->moveOneStep(platform->getPosition().x()); // move to platform
-            scene->addItem(balls[balls.size()-1]);
+            balls[balls.size() - 1]->moveOneStep(platform->getPosition().x()); // move to platform
+            scene->addItem(balls[balls.size() - 1]);
         }
 
     //ball move and bounce
     for(size_t i = 0; i < balls.size(); i++)
     {
         QVector2D newPos = balls[i]->moveOneStep(platform->getPosition().x());
-        if(newPos.y() >= PublicConstants::SceneRect.height() - 10)
+        if(newPos.y() >= PublicConstants::SceneRect.height())
         {
-
-            balls[i]->collide(Direction::up, true);
-            balls[i]->moveOneStep(platform->getPosition().x());
+            //balls[i]->collide(Direction::up, true);
+            //balls[i]->moveOneStep(platform->getPosition().x());
             balls[i]->drop();
             scene->removeItem(balls[i]);
             balls.erase(balls.begin() + i);
@@ -341,7 +334,6 @@ void GameField::bonusCollision(BonusBody *bonusbody)
 
 void GameField::increaseSizePlatform(bool finished)
 {
-
     platform->changeSize(PublicConstants::sizePlatformMultiplier_inc, finished);
 }
 
@@ -415,7 +407,7 @@ void GameField::finishedBonus(Bonus* bonus){
      std::cout<<"Finish"<<std::endl;
       disconnect(bonus);
       bonuses.erase(std::remove(bonuses.begin(), bonuses.end(), bonus), bonuses.end());
-      delete bonus;
+      //delete bonus;
 }
 
 void GameField::keyPressEvent(QKeyEvent *event)
