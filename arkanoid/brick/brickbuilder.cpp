@@ -29,13 +29,13 @@ Brick* BrickBuilder::makeBrick()
     if(coord.x() == num_lastColumn && coord.y() == num_lastRow)
         return brick;
 
-    if(random <= 40)
+    if(random <= 60)
         type = 1;
     else if(random <= 75)
         type = 2;
     else if(random <= 80)
         type = 3;
-    else if(random <= 85)
+    else if(random <= 88)
         type = 4;
     else
         type = 5;
@@ -51,8 +51,8 @@ Brick* BrickBuilder::makeBrick()
         break; /* Create NormalBrick */
 
     case 2: brick = new CommonBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x() + offset.x(),
-                                              coord.y()* PublicConstants::BrickSize.y() + offset.y()), rand() % 8 + 3);
-        break; /* Create StrongBrick (CommonBrick with hp>2)*/
+                                              coord.y()* PublicConstants::BrickSize.y() + offset.y()), rand() % 3 + 2);
+        break; /* Create StrongBrick (CommonBrick with hp = 2 || 3)*/
 
     case 3: brick = new GoldenBrick(QVector2D(coord.x() * PublicConstants::BrickSize.x() + offset.x(),
                                               coord.y()* PublicConstants::BrickSize.y() + offset.y()));
