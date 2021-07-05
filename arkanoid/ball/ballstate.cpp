@@ -1,6 +1,5 @@
 #include "ballstate.h"
 #include "publicconstants.h"
-
 BallState::BallState()
 {
     currentState = BallStates::normal;                  //TODO append if necessary
@@ -13,8 +12,9 @@ void BallState::moveBall(QVector2D& currentPosition, QVector2D& currentSpeed,
         switch (currentState) {
         case BallStates::magnet:
         {
+
             int diff = platformX - currentPosition.x();
-            currentPosition.setX(currentPosition.x() + diff / 40);     //TODO adjust number
+            currentPosition.setX(currentPosition.x() + diff / 40.0 - currentSpeed.x());     //TODO adjust number
         }
             //no break!!!
         case BallStates::normal:
