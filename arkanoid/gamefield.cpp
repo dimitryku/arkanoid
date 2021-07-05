@@ -138,8 +138,10 @@ void GameField::Tick()
             emit(GameEnded());
         }
         else{
+            lives--;
             balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), true)); // make ball
             balls[balls.size()-1]->moveOneStep(platform->getPosition().x()); // move to platform
+            scene->addItem(balls[balls.size()-1]);
         }
 
     //ball move and bounce

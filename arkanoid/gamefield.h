@@ -47,7 +47,7 @@ private:
     std::vector<Brick*> bricks;
     std::vector<Bonus*> bonuses;
     std::vector<BonusBody*> bonusbodies;
-    int lives=1;
+    int lives=2;
     Platform* platform;
     QTimer* MainGameTimer;
     QTimer* PlatformUpdateTimer;
