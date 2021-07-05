@@ -280,42 +280,45 @@ void GameField::bonusCollision(BonusBody *bonusbody)
 
 
     switch (bonusbody->getBonus()->getTypeBonus()) {
-        case Bonuses::extend_platform:
         case Bonuses::shorten_platform:
+             CurrentScore+=25;
+        case Bonuses::extend_platform:
+             CurrentScore+=25;
              connect(bonusbody->getBonus(), SIGNAL(increaseSizePlatform(bool)), this, SLOT(increaseSizePlatform(bool)));
              connect(bonusbody->getBonus(), SIGNAL(decreaseSizePlatform(bool)), this, SLOT(decreaseSizePlatform(bool)));
              break;
 
         case Bonuses::fast_ball:
+            CurrentScore+=25;
         case Bonuses::slow_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(increaseSpeedBall()), this, SLOT(increaseSpeedBall()));
             connect(bonusbody->getBonus(), SIGNAL(decreaseSpeedBall()), this, SLOT(decreaseSpeedBall()));
             break;
 
         case Bonuses::inverse:
-
+            CurrentScore+=50;
             connect(bonusbody->getBonus(), SIGNAL(changeInverse()), this, SLOT(changeInverse()));
             break;
 
         case Bonuses::add_life:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(addLife()), this, SLOT(addLife()));
             break;
 
         case Bonuses::plus_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(addNewBall()), this, SLOT(addBall()));
             break;
 
         case Bonuses::uber_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(setUberBall()), this, SLOT(setUberBall()));
             connect(bonusbody->getBonus(), SIGNAL(setCommonBall()), this, SLOT(setCommonBall()));
             break;
 
         case Bonuses::magnet_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(setMagnet()), this, SLOT(setMagnetBall()));
             connect(bonusbody->getBonus(), SIGNAL(setCommonBall()), this, SLOT(setCommonBall()));
             break;
@@ -328,7 +331,7 @@ void GameField::bonusCollision(BonusBody *bonusbody)
 
      bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), bonusbody), bonusbodies.end());
      //disconnect(bonusbody);
-    CurrentScore+=5;
+
      //delete bonusbody;
 }
 
