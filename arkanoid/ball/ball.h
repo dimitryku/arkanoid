@@ -23,6 +23,7 @@ public:
     QVector2D followPlatform(/*Platform &platform or QVector2D moveDelta*/);    // returns Vector - end position
     void startMoving(); //start from Platform
     QVector2D getPosition();
+    QVector2D getSpeed();
     int getPower();
     void drop();
     void changeSpeed(float multiplier);

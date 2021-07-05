@@ -74,6 +74,11 @@ QVector2D Ball::getPosition()
     return currentPosition;
 }
 
+QVector2D Ball::getSpeed()
+{
+    return currentSpeed;
+}
+
 int Ball::getPower()
 {
     return currentBallState->getStatePower();

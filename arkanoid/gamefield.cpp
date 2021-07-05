@@ -349,7 +349,9 @@ void GameField::addLife(){
 void  GameField::addBall(){
     std::vector<Ball*> newballs;
     for(auto* ball: balls){
-        newballs.push_back(new Ball(ball->getPosition(), QVector2D(3, 3), false)); // make ball
+        newballs.push_back(new Ball(ball->getPosition(),
+                                    QVector2D(0 - ball->getSpeed().x(),
+                                              0 - ball->getSpeed().y()), false)); // make ball
     }
 
     for(auto* newball: newballs){
