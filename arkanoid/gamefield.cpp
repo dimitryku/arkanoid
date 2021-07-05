@@ -330,7 +330,15 @@ void GameField::addLife(){
 }
 
 void  GameField::addBall(){
+    std::vector<Ball*> newballs;
+    for(auto* ball: balls){
+        newballs.push_back(new Ball(ball->getPosition(), QVector2D(3, 3), false)); // make ball
+    }
 
+    for(auto* newball: newballs){
+        balls.push_back(newball);
+        scene->addItem(newball);
+    }
      //TODO раздвоение шарика
 }
 
