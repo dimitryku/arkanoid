@@ -70,11 +70,26 @@ QPainterPath Platform::shape()
 
 void Platform::changeSize(float multiplier, bool finished)
 {
-
-    if(size.x()*multiplier<=PublicConstants::SceneRect.width() && size.x()*multiplier>10 || finished){
-        size.setX(size.x()*multiplier);
-        bounds=QVector2D(size.x() / 2, PublicConstants::SceneRect.width() - size.x() / 2);
+    float mult=size.x()*multiplier;
+    if(finished){
+        if(mult<size.x()&&counts_increase_decrease.x()>=0){
+            counts_increase_decrease.setX(counts_increase_decrease.x()-1);
+            return ;
+         } else if(mult>size.x()&&counts_increase_decrease.y()==0){
+            counts_increase_decrease.setY(counts_increase_decrease.y()-1);
+            return ;
+         }
     }
+    else if(mult>=PublicConstants::SceneRect.width()){
+        counts_increase_decrease.setX(counts_increase_decrease.x()+1);
+        return ;
+    }
+    else if(mult<=10){
+        counts_increase_decrease.setY(counts_increase_decrease.y()+1);
+        return ;
+    }
+    size.setX(mult);
+    bounds=QVector2D(size.x() / 2, PublicConstants::SceneRect.width() - size.x() / 2);
 
 }
 

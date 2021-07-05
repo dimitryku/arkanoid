@@ -26,6 +26,9 @@ GameField::GameField()
     bricks = builder.makeBricks();
 
     for(size_t i = 0; i < bricks.size(); i++){
+            QString type_brick=brick->metaObject()->className();
+            if(type_brick.contains(MetallicBrick))
+                amountMetallicBricks++;
             connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
             scene->addItem(bricks[i]);
     }
@@ -303,7 +306,7 @@ void GameField::bonusCollision(BonusBody *bonusbody)
 
      bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), bonusbody), bonusbodies.end());
      //disconnect(bonusbody);
-
+    CurrentScore+=5;
      //delete bonusbody;
 }
 

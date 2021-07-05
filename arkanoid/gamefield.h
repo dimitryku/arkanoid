@@ -53,7 +53,7 @@ private:
     QTimer* PlatformUpdateTimer;
     void Tick();
     void UpdatePlatform();
-
+    int amountMetallicBricks=0;
     int CurrentScore;
 
     enum PlatformAction{
