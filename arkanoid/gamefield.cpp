@@ -69,6 +69,10 @@ void GameField::brickDestoryed(Brick *brick)
             qreal x, y, w, h;
             brick->boundingRect().getRect(&x, &y, &w, &h);
             QRect boomRect = QRect(x - w, y - h, w * 3, h * 3);
+            scene->removeItem(brick);
+            scene->invalidate(brick->boundingRect());
+            bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
+            delete brick;
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
             {
@@ -79,13 +83,14 @@ void GameField::brickDestoryed(Brick *brick)
                         ((Brick*)boomItems[i])->hit(50);
                 }
             }
+            return; // because there are no bonuses and it's already deleted
     }
     scene->removeItem(brick);
     scene->invalidate(brick->boundingRect());
     bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
     delete brick;
 
-    if(bonus!=NULL){
+    if(bonus != NULL){
         body = new BonusBody(brick->getPosition(), bonus);
         scene->addItem(body);
         bonusbodies.push_back(body);
@@ -100,14 +105,22 @@ void GameField::Tick()
     for(auto* x : bonusbodies)
     {
         x->Move();
-
+        if(x->collidesWithItem(platform))
+        {
+            scene->removeItem(x);
+            scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
+            bonuses.push_back(x->getBonus());
+            x->getBonus()->start();
+            bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), x), bonusbodies.end());
+            continue;
+        }
         scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
     }
     ///Temporary here
 
 
     // do a barrel roll
-    // this->rotate(1);
+    //this->rotate(1);
 
     if(balls.size() < 1){
         MainGameTimer->stop();
@@ -125,9 +138,9 @@ void GameField::Tick()
 
             balls[i]->collide(Direction::up, true);
             balls[i]->moveOneStep(platform->getPosition().x());
-                //balls[i]->drop();
-                //scene->removeItem(balls[i]);
-                //balls.erase(balls.begin() + i);
+            //balls[i]->drop();
+            //scene->removeItem(balls[i]);
+            //balls.erase(balls.begin() + i);
         }
         else
         {
@@ -315,13 +328,13 @@ void GameField::setUberBall(){
 }
 
 void GameField::setMagnetBall(){
-    for(size_t i=0; i<balls.size(); i++){
+    for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeState(BallStates::magnet);
     }
 }
 
 void GameField::setCommonBall(){
-    for(size_t i=0; i<balls.size(); i++){
+    for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeState(BallStates::normal);
     }
 }
