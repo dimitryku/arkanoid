@@ -45,9 +45,14 @@ GameField::GameField()
     PlatformUpdateTimer->start(PublicConstants::DefaultTimerTick);
 }
 
-int GameField::GetScore()
+int GameField::getScore()
 {
     return CurrentScore;
+}
+
+int GameField::getLives()
+{
+    return lives;
 }
 
 void GameField::brickDestoryed(Brick *brick)

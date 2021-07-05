@@ -22,7 +22,8 @@ class GameField : public QGraphicsView
 public:
     GameField();
     QGraphicsScene* scene;
-    int GetScore();
+    int getScore();
+    int getLives();
     
 public slots:
    void brickDestoryed(Brick* brick);

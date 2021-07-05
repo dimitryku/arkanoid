@@ -24,7 +24,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::UpdateScore()
 {
-    this->statusBar()->showMessage(QString("Score: %1").arg(MainGameField->GetScore()));
+    this->statusBar()->showMessage(QString("Score: %1   Lives: %2")
+                                   .arg(MainGameField->getScore()).arg(MainGameField->getLives()));
 }
 
 
@@ -46,7 +47,7 @@ void MainWindow::on_actionNew_game_triggered()
 void MainWindow::onGameEnded()
 {
     QMessageBox msgBox(this);
-    msgBox.setText(QString("Game over! Your score is %1").arg(MainGameField->GetScore()));
+    msgBox.setText(QString("Game over! Your score is %1").arg(MainGameField->getScore()));
     msgBox.exec();
 
     bool ok;
