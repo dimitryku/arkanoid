@@ -97,10 +97,7 @@ void GameField::brickDestoryed(Brick *brick)
             }
             return; // because there are no bonuses and it's already deleted
     }
-    scene->removeItem(brick);
-    scene->invalidate(brick->boundingRect());
-    bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
-    delete brick;
+
 
     if(bonus != NULL){
         body = new BonusBody(brick->getPosition(), bonus, bonusProp);
@@ -108,12 +105,17 @@ void GameField::brickDestoryed(Brick *brick)
         bonusbodies.push_back(body);
     }
 
+    scene->removeItem(brick);
+    scene->invalidate(brick->boundingRect());
+    bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
+    delete brick;
+
     if(bricks.size()==amountMetallicBricks)
     {
         for(int i=bricks.size(); i>=0;i--)
         {
             scene->removeItem(bricks[i]);
-            scene->invalidate(brick->boundingRect());
+            scene->invalidate(bricks[i]->boundingRect());
             bricks.erase(std::remove(bricks.begin(), bricks.end(), bricks[i]), bricks.end());
             delete bricks[i];
         }
