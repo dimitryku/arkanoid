@@ -50,13 +50,75 @@ void MainWindow::onGameEnded()
     msgBox.setText(QString("Game over! Your score is %1").arg(MainGameField->getScore()));
     msgBox.exec();
 
-    bool ok;
-        QString text = QInputDialog::getText(this, tr("New record!"),
-                                             tr("Your name:"), QLineEdit::Normal,
-                                             "anon", &ok);
-        if (ok && !text.isEmpty()){
+    Score newsc;
+    newsc.name = "";
+    newsc.points = MainGameField->getScore();
+    AddScore(newsc);
 
+    ShowHighScore();
+
+        /// TODO
+}
+
+void MainWindow::LoadScore()
+{
+
+}
+
+void MainWindow::StoreScore()
+{
+
+}
+
+void MainWindow::AddScore(MainWindow::Score newScore)
+{
+    leaderboard.resize(5);
+    for(auto x: leaderboard){
+        if(newScore.points > x.points){
+            bool ok;
+            QString text = QInputDialog::getText(this, tr("New record!"),
+                                                 tr("Your name:"), QLineEdit::Normal,
+                                                 "anon", &ok);
+            if (ok && !text.isEmpty()){
+                newScore.name = text;
+                leaderboard.push_back(newScore);
+                SortHighscore();
+                while (leaderboard.size() > 5
+                       || !leaderboard[leaderboard.size()-1].name.length()) {
+                    leaderboard.pop_back();
+                }
+            }
+            break;
         }
+    }
+}
 
-    /// TODO
+void MainWindow::ShowHighScore()
+{
+    QString rec = "";
+    for(auto i = 0; i < 5; i++){
+        if(leaderboard.size() - 1 < i)
+            break;
+        rec = rec.append(
+                    QString("%1) %2  -  %3\n")
+                    .arg(i + 1)
+                    .arg(leaderboard[i].name)
+                    .arg(leaderboard[i].points));
+    }
+
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle("Leaderbord");
+    msgBox.setText(rec);
+    msgBox.exec();
+}
+
+bool comp (MainWindow::Score a, MainWindow::Score b) {
+
+  return a.points > b.points;
+
+}
+
+void MainWindow::SortHighscore()
+{
+    sort(this->leaderboard.begin(), this->leaderboard.end(), comp);
 }

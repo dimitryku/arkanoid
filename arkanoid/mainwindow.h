@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <vector>
+#include <algorithm>
 
 class GameField;
 
@@ -18,7 +20,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-
+    struct Score
+    {
+        int points = 0;
+        QString name = "";
+    };
 
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -30,8 +36,18 @@ private:
     Ui::MainWindow *ui;
     GameField* MainGameField;
 
+
     QTimer* ScoreTimer;
     void UpdateScore();
     void onGameEnded();
+
+
+    std::vector<Score> leaderboard;
+
+    void LoadScore();
+    void StoreScore();
+    void AddScore(Score newScore);
+    void ShowHighScore();
+    void SortHighscore();
 };
 #endif // MAINWINDOW_H
