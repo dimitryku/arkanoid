@@ -38,6 +38,7 @@ GameField::GameField()
     //TODO the rest
 
     this->setScene(scene);
+    bonusProp = new BonusProperty();
 
     MainGameTimer = new QTimer(this);
     connect(MainGameTimer, &QTimer::timeout, this, QOverload<>::of(&GameField::Tick));
@@ -66,12 +67,12 @@ void GameField::brickDestoryed(Brick *brick)
     if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
         if(rand() % 100 + 1 <= 145){
-             bonus = new Bonus(50);
+             bonus = new Bonus(50, brick->getPosition());
         }
 
     } else if(type_brick.contains("GoldenBrick")){
         CurrentScore += 5;
-            bonus = new Bonus(100);
+            bonus = new Bonus(100, brick->getPosition());
     } else if(type_brick.contains("TNTBrick")){
         CurrentScore += 3;
             qreal x, y, w, h;
@@ -84,11 +85,14 @@ void GameField::brickDestoryed(Brick *brick)
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
             {
-                QString type = typeid(*boomItems[i]).name();
-                if (type.contains("Brick"))
+                if(boomItems[i] != nullptr)
                 {
-                    if(((Brick*)boomItems[i])->getPosition() != brick->getPosition())
-                        ((Brick*)boomItems[i])->hit(50);
+                    QString type = typeid(*boomItems[i]).name();
+                    if (type.contains("Brick"))
+                    {
+                        if(((Brick*)boomItems[i])->getPosition() != brick->getPosition())
+                            ((Brick*)boomItems[i])->hit(50);
+                    }
                 }
             }
             return; // because there are no bonuses and it's already deleted
@@ -99,7 +103,7 @@ void GameField::brickDestoryed(Brick *brick)
     delete brick;
 
     if(bonus != NULL){
-        body = new BonusBody(brick->getPosition(), bonus);
+        body = new BonusBody(brick->getPosition(), bonus, bonusProp);
         scene->addItem(body);
         bonusbodies.push_back(body);
     }
@@ -376,7 +380,9 @@ void GameField::addLife(){
 void  GameField::addBall(){
     std::vector<Ball*> newballs;
     for(auto* ball: balls){
-        newballs.push_back(new Ball(ball->getPosition(), QVector2D(3, 3), false)); // make ball
+        newballs.push_back(new Ball(ball->getPosition(),
+                                    QVector2D(0 - ball->getSpeed().x(),
+                                              0 - ball->getSpeed().y()), false)); // make ball
     }
 
     for(auto* newball: newballs){
@@ -408,7 +414,7 @@ void GameField::finishedBonus(Bonus* bonus){
      std::cout<<"Finish"<<std::endl;
       disconnect(bonus);
       bonuses.erase(std::remove(bonuses.begin(), bonuses.end(), bonus), bonuses.end());
-      delete bonus;
+     // delete bonus;
 }
 
 void GameField::keyPressEvent(QKeyEvent *event)

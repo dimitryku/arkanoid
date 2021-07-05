@@ -11,7 +11,7 @@ class Bonus : public QObject
 {
     Q_OBJECT
 public:
-    Bonus(int positive_chance);
+    Bonus(int positive_chance, QVector2D pos_brick);
     Bonus(const Bonus& obj);
     Bonus();
     Bonuses getTypeBonus();

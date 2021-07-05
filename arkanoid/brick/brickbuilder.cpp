@@ -35,7 +35,7 @@ Brick* BrickBuilder::makeBrick()
         type = 2;
     else if(random <= 80)
         type = 3;
-    else if(random <= 88)
+    else if(random <= 95)
         type = 4;
     else
         type = 5;
