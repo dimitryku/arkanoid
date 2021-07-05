@@ -45,9 +45,14 @@ GameField::GameField()
     PlatformUpdateTimer->start(PublicConstants::DefaultTimerTick);
 }
 
-int GameField::GetScore()
+int GameField::getScore()
 {
     return CurrentScore;
+}
+
+int GameField::getLives()
+{
+    return lives;
 }
 
 void GameField::brickDestoryed(Brick *brick)
@@ -112,6 +117,7 @@ void GameField::Tick()
             bonuses.push_back(x->getBonus());
             x->getBonus()->start();
             bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), x), bonusbodies.end());
+            printf("bonus removed from kektor\n");
             continue;
         }
         scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
@@ -122,12 +128,21 @@ void GameField::Tick()
     // do a barrel roll
     //this->rotate(1);
 
-    if(balls.size() < 1){
-        MainGameTimer->stop();
-        PlatformUpdateTimer->stop();
+    if(balls.size() < 1)
+        if(lives < 2)
+        {
+            CurrentPlatformAction = PlatformAction::None;
+            MainGameTimer->stop();
+            PlatformUpdateTimer->stop();
 
-        emit(GameEnded());
-    }
+            emit(GameEnded());
+        }
+        else{
+            lives--;
+            balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), true)); // make ball
+            balls[balls.size()-1]->moveOneStep(platform->getPosition().x()); // move to platform
+            scene->addItem(balls[balls.size()-1]);
+        }
 
     //ball move and bounce
     for(size_t i = 0; i < balls.size(); i++)
@@ -138,9 +153,9 @@ void GameField::Tick()
 
             balls[i]->collide(Direction::up, true);
             balls[i]->moveOneStep(platform->getPosition().x());
-            //balls[i]->drop();
-            //scene->removeItem(balls[i]);
-            //balls.erase(balls.begin() + i);
+            balls[i]->drop();
+            scene->removeItem(balls[i]);
+            balls.erase(balls.begin() + i);
         }
         else
         {
@@ -191,7 +206,7 @@ void GameField::UpdatePlatform()
         break;
     }
 
-    scene->invalidate(QRectF(0, PublicConstants::SceneRect.height()-30,
+    scene->invalidate(QRectF(0, PublicConstants::SceneRect.height()-35,
                              PublicConstants::SceneRect.width(), PublicConstants::SceneRect.height()));
 }
 
