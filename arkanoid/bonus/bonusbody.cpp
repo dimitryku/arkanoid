@@ -32,6 +32,11 @@ QVector2D BonusBody::getPosition()
     return position;
 }
 
+void BonusBody::drop()
+{
+    this->position.setY(position.y() + 30);
+}
+
 
 QRectF BonusBody::boundingRect() const
 {

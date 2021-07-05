@@ -66,7 +66,7 @@ void GameField::brickDestoryed(Brick *brick)
     BonusBody* body=NULL;
     if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
-        if(rand() % 100 + 1 <= 145){
+        if(rand() % 100 + 1 <= 45){
              bonus = new Bonus(50, brick->getPosition());
         }
 
@@ -110,7 +110,7 @@ void GameField::brickDestoryed(Brick *brick)
     bricks.erase(std::remove(bricks.begin(), bricks.end(), brick), bricks.end());
     delete brick;
 
-    if(bricks.size()==amountMetallicBricks)
+    if(bricks.size() == amountMetallicBricks)
     {
         for(int i = bricks.size() - 1; i >= 0; i--)
         {
@@ -137,22 +137,34 @@ void GameField::brickDestoryed(Brick *brick)
 
 void GameField::Tick()
 {
-    for(auto* x : bonusbodies)
+    for(size_t i = 0; i < bonusbodies.size(); i++)
     {
-        x->Move();
-        if(x->collidesWithItem(platform))
+        bonusbodies[i]->Move();
+        if(bonusbodies[i]->collidesWithItem(platform))
         {
-
-            bonusCollision(x);
+            bonusbodies[i]->drop();
+            scene->invalidate(bonusbodies[i]->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
+            bonusCollision(bonusbodies[i]);
+            i--;
             continue;
         }
-        scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
+        if(bonusbodies[i]->getPosition().y() > PublicConstants::SceneRect.height() + 30)
+        {
+            scene->removeItem(bonusbodies[i]);
+            scene->invalidate(bonusbodies[i]->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
+            //delete bonusbodies[i];
+            bonusbodies.erase(bonusbodies.begin() + i);
+            i--;
+            continue;
+        }
+        scene->invalidate(bonusbodies[i]->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
     }
 
     // do a barrel roll
     //this->rotate(1);
 
     if(balls.size() < 1)
+    {
         if(lives < 2)
         {
             CurrentPlatformAction = PlatformAction::None;
@@ -167,6 +179,7 @@ void GameField::Tick()
             balls[balls.size() - 1]->moveOneStep(platform->getPosition().x()); // move to platform
             scene->addItem(balls[balls.size() - 1]);
         }
+    }
 
     //ball move and bounce
     for(size_t i = 0; i < balls.size(); i++)
@@ -205,7 +218,6 @@ void GameField::Tick()
         scene->invalidate(x->boundingRect()
                           .marginsAdded(QMargins(30,30,30,30)));
 
-    /// TODO invalidate bonus bodies
     //for(auto x: bon)
 }
 
