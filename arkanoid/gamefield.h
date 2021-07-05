@@ -47,6 +47,7 @@ private:
     std::vector<Brick*> bricks;
     std::vector<Bonus*> bonuses;
     std::vector<BonusBody*> bonusbodies;
+    BonusProperty* bonusProp;
     int lives=2;
     Platform* platform;
     QTimer* MainGameTimer;
@@ -64,12 +65,7 @@ private:
     };
     PlatformAction CurrentPlatformAction;
 
-    //std::vector<Bonus> activeBonuses;
-    //Score score
-    //std::vector<BonusBody> fallingBonuses
-
     void ballCollision(Ball* ball);
-
     void bonusCollision(BonusBody* bonus);
 
     // QWidget interface

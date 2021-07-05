@@ -4,10 +4,10 @@ Bonus::Bonus(int positive_chance)
 {
     srand(time(NULL));
     int type;
-    if((rand()%100+1)<=positive_chance)
-           type=rand()%7;
+    if((rand() % 100 + 1)<= positive_chance)
+           type = rand() % 7;
     else
-           type=rand()%3+7;
+           type = rand() % 3 + 7;
 
     switch (type) {
         case 0: type_bonus = extend_platform;       break;
@@ -32,10 +32,10 @@ Bonus::Bonus(const Bonus &obj)
 Bonus::Bonus()
 {
     int type;
-    if((rand()%100+1)<=50)
-           type=rand()%7;
+    if((rand() % 100 + 1) <= 50)
+           type = rand() % 7;
     else
-           type=rand()%3+7;
+           type = rand() % 3 + 7;
 
     switch (type) {
         case 0: type_bonus = extend_platform;       break;

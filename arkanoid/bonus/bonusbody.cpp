@@ -2,10 +2,11 @@
 #include <iostream>
 
 
-BonusBody::BonusBody(QVector2D pos, Bonus* insideBonus)
+BonusBody::BonusBody(QVector2D pos, Bonus* insideBonus, BonusProperty* prop)
 {
     this->position = pos;
     this->bonusInside = insideBonus;
+    this->property = prop;
     itemShape.addRect(boundingRect());
 }
 
@@ -40,6 +41,7 @@ QRectF BonusBody::boundingRect() const
 
 void BonusBody::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    //painter->setBrush(QBrush(QPixmap(*property->getPixMap((int)bonusInside->getTypeBonus()))));
     painter->setBrush(QBrush(Qt::green));
     painter->drawRect(this->boundingRect());
 }
