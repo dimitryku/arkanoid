@@ -1,6 +1,6 @@
 #ifndef BONUSBODY_H
 #define BONUSBODY_H
-
+#include <bonus/bonusproperty.h>
 #include <QGraphicsItem>
 #include <QVector2D>
 #include "bonus.h"
@@ -15,8 +15,9 @@ private:
     Bonus* bonusInside;
     QVector2D position;
     QPainterPath itemShape;
+    BonusProperty* property;
 public:
-    BonusBody(QVector2D pos, Bonus* insideBonus);
+    BonusBody(QVector2D pos, Bonus* insideBonus, BonusProperty* prop);
     void Move();
     Bonus* getBonus();
     QPainterPath shape();

@@ -1,19 +1,19 @@
 #include "bonus.h"
 
-Bonus::Bonus(int positive_chance)
+Bonus::Bonus(int positive_chance, QVector2D pos_brick)
 {
-    srand(time(NULL));
+    srand(time(NULL)*pos_brick.x()/pos_brick.y());
     int type;
-    if((rand()%100+1)<=positive_chance)
-           type=rand()%7;
+    if((rand() % 100 + 1)<= positive_chance)
+           type = rand() % 7;
     else
-           type=rand()%3+7;
+           type = rand() % 3 + 7;
 
     switch (type) {
         case 0: type_bonus = extend_platform;       break;
         case 1: type_bonus = plus_ball;             break;
         case 2: type_bonus = add_life;              break;
-        case 3: type_bonus = stick_platform;        break;
+        case 3: //type_bonus = stick_platform;        break;
         case 4: type_bonus = magnet_ball;           break;
         case 5: type_bonus = uber_ball;             break;
         case 6: type_bonus = slow_ball;             break;
@@ -32,16 +32,16 @@ Bonus::Bonus(const Bonus &obj)
 Bonus::Bonus()
 {
     int type;
-    if((rand()%100+1)<=50)
-           type=rand()%7;
+    if((rand() % 100 + 1) <= 50)
+           type = rand() % 7;
     else
-           type=rand()%3+7;
+           type = rand() % 3 + 7;
 
     switch (type) {
         case 0: type_bonus = extend_platform;       break;
         case 1: type_bonus = plus_ball;             break;
         case 2: type_bonus = add_life;              break;
-        case 3: type_bonus = stick_platform;        break;
+        case 3: //type_bonus = stick_platform;        break;
         case 4: type_bonus = magnet_ball;           break;
         case 5: type_bonus = uber_ball;             break;
         case 6: type_bonus = slow_ball;             break;
@@ -65,7 +65,7 @@ Bonuses Bonus::start()
     case extend_platform:   emit(this->increaseSizePlatform(finish_signal));         break;
     case plus_ball:         emit(this->addNewBall());                   break;
     case add_life:          emit(this->addLife());                      break;
-    case stick_platform:    emit(this->changeStickness());              break;
+    //case stick_platform:    emit(this->changeStickness());              break;
     case magnet_ball:       emit(this->setMagnet());                    break;
     case uber_ball:         emit(this->setUberBall());                  break;
     case slow_ball:         emit(this->decreaseSpeedBall());            break;
@@ -88,7 +88,7 @@ void Bonus::tick()
     std::cout<<"Bonus finished"<<std::endl;
     switch (type_bonus) {
     case extend_platform:   emit(this->decreaseSizePlatform(finish_signal));               break;
-    case stick_platform:    emit(this->changeStickness());                    break;
+    //case stick_platform:    emit(this->changeStickness());                    break;
     case magnet_ball:       emit(this->setCommonBall());                      break;
     case uber_ball:         emit(this->setCommonBall());                      break;
     case inverse:           emit(this->changeInverse());                      break;
