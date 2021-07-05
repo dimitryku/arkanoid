@@ -74,6 +74,7 @@
      <string>Game</string>
     </property>
     <addaction name="actionNew_game"/>
+    <addaction name="actionLeaderboard"/>
    </widget>
    <addaction name="menuNew_Game"/>
   </widget>
@@ -81,6 +82,11 @@
   <action name="actionNew_game">
    <property name="text">
     <string>New game</string>
+   </property>
+  </action>
+  <action name="actionLeaderboard">
+   <property name="text">
+    <string>Leaderboard</string>
    </property>
   </action>
  </widget>
