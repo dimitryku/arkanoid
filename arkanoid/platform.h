@@ -25,7 +25,7 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QPainterPath shape();
-    void changeSize(int multiplier);
+    void changeSize(float multiplier);
     void changeInverse();
 
 };

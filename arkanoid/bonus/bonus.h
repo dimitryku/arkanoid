@@ -6,6 +6,7 @@
 #include <QObject>
 #include <publicconstants.h>
 #include "QTimer"
+#include <iostream>
 class Bonus : public QObject
 {
     Q_OBJECT

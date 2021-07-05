@@ -61,7 +61,7 @@ QPainterPath Platform::shape()
     return itemShape;
 }
 
-void Platform::changeSize(int multiplier)
+void Platform::changeSize(float multiplier)
 {
     this->size*=multiplier;
 }

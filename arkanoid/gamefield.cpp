@@ -57,7 +57,7 @@ void GameField::brickDestoryed(Brick *brick)
     BonusBody* body=NULL;
     if(type_brick.contains("CommonBrick")){
         CurrentScore += 1;
-        if(rand() % 100 + 1 <= 45){
+        if(rand() % 100 + 1 <= 450){
              bonus = new Bonus(50);
         }
 
@@ -109,9 +109,10 @@ void GameField::Tick()
         {
             scene->removeItem(x);
             scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
-            bonuses.push_back(x->getBonus());
-            x->getBonus()->start();
-            bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), x), bonusbodies.end());
+            bonusCollision(x);
+//            bonuses.push_back(x->getBonus());
+//            x->getBonus()->start();
+//            bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), x), bonusbodies.end());
             continue;
         }
         scene->invalidate(x->boundingRect().marginsAdded(QMargins(1, 900, 1, 900)));
@@ -237,50 +238,64 @@ void GameField::ballCollision(Ball *ball)
 
 void GameField::bonusCollision(BonusBody *bonusbody)
 {
+
+
     switch (bonusbody->getBonus()->getTypeBonus()) {
         case Bonuses::extend_platform:
         case Bonuses::shorten_platform:
-             connect(bonusbody->getBonus(), SIGNAL(increaseSizePlatform), this, SLOT(this->increaseSizePlatform));
-             connect(bonusbody->getBonus(), SIGNAL(decreaseSizePlatform), this, SLOT(this->decreaseSizePlatform));
+             connect(bonusbody->getBonus(), SIGNAL(increaseSizePlatform()), this, SLOT(increaseSizePlatform()));
+             connect(bonusbody->getBonus(), SIGNAL(decreaseSizePlatform()), this, SLOT(decreaseSizePlatform()));
              break;
 
         case Bonuses::fast_ball:
         case Bonuses::slow_ball:
-            connect(bonusbody->getBonus(), SIGNAL(increaseSpeedBall), this, SLOT(this->increaseSpeedBall));
-            connect(bonusbody->getBonus(), SIGNAL(increaseSpeedBall), this, SLOT(this->decreaseSpeedBall));
+
+            connect(bonusbody->getBonus(), SIGNAL(increaseSpeedBall()), this, SLOT(increaseSpeedBall()));
+            connect(bonusbody->getBonus(), SIGNAL(decreaseSpeedBall()), this, SLOT(decreaseSpeedBall()));
             break;
 
         case Bonuses::inverse:
-            connect(bonusbody->getBonus(), SIGNAL(changeInverse), this, SLOT(this->changeInverse));
+
+            connect(bonusbody->getBonus(), SIGNAL(changeInverse()), this, SLOT(changeInverse()));
             break;
 
         case Bonuses::add_life:
-            connect(bonusbody->getBonus(), SIGNAL(addLife), this, SLOT(this->addLife));
+
+            connect(bonusbody->getBonus(), SIGNAL(addLife()), this, SLOT(addLife()));
             break;
 
         case Bonuses::plus_ball:
-            connect(bonusbody->getBonus(), SIGNAL(addNewBall), this, SLOT(this->addBall));
+
+            connect(bonusbody->getBonus(), SIGNAL(addNewBall()), this, SLOT(addBall()));
             break;
 
         case Bonuses::uber_ball:
-            connect(bonusbody->getBonus(), SIGNAL(setUberBall), this, SLOT(this->setUberBall));
-            connect(bonusbody->getBonus(), SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
+
+            connect(bonusbody->getBonus(), SIGNAL(setUberBall()), this, SLOT(setUberBall()));
+            connect(bonusbody->getBonus(), SIGNAL(setCommonBall()), this, SLOT(setCommonBall()));
             break;
 
         case Bonuses::magnet_ball:
-            connect(bonusbody->getBonus(), SIGNAL(setMagnet), this, SLOT(this->setMagnetBall;));
-            connect(bonusbody->getBonus(), SIGNAL(setCommonBall), this, SLOT(this->setCommonBall));
+
+            connect(bonusbody->getBonus(), SIGNAL(setMagnet()), this, SLOT(setMagnetBall()));
+            connect(bonusbody->getBonus(), SIGNAL(setCommonBall()), this, SLOT(setCommonBall()));
+            break;
+        case Bonuses::stick_platform:
             break;
     }
-     connect(bonusbody->getBonus(),SIGNAL(stop(Bonus*)), this, SLOT(this->finishedBonus(Bonus*)));
+     connect(bonusbody->getBonus(),SIGNAL(stop(Bonus*)), this, SLOT(finishedBonus(Bonus*)));
      bonuses.push_back(bonusbody->getBonus());
+     bonusbody->getBonus()->start();
+
      bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), bonusbody), bonusbodies.end());
      //disconnect(bonusbody);
-     delete bonusbody;
+
+     //delete bonusbody;
 }
 
 void GameField::increaseSizePlatform()
 {
+
     platform->changeSize(PublicConstants::sizePlatformMultiplier_inc);
 }
 
@@ -291,6 +306,7 @@ void GameField::decreaseSizePlatform()
 
 void GameField::increaseSpeedBall()
 {
+
     for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeSpeed(PublicConstants::speedBallMultiplyier_inc);
     }
@@ -298,6 +314,7 @@ void GameField::increaseSpeedBall()
 
 void GameField::decreaseSpeedBall()
 {
+
     for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeSpeed(PublicConstants::speedBallMultiplyier_dec);
     }
@@ -305,6 +322,7 @@ void GameField::decreaseSpeedBall()
 
 void GameField::changeInverse()
 {
+
     platform->changeInverse();
 }
 
@@ -315,12 +333,11 @@ void GameField::addLife(){
 }
 
 void  GameField::addBall(){
-
+    std::cout<<"Add ball"<<std::endl;
      //TODO раздвоение шарика
 }
 
 void GameField::setUberBall(){
-
     for(size_t i = 0; i < balls.size(); i++){
         balls[i]->changeState(BallStates::uber);
     }
@@ -340,6 +357,7 @@ void GameField::setCommonBall(){
 }
 
 void GameField::finishedBonus(Bonus* bonus){
+     std::cout<<"Finish"<<std::endl;
       disconnect(bonus);
       bonuses.erase(std::remove(bonuses.begin(), bonuses.end(), bonus), bonuses.end());
       delete bonus;

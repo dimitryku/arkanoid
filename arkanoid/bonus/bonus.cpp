@@ -58,8 +58,9 @@ Bonuses Bonus::getTypeBonus()
 
 Bonuses Bonus::start()
 {
+    std::cout<<"Bonus start"<<std::endl;
     timer=new QTimer(this);
-    connect(timer, SIGNAL(&QTimer::timeout), this, SLOT(tick));
+    connect(timer, &QTimer::timeout, this, QOverload<>::of(&Bonus::tick));
     switch(type_bonus){
     case extend_platform:   emit(this->increaseSizePlatform());         break;
     case plus_ball:         emit(this->addNewBall());                   break;
@@ -83,6 +84,7 @@ void Bonus::operator =(const Bonus &obj)
 
 void Bonus::tick()
 {
+    std::cout<<"Bonus finished"<<std::endl;
     switch (type_bonus) {
     case extend_platform:   emit(this->decreaseSizePlatform());               break;
     case stick_platform:    emit(this->changeStickness());                    break;
