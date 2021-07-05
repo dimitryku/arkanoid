@@ -84,7 +84,7 @@ void Ball::drop()
     currentPosition.setY(currentPosition.y() + 50);
 }
 
-void Ball::changeSpeed(int multiplier)
+void Ball::changeSpeed(float multiplier)
 {
     currentSpeed*=multiplier;
 }
