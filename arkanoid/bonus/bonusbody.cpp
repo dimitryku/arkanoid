@@ -46,5 +46,5 @@ void BonusBody::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setBrush(QBrush(Qt::transparent));
     //painter->setPen(Qt::darkGray);
     painter->drawRoundedRect(this->boundingRect(), 1, 1);
-    painter->drawPixmap(this->boundingRect(), *(property->getPixMap((int)bonusInside->getTypeBonus())), QRectF(0, 0, 20, 20));
+    painter->drawPixmap(this->boundingRect(), *(property->getPixMap(bonusInside->getTypeBonus())), QRectF(0, 0, 20, 20));
 }
