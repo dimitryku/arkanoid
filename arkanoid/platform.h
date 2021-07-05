@@ -19,13 +19,13 @@ private:
     QVector2D size;
     QVector2D stepSpeed;
     QPainterPath itemShape;
-
+    QVector2D bounds;
     // QGraphicsItem interface
 public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QPainterPath shape();
-    void changeSize(int multiplier);
+    void changeSize(float multiplier, bool finished);
     void changeInverse();
 
 };
