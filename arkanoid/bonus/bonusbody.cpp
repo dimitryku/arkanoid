@@ -22,7 +22,8 @@ Bonus* BonusBody::getBonus()
 
 QPainterPath BonusBody::shape()
 {
-    itemShape.moveTo(position.x(), position.y());
+    QVector2D size = PublicConstants::BonusBodySize;
+    itemShape.moveTo(position.x()- size.x()/2, position.y()-size.y()/2);
     return itemShape;
 }
 
@@ -41,7 +42,7 @@ QRectF BonusBody::boundingRect() const
 
 void BonusBody::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //painter->setBrush(QBrush(QPixmap(*property->getPixMap((int)bonusInside->getTypeBonus()))));
-    painter->setBrush(QBrush(Qt::green));
+    painter->setBrush(QBrush(QPixmap(*(property->getPixMap((int)bonusInside->getTypeBonus())))));
+    //painter->setBrush(QBrush(Qt::green));
     painter->drawRect(this->boundingRect());
 }

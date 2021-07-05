@@ -12,7 +12,6 @@ BonusProperty::BonusProperty()
 
 QPixmap *BonusProperty::getPixMap(int num)
 {
-    std::cout << num << std::endl;
     if(num < 0)
         num = 0;
     return &pixmap[num];
