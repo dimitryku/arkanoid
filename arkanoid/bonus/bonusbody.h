@@ -22,6 +22,7 @@ public:
     Bonus* getBonus();
     QPainterPath shape();
     QVector2D getPosition();
+    void drop();
 
     // QGraphicsItem interface
 public:
