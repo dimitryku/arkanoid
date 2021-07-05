@@ -51,7 +51,7 @@ void Ball::collide(Direction direction, bool forcedBounce)
 
 void Ball::collideWithPlatform(Platform* platform)
 {
-    this->collide(Direction::down, false);
+    this->collide(Direction::down, true);
     /// TODO change angle if hit close to edge of platform
 }
 
