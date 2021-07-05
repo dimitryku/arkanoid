@@ -20,6 +20,7 @@ SOURCES += \
     ball/ballstate.cpp \
     bonus/bonus.cpp \
     bonus/bonusbody.cpp \
+    bonus/bonusproperty.cpp \
     brick/brick.cpp \
     brick/brickbuilder.cpp \
     brick/brickproperty.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     bonus/bonus.h \
     bonus/bonusbody.h \
     bonus/bonuses.h \
+    bonus/bonusproperty.h \
     brick/brick.h \
     brick/brickbuilder.h \
     brick/brickproperty.h \

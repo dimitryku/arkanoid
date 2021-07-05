@@ -35,6 +35,7 @@ GameField::GameField()
     //TODO the rest
 
     this->setScene(scene);
+    bonusProp = new BonusProperty();
 
     MainGameTimer = new QTimer(this);
     connect(MainGameTimer, &QTimer::timeout, this, QOverload<>::of(&GameField::Tick));
@@ -81,11 +82,14 @@ void GameField::brickDestoryed(Brick *brick)
             QList<QGraphicsItem*> boomItems = scene->items(boomRect, Qt::IntersectsItemShape);
             for(int i = 0; i < boomItems.size(); i++)
             {
-                QString type = typeid(*boomItems[i]).name();
-                if (type.contains("Brick"))
+                if(boomItems[i] != nullptr)
                 {
-                    if(((Brick*)boomItems[i])->getPosition() != brick->getPosition())
-                        ((Brick*)boomItems[i])->hit(50);
+                    QString type = typeid(*boomItems[i]).name();
+                    if (type.contains("Brick"))
+                    {
+                        if(((Brick*)boomItems[i])->getPosition() != brick->getPosition())
+                            ((Brick*)boomItems[i])->hit(50);
+                    }
                 }
             }
             return; // because there are no bonuses and it's already deleted
@@ -96,7 +100,7 @@ void GameField::brickDestoryed(Brick *brick)
     delete brick;
 
     if(bonus != NULL){
-        body = new BonusBody(brick->getPosition(), bonus);
+        body = new BonusBody(brick->getPosition(), bonus, bonusProp);
         scene->addItem(body);
         bonusbodies.push_back(body);
     }

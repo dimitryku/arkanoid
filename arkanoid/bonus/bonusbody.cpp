@@ -2,10 +2,11 @@
 #include <iostream>
 
 
-BonusBody::BonusBody(QVector2D pos, Bonus* insideBonus)
+BonusBody::BonusBody(QVector2D pos, Bonus* insideBonus, BonusProperty* prop)
 {
     this->position = pos;
     this->bonusInside = insideBonus;
+    this->property = prop;
     itemShape.addRect(boundingRect());
 }
 
@@ -21,6 +22,7 @@ Bonus* BonusBody::getBonus()
 
 QPainterPath BonusBody::shape()
 {
+    QVector2D size = PublicConstants::BonusBodySize;
     itemShape.moveTo(position.x(), position.y());
     return itemShape;
 }
@@ -34,12 +36,15 @@ QVector2D BonusBody::getPosition()
 QRectF BonusBody::boundingRect() const
 {
     QVector2D size = PublicConstants::BonusBodySize;
-    return QRectF(position.x() - size.x()/2, position.y() - size.y()/2,
+    return QRectF(position.x()/* - size.x()/2*/, position.y()/* - size.y()/2*/,
                   size.x(), size.y());
 }
 
 void BonusBody::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(QBrush(Qt::green));
-    painter->drawRect(this->boundingRect());
+    //painter->setBrush(QBrush(QPixmap(*(property->getPixMap((int)bonusInside->getTypeBonus())))));
+    painter->setBrush(QBrush(Qt::transparent));
+    //painter->setPen(Qt::darkGray);
+    painter->drawRoundedRect(this->boundingRect(), 1, 1);
+    painter->drawPixmap(this->boundingRect(), *(property->getPixMap((int)bonusInside->getTypeBonus())), QRectF(0, 0, 20, 20));
 }

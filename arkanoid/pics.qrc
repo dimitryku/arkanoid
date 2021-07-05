@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file alias="space">images/space.png</file>
         <file alias="bricks">images/bricks.png</file>
+        <file alias="bonuses">images/bonuces.png</file>
     </qresource>
 </RCC>
