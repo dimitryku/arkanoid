@@ -1,4 +1,5 @@
 #include "ball.h"
+#include <math.h>
 
 
 Ball::Ball()
@@ -51,17 +52,9 @@ void Ball::collide(Direction direction, bool forcedBounce)
 
 void Ball::collideWithPlatform(Platform* platform)
 {
-    this->collide(Direction::down, false);
-    /// TODO change angle if hit close to edge of platform
+    this->collide(Direction::down, true);
 }
 
-QVector2D Ball::followPlatform(/*Platform &platform or QVector2D moveDelta*/)
-{
-    /// TODO remove maybe?
-    //TODO if on platform...
-        //TODO after input decision
-    return currentPosition;
-}
 
 void Ball::startMoving()
 {

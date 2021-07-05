@@ -1,5 +1,4 @@
 #include "gamefield.h"
-#include <iostream>
 
 
 GameField::GameField()
@@ -19,7 +18,8 @@ GameField::GameField()
     srand(time(NULL));
 
     //TODO привести скорость к какой-то одной, рандомизировать направление.
-    balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), true)); // make ball
+    float a = (rand() % 6250 - 3130)/1000;
+    balls.push_back(new Ball(QVector2D(3, 3), QVector2D(cos(a)*3, sin(a)*3), true)); // make ball
     balls[0]->moveOneStep(platform->getPosition().x()); // move to platform
 
     BrickBuilder builder(10);
