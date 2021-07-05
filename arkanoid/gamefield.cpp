@@ -286,7 +286,6 @@ void GameField::bonusCollision(BonusBody *bonusbody)
      connect(bonusbody->getBonus(),SIGNAL(stop(Bonus*)), this, SLOT(finishedBonus(Bonus*)));
      bonuses.push_back(bonusbody->getBonus());
      bonusbody->getBonus()->start();
-
      bonusbodies.erase(std::remove(bonusbodies.begin(), bonusbodies.end(), bonusbody), bonusbodies.end());
      //disconnect(bonusbody);
 
