@@ -26,6 +26,9 @@ GameField::GameField()
     bricks = builder.makeBricks();
 
     for(size_t i = 0; i < bricks.size(); i++){
+            QString type_brick=bricks[i]->metaObject()->className();
+            if(type_brick.contains("MetallicBrick"))
+                amountMetallicBricks++;
             connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
             scene->addItem(bricks[i]);
     }
@@ -45,9 +48,14 @@ GameField::GameField()
     PlatformUpdateTimer->start(PublicConstants::DefaultTimerTick);
 }
 
-int GameField::GetScore()
+int GameField::getScore()
 {
     return CurrentScore;
+}
+
+int GameField::getLives()
+{
+    return lives;
 }
 
 void GameField::brickDestoryed(Brick *brick)
@@ -95,6 +103,28 @@ void GameField::brickDestoryed(Brick *brick)
         scene->addItem(body);
         bonusbodies.push_back(body);
     }
+
+    if(bricks.size()==amountMetallicBricks)
+    {
+        for(int i=bricks.size(); i>=0;i--)
+        {
+            scene->removeItem(bricks[i]);
+            scene->invalidate(brick->boundingRect());
+            bricks.erase(std::remove(bricks.begin(), bricks.end(), bricks[i]), bricks.end());
+            delete bricks[i];
+        }
+        bricks.clear();
+        BrickBuilder builder(10);
+        bricks = builder.makeBricks();
+
+        for(size_t i = 0; i < bricks.size(); i++){
+                QString type_brick=bricks[i]->metaObject()->className();
+                if(type_brick.contains("MetallicBrick"))
+                    amountMetallicBricks++;
+                connect(bricks[i],SIGNAL(destroyed(Brick*)),this,SLOT(brickDestoryed(Brick*)));
+                scene->addItem(bricks[i]);
+        }
+    }
     //std::cout<<bonuses.size()<<std::endl;
 
 }
@@ -123,12 +153,21 @@ void GameField::Tick()
     // do a barrel roll
     //this->rotate(1);
 
-    if(balls.size() < 1){
-        MainGameTimer->stop();
-        PlatformUpdateTimer->stop();
+    if(balls.size() < 1)
+        if(lives < 2)
+        {
+            CurrentPlatformAction = PlatformAction::None;
+            MainGameTimer->stop();
+            PlatformUpdateTimer->stop();
 
-        emit(GameEnded());
-    }
+            emit(GameEnded());
+        }
+        else{
+            lives--;
+            balls.push_back(new Ball(QVector2D(3, 3), QVector2D(3, 3), true)); // make ball
+            balls[balls.size()-1]->moveOneStep(platform->getPosition().x()); // move to platform
+            scene->addItem(balls[balls.size()-1]);
+        }
 
     //ball move and bounce
     for(size_t i = 0; i < balls.size(); i++)
@@ -139,9 +178,9 @@ void GameField::Tick()
 
             balls[i]->collide(Direction::up, true);
             balls[i]->moveOneStep(platform->getPosition().x());
-            //balls[i]->drop();
-            //scene->removeItem(balls[i]);
-            //balls.erase(balls.begin() + i);
+            balls[i]->drop();
+            scene->removeItem(balls[i]);
+            balls.erase(balls.begin() + i);
         }
         else
         {
@@ -192,7 +231,7 @@ void GameField::UpdatePlatform()
         break;
     }
 
-    scene->invalidate(QRectF(0, PublicConstants::SceneRect.height()-30,
+    scene->invalidate(QRectF(0, PublicConstants::SceneRect.height()-35,
                              PublicConstants::SceneRect.width(), PublicConstants::SceneRect.height()));
 }
 
@@ -241,42 +280,45 @@ void GameField::bonusCollision(BonusBody *bonusbody)
 
 
     switch (bonusbody->getBonus()->getTypeBonus()) {
-        case Bonuses::extend_platform:
         case Bonuses::shorten_platform:
+             CurrentScore+=25;
+        case Bonuses::extend_platform:
+             CurrentScore+=25;
              connect(bonusbody->getBonus(), SIGNAL(increaseSizePlatform(bool)), this, SLOT(increaseSizePlatform(bool)));
              connect(bonusbody->getBonus(), SIGNAL(decreaseSizePlatform(bool)), this, SLOT(decreaseSizePlatform(bool)));
              break;
 
         case Bonuses::fast_ball:
+            CurrentScore+=25;
         case Bonuses::slow_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(increaseSpeedBall()), this, SLOT(increaseSpeedBall()));
             connect(bonusbody->getBonus(), SIGNAL(decreaseSpeedBall()), this, SLOT(decreaseSpeedBall()));
             break;
 
         case Bonuses::inverse:
-
+            CurrentScore+=50;
             connect(bonusbody->getBonus(), SIGNAL(changeInverse()), this, SLOT(changeInverse()));
             break;
 
         case Bonuses::add_life:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(addLife()), this, SLOT(addLife()));
             break;
 
         case Bonuses::plus_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(addNewBall()), this, SLOT(addBall()));
             break;
 
         case Bonuses::uber_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(setUberBall()), this, SLOT(setUberBall()));
             connect(bonusbody->getBonus(), SIGNAL(setCommonBall()), this, SLOT(setCommonBall()));
             break;
 
         case Bonuses::magnet_ball:
-
+            CurrentScore+=25;
             connect(bonusbody->getBonus(), SIGNAL(setMagnet()), this, SLOT(setMagnetBall()));
             connect(bonusbody->getBonus(), SIGNAL(setCommonBall()), this, SLOT(setCommonBall()));
             break;
@@ -332,8 +374,15 @@ void GameField::addLife(){
 }
 
 void  GameField::addBall(){
-    std::cout<<"Add ball"<<std::endl;
-     //TODO раздвоение шарика
+    std::vector<Ball*> newballs;
+    for(auto* ball: balls){
+        newballs.push_back(new Ball(ball->getPosition(), QVector2D(3, 3), false)); // make ball
+    }
+
+    for(auto* newball: newballs){
+        balls.push_back(newball);
+        scene->addItem(newball);
+    }
 }
 
 void GameField::setUberBall(){

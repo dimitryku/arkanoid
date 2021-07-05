@@ -17,6 +17,7 @@ public:
     Brick* makeBrick();
     std::vector<Brick*> makeBricks(int quantity = -1);
     void reset();
+    void full_reset();
 
 private:
     BrickProperty* prop;
