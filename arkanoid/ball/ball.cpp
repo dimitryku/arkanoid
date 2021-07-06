@@ -1,5 +1,5 @@
 #include "ball.h"
-#include <math.h>
+
 
 
 Ball::Ball()
@@ -28,9 +28,6 @@ Ball::Ball(QVector2D startPosition, QVector2D startSpeed,
 
     itemShape.addEllipse(boundingRect());
 
-    //TODO update if needs
-    // test
-    // test 2
 }
 
 void Ball::changeState(BallStates newState)
@@ -89,7 +86,9 @@ void Ball::changeSpeed(float multiplier)
 
 QRectF Ball::boundingRect() const
 {
-    return QRectF(currentPosition.x()-5, currentPosition.y()-5, 10, 10);
+    return QRectF(currentPosition.x() - PublicConstants::BallSize.x()/2,
+                  currentPosition.y() - PublicConstants::BallSize.y()/2,
+                  PublicConstants::BallSize.x(), PublicConstants::BallSize.y());
 }
 
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

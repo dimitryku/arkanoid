@@ -5,6 +5,8 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include "platform.h"
+#include <math.h>
+#include <publicconstants.h>
 
 class Ball : public QGraphicsItem
 {

@@ -34,7 +34,7 @@ QVector2D BonusBody::getPosition()
 
 void BonusBody::drop()
 {
-    this->position.setY(position.y() + 30);
+    this->position.setY(position.y() + 50);
 }
 
 
